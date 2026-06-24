@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Compact a conversation into a handoff doc and spawn a fresh tmux pane to continue with a clean context window.",
   "author": {
-    "name": "YOUR_GITHUB_USERNAME"
+    "name": "rinman24"
   },
   "hooks": {
     "Stop": [
