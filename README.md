@@ -9,17 +9,17 @@ A "marketplace" here is just this git repo plus a catalog file
 
 ## Install
 
-Inside any Claude Code session (replace `YOUR_GITHUB_USERNAME/REPO`):
+Inside any Claude Code session (replace `rinman24/claude-skills`):
 
 ```
-/plugin marketplace add YOUR_GITHUB_USERNAME/REPO
+/plugin marketplace add rinman24/claude-skills
 /plugin install handoff@my-skills
 ```
 
 Or from the command line:
 
 ```
-claude plugin marketplace add YOUR_GITHUB_USERNAME/REPO
+claude plugin marketplace add rinman24/claude-skills
 claude plugin install handoff@my-skills --scope user
 ```
 
