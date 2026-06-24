@@ -1,0 +1,20 @@
+{
+  "name": "handoff",
+  "version": "0.1.0",
+  "description": "Compact a conversation into a handoff doc and spawn a fresh tmux pane to continue with a clean context window.",
+  "author": {
+    "name": "YOUR_GITHUB_USERNAME"
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/spawn-handoff-successor.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
