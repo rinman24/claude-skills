@@ -12,6 +12,12 @@
       "source": "./plugins/handoff",
       "description": "Compact a conversation into a handoff doc and spawn a fresh tmux pane to continue with a clean context window.",
       "category": "workflow"
+    },
+    {
+      "name": "local-backlog",
+      "source": "./plugins/local-backlog",
+      "description": "Scaffold a personal, git-excluded local backlog (BACKLOG.local.md) in the current repo, and wire the maintenance convention into CLAUDE.local.md.",
+      "category": "workflow"
     }
   ]
 }

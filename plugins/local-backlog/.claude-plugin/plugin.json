@@ -1,0 +1,8 @@
+{
+  "name": "local-backlog",
+  "version": "0.1.0",
+  "description": "Scaffold a personal, git-excluded local backlog (BACKLOG.local.md) in the current repo, and wire the maintenance convention into CLAUDE.local.md.",
+  "author": {
+    "name": "rinman24"
+  }
+}

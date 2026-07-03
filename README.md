@@ -14,6 +14,7 @@ Inside any Claude Code session (replace `rinman24/claude-skills`):
 ```
 /plugin marketplace add rinman24/claude-skills
 /plugin install handoff@my-skills
+/plugin install local-backlog@my-skills
 ```
 
 Or from the command line:
@@ -61,6 +62,25 @@ impossible.
 Requirements: `tmux` (3.3a+), and `jq` for the hook's loop-guard (the hook
 degrades gracefully without `jq`). The session must be running inside tmux for
 the spawn to work.
+
+### local-backlog
+
+Sets up a personal, git-excluded backlog in the current repo. Invoke
+`/local-backlog` once per repo and it will:
+
+- create `BACKLOG.local.md` at the repo root (dated items, `(P1)`/`(P2)`/`(P3)`
+  priorities, `## Open` / `## Done`), with the "promote real work to …" line
+  pointed at the repo's tracker (Azure DevOps / GitHub / GitLab, auto-detected
+  from the `origin` remote);
+- write a `## Local backlog` section into `CLAUDE.local.md` so future sessions
+  keep announcing changes, dating items, and sorting by priority — the part a
+  one-shot skill can't do on its own;
+- add `/BACKLOG.local.md` and `/CLAUDE.local.md` to `.git/info/exclude` (the
+  *local* exclude — never the shared, tracked `.gitignore`).
+
+It is idempotent and never overwrites an existing backlog. No hook, no tmux — it
+only reads/writes files. See
+[docs/local-backlog-plugin-install-runbook.md](docs/local-backlog-plugin-install-runbook.md).
 
 ## Troubleshooting
 
