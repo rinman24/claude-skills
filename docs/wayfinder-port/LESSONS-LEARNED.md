@@ -25,3 +25,6 @@ Newest at the bottom.
 - **Budget numbers need reconciling up front.** "Stay under 100K" and "120K
   units" conflict. Apply: 100K target, 120K hard ceiling, ~80K of planned work
   per unit.
+- **Plain `git push` fails here (HTTPS origin, no git credential helper).**
+  `gh` is logged in with protocol `ssh`, but `origin` is HTTPS. Apply: push with
+  `git -c credential.helper= -c credential.helper='!gh auth git-credential' push`.
