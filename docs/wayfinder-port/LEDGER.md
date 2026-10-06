@@ -53,6 +53,8 @@ End:
 | ID | Item | Unit | Est. | Status | Notes |
 |----|------|------|------|--------|-------|
 | L0 | Set up worktree, branch, ledger, lessons, handoff template | S1 | n/a | done | |
+| G1 | Grilling: outline upstream approach + author's known issues; collect Rich's feedback | S2 | ~40K | todo | Stop for feedback before G2 |
+| G2 | Grilling: build `plugins/grilling` from G1 decisions | S2 | ~35K | todo | Spills to S3 if S2 is past ~70K after G1 |
 
 ## Inputs to triage
 
@@ -78,4 +80,4 @@ becomes a work item, a decision, or `dropped`.
 
 | Session | Date | Unit | Outcome | Handoff written |
 |---------|------|------|---------|-----------------|
-| S1 | 2026-10-06 | Orientation + scaffolding | Explained both skills; created branch and tracking files | pending |
+| S1 | 2026-10-06 | Orientation + scaffolding | Explained both skills; created branch and tracking files; rebased onto main after PR #1 (handoff plugin removed) | `handoffs/S2-grilling.md` |

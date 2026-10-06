@@ -26,3 +26,10 @@ Newest at the bottom.
   A compound command that wrote to the memory dir and then ran git was rejected.
   Apply: write files outside the worktree with the Write tool, and run git as a
   separate command from the worktree root.
+- **This session can't touch the main checkout's git.** `git -C <main repo>` is
+  refused by the worktree guard, so local `main` can't be fast-forwarded from
+  here. Apply: rebase onto `origin/main` after a fetch, and ask Rich to run
+  `git pull --ff-only` in his main checkout.
+- **Rebasing a pushed branch needs a force-push, which sessions don't do.**
+  Apply: after a rebase, hand Rich the `git push --force-with-lease` command,
+  or avoid rebasing once a branch is pushed and merge `origin/main` instead.
