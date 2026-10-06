@@ -44,3 +44,8 @@ Newest at the bottom.
 - **Scripts whose text mentions git get blocked by the worktree guard.** Apply:
   make multi-file doc edits with the Edit tool, then commit in a separate,
   git-only command.
+- **Rich's `!` commands run under the same worktree guard.** A `!` git command
+  aimed at the main checkout was refused. Apply: anything touching
+  `~/Code/claude-skills` itself (e.g. `git pull --ff-only` on main) goes to Rich
+  as a command for a normal terminal outside Claude, and any push command handed
+  to him includes the `gh` credential helper form above.
