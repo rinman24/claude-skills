@@ -33,3 +33,14 @@ Newest at the bottom.
 - **Rebasing a pushed branch needs a force-push, which sessions don't do.**
   Apply: after a rebase, hand Rich the `git push --force-with-lease` command,
   or avoid rebasing once a branch is pushed and merge `origin/main` instead.
+- **The install `@` suffix is the marketplace `name` field, not the repo name.**
+  PR #2 renamed it from `my-skills` to `claude-skills` so the two match, but
+  they are set independently. Apply: any install or update command, runbook or
+  handoff uses `<plugin>@claude-skills`; check `marketplace.json` if in doubt.
+- **`main` moved twice during S1 (PRs #1 and #2).** Rich hadn't force-pushed
+  the branch between them, so rebasing again was cheap. Apply: fetch and check
+  `git log <old-base>..origin/main` at the start of every session, and rebase
+  (or merge) before writing anything that describes the repo.
+- **Scripts whose text mentions git get blocked by the worktree guard.** Apply:
+  make multi-file doc edits with the Edit tool, then commit in a separate,
+  git-only command.

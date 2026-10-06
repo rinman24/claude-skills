@@ -5,6 +5,19 @@ Goal: our own versions of Matt Pocock's `wayfinder` and `domain-modeling` skills
 (https://github.com/mattpocock/skills, MIT) as plugins in this marketplace,
 without depending on `setup-matt-pocock-skills`.
 
+## Repo facts
+
+- Marketplace name: `claude-skills` (the `name` field in
+  `.claude-plugin/marketplace.json`; renamed from `my-skills` in PR #2). The
+  old `my-skills` marketplace is uninstalled on Rich's machine; `claude-skills`
+  is installed.
+- Install a plugin as `<plugin>@claude-skills`, e.g.
+  `claude plugin install grilling@claude-skills --scope user`.
+- Refresh an environment after a push: `claude plugin marketplace update claude-skills`.
+- Validate before committing a manifest change: `claude plugin validate .`.
+- House pattern for a new plugin: `plugins/local-backlog/` plus
+  `docs/local-backlog-plugin-install-runbook.md`.
+
 This file is the single source of truth for what is done and what is next.
 Every session reads it first and updates it last.
 
@@ -80,4 +93,4 @@ becomes a work item, a decision, or `dropped`.
 
 | Session | Date | Unit | Outcome | Handoff written |
 |---------|------|------|---------|-----------------|
-| S1 | 2026-10-06 | Orientation + scaffolding | Explained both skills; created branch and tracking files; rebased onto main after PR #1 (handoff plugin removed) | `handoffs/S2-grilling.md` |
+| S1 | 2026-10-06 | Orientation + scaffolding | Explained both skills; created branch and tracking files; rebased onto main after PR #1 (handoff plugin removed) and PR #2 (marketplace renamed to `claude-skills`) | `handoffs/S2-grilling.md` |

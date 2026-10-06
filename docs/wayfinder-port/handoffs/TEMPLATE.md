@@ -8,6 +8,8 @@ the worktree and pastes this whole file as the first message.
 You are continuing the wayfinder + domain-modeling port on branch
 `feat/wayfinder-domain-modeling` in `rinman24/claude-skills`. Work in the
 existing worktree for that branch (or create one from it); never commit to main.
+The marketplace is `claude-skills`; plugins install as `<plugin>@claude-skills`
+(see the ledger's "Repo facts").
 
 Read first, in order:
 1. `docs/wayfinder-port/LEDGER.md` (status, budget, session protocol)

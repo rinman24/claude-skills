@@ -10,6 +10,8 @@ You are continuing the wayfinder + domain-modeling port on branch
 existing worktree for that branch at
 `.claude/worktrees/wayfinder-domain-modeling` (or create one from the branch);
 never commit to main.
+The marketplace is `claude-skills` (renamed from `my-skills` in PR #2); see
+the ledger's "Repo facts" for install, update and validate commands.
 
 Grilling comes first because wayfinder and domain-modeling both build on it:
 wayfinder's default ticket type is "call grilling + domain-modeling", and
@@ -70,8 +72,13 @@ Work in this order and do not skip the stop in step 3.
    for this step). Match `local-backlog`:
    `plugins/grilling/.claude-plugin/plugin.json`,
    `plugins/grilling/skills/grilling/SKILL.md`, a marketplace entry, a README
-   section, and `docs/grilling-plugin-install-runbook.md`. Run
+   section, and `docs/grilling-plugin-install-runbook.md` (install commands use
+   `grilling@claude-skills`, mirroring the local-backlog runbook). Run
    `claude plugin validate .`. Credit upstream (MIT) in the SKILL.md or README.
+   The installed `claude-skills` marketplace reads from GitHub, so branch-only
+   changes won't show up through it. Find a way to load the plugin from the
+   working tree for a smoke test (check `claude --help` for a plugin-directory
+   flag), and record what worked in `LESSONS-LEARNED.md`.
 
 ## Decisions already made
 
@@ -79,6 +86,7 @@ Work in this order and do not skip the stop in step 3.
 - Handoffs are plain prompt files; there is no `/handoff` plugin (ledger: How
   sessions hand off). The handoff plugin was removed on main in PR #1.
 - One plugin per skill in this marketplace (existing repo convention).
+- Marketplace name is `claude-skills` (PR #2); `my-skills` is gone.
 
 ## Out of scope for this session
 
