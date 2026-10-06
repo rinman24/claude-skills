@@ -12,24 +12,35 @@ Every session reads it first and updates it last.
 
 - Target: each session stays under ~100K tokens of context.
 - Hard ceiling: 120K. If a session approaches it, stop, update this ledger,
-  and write the next handoff rather than finishing the unit.
+  and write the next handoff prompt rather than finishing the unit.
 - Size each unit of work to ~80K of planned work. The remaining ~20K covers
-  boot reading (handoff, this ledger, `LESSONS-LEARNED.md`) and wrap-up.
+  boot reading (handoff prompt, this ledger, `LESSONS-LEARNED.md`) and wrap-up.
 - One unit of work per session. If a unit looks bigger than ~80K, split it
   here before starting.
+
+## How sessions hand off
+
+Handoffs are plain prompt files, committed on this branch in `handoffs/`.
+No plugin or hook is involved. To start the next session:
+
+1. Open a terminal in the worktree for `feat/wayfinder-domain-modeling`.
+2. Start a fresh `claude` session.
+3. Paste the contents of `handoffs/S<N>-<slug>.md` as the first message.
 
 ## Session protocol
 
 Start:
-1. Read the handoff prompt for this session in `handoffs/`.
+1. Read the handoff prompt (it is the first message).
 2. Read this ledger and `LESSONS-LEARNED.md`.
 3. Mark the unit `in progress` below.
 
 End:
 1. Update item statuses and the session log.
 2. Append any lessons to `LESSONS-LEARNED.md`.
-3. Write the next session's handoff prompt from `handoffs/TEMPLATE.md`.
-4. Commit and push the branch.
+3. Write the next session's handoff prompt from `handoffs/TEMPLATE.md` as
+   `handoffs/S<N+1>-<slug>.md`.
+4. Commit and push the branch (see `LESSONS-LEARNED.md` for the push command).
+5. Tell Rich the path of the new handoff prompt.
 
 ## Status legend
 
@@ -61,8 +72,6 @@ becomes a work item, a decision, or `dropped`.
 - Upstream-known domain-modeling gaps: glossary bloats into a spec; no
   tracker lookup for settled terms (upstream #717); ADR format bundled
   (upstream #557); slow brownfield bootstrap.
-- `.pipeline/` is not gitignored in this repo, though the `handoff` skill
-  assumes it is.
 - Rich's own changes: to be listed.
 
 ## Session log

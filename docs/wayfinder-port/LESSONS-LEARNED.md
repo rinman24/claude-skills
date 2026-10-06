@@ -16,15 +16,13 @@ Newest at the bottom.
   before designing changes.
 - **`EnterWorktree` auto-names the branch `worktree-<name>`.** Apply: rename
   with `git branch -m` straight after creating it.
-- **Hook output persisted under `tool-results/` is ephemeral.** The canon-core
-  injection file was gone later in the session. Apply: if a rule from the
-  session-start hook matters, quote it into the ledger when first seen.
-- **`.pipeline/` is not gitignored here**, despite the `handoff` skill saying
-  so. Apply: keep durable handoff prompts in `docs/wayfinder-port/handoffs/`;
-  don't rely on `.pipeline/` staying out of commits.
 - **Budget numbers need reconciling up front.** "Stay under 100K" and "120K
   units" conflict. Apply: 100K target, 120K hard ceiling, ~80K of planned work
   per unit.
 - **Plain `git push` fails here (HTTPS origin, no git credential helper).**
   `gh` is logged in with protocol `ssh`, but `origin` is HTTPS. Apply: push with
   `git -c credential.helper= -c credential.helper='!gh auth git-credential' push`.
+- **Worktree-isolated sessions refuse commands that `cd` outside the worktree.**
+  A compound command that wrote to the memory dir and then ran git was rejected.
+  Apply: write files outside the worktree with the Write tool, and run git as a
+  separate command from the worktree root.

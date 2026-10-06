@@ -1,7 +1,7 @@
 # Handoff: S<N> · <unit title>
 
-Copy to `S<N>-<slug>.md`. Paste the whole file as the first prompt of the new
-session, or point `/handoff` at it.
+Copy to `S<N>-<slug>.md` and fill in. Rich starts a fresh `claude` session in
+the worktree and pastes this whole file as the first message.
 
 ## Context
 
@@ -37,4 +37,5 @@ Estimated work: ~<N>K tokens (budget: under 100K total, hard stop at 120K)
 
 ## Wrap-up
 
-Follow the "End" steps of the session protocol in the ledger.
+Follow the "End" steps of the session protocol in the ledger, including writing
+the next handoff prompt and telling Rich its path.
