@@ -35,8 +35,8 @@ current repo. Invoked once per repo, it:
    **local** exclude — never the shared, tracked `.gitignore`).
 
 It is idempotent (re-running only adds what's missing) and never overwrites an
-existing backlog. There is no hook and no tmux dependency — it only reads and
-writes files.
+existing backlog. There are no hooks and no external dependencies — it only
+reads and writes files.
 
 ### Repo structure (for reference)
 
@@ -106,7 +106,7 @@ Inside a Claude Code session:
 /plugin      → confirm "local-backlog" is listed AND enabled
 ```
 
-There is no hook to check (unlike `handoff`), so `/plugin` is the only
+There is no hook to check, so `/plugin` is the only
 registration surface.
 
 ---
