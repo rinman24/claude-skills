@@ -15,7 +15,7 @@ verifying** it.
 
 - **Marketplace repo:** `https://github.com/rinman24/claude-skills` (public)
 - **Marketplace name** (the `name` field in `.claude-plugin/marketplace.json`,
-  used as the `@`-suffix when installing): `my-skills`
+  used as the `@`-suffix when installing): `claude-skills`
 - **Plugin name:** `local-backlog`
 
 ### What the plugin does
@@ -42,7 +42,7 @@ reads and writes files.
 
 ```
 claude-skills/
-├── .claude-plugin/marketplace.json               # catalog; name = "my-skills"
+├── .claude-plugin/marketplace.json               # catalog; name = "claude-skills"
 └── plugins/local-backlog/
     ├── .claude-plugin/plugin.json                # no hooks — pure file scaffolder
     └── skills/local-backlog/SKILL.md             # the /local-backlog procedure
@@ -66,14 +66,15 @@ No other tools are required.
 
 ```bash
 claude plugin marketplace add rinman24/claude-skills
-claude plugin install local-backlog@my-skills --scope user
+claude plugin install local-backlog@claude-skills --scope user
 ```
 
 Notes:
 
-- `local-backlog@my-skills` = plugin `local-backlog` from the marketplace named
-  `my-skills`. The `@` suffix is the marketplace **name** field, not the repo
-  name.
+- `local-backlog@claude-skills` = plugin `local-backlog` from the marketplace
+  named `claude-skills`. The `@` suffix is the marketplace **name** field in
+  `marketplace.json`; it matches the repo name by convention, but the two are
+  set independently.
 - `--scope user` makes the plugin available across all projects in this
   container (right choice for a personal dev container). Alternatives:
   `--scope project` (committed for a repo's collaborators), `--scope local`
@@ -82,7 +83,7 @@ Notes:
 If you later push changes to the repo, refresh each environment with:
 
 ```bash
-claude plugin marketplace update my-skills
+claude plugin marketplace update claude-skills
 ```
 
 ---

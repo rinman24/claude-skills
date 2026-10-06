@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
-  "name": "my-skills",
+  "name": "claude-skills",
   "version": "0.1.0",
   "description": "Personal Claude Code skills, distributed across repos and dev containers from a single source of truth.",
   "owner": {

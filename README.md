@@ -1,4 +1,4 @@
-# my-skills
+# claude-skills
 
 A personal [Claude Code plugin marketplace](https://code.claude.com/docs/en/plugin-marketplaces)
 for distributing my own skills across repos, dev containers, and VMs from a
@@ -13,14 +13,14 @@ Inside any Claude Code session (replace `rinman24/claude-skills`):
 
 ```
 /plugin marketplace add rinman24/claude-skills
-/plugin install local-backlog@my-skills
+/plugin install local-backlog@claude-skills
 ```
 
 Or from the command line:
 
 ```
 claude plugin marketplace add rinman24/claude-skills
-claude plugin install local-backlog@my-skills --scope user
+claude plugin install local-backlog@claude-skills --scope user
 ```
 
 ### Scope
@@ -41,7 +41,7 @@ claude plugin validate .            # validate the whole marketplace
 ```
 
 Update after editing: push to the repo, then
-`claude plugin marketplace update my-skills` in each environment.
+`claude plugin marketplace update claude-skills` in each environment.
 
 ## Plugins
 
