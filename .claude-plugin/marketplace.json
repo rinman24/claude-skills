@@ -12,6 +12,12 @@
       "source": "./plugins/local-backlog",
       "description": "Scaffold a personal, git-excluded local backlog (BACKLOG.local.md) in the current repo, and wire the maintenance convention into CLAUDE.local.md.",
       "category": "workflow"
+    },
+    {
+      "name": "grilling",
+      "source": "./plugins/grilling",
+      "description": "Stress-test a plan, decision, or idea with a round-based interview: numbered questions with a recommended answer each, facts looked up rather than asked, and a confirmation gate. Never writes code.",
+      "category": "productivity"
     }
   ]
 }

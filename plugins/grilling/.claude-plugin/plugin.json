@@ -1,0 +1,9 @@
+{
+  "name": "grilling",
+  "version": "0.1.0",
+  "description": "Stress-test a plan, decision, or idea with a round-based interview: numbered questions with a recommended answer each, facts looked up rather than asked, and a confirmation gate. Never writes code.",
+  "author": {
+    "name": "rinman24"
+  },
+  "license": "MIT"
+}

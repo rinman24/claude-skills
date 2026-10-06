@@ -63,3 +63,29 @@ Sets up a personal, git-excluded backlog in the current repo. Invoke
 It is idempotent and never overwrites an existing backlog. It has no hooks and
 only reads/writes files. See
 [docs/local-backlog-plugin-install-runbook.md](docs/local-backlog-plugin-install-runbook.md).
+
+### grilling
+
+A relentless interview that stress-tests a plan, decision, or idea before
+anyone acts on it. Type `/grilling`, or Claude reaches for it on its own when
+you ask to be grilled. It:
+
+- maps the subject as a design tree and asks it in rounds: each round is every
+  question whose prerequisites are settled, numbered, each with a short "why
+  now" and a recommended answer you can accept by number;
+- lets you ask what a question means instead of answering it, and re-explains
+  it with a concrete example;
+- looks facts up itself (read-only sub-agents) and puts only decisions to you;
+- ends with a numbered decision summary and waits for your confirmation.
+
+It never writes code or edits files, during the session or after it; building
+is a separate step you start. Install with
+`claude plugin install grilling@claude-skills --scope user`. See
+[docs/grilling-plugin-install-runbook.md](docs/grilling-plugin-install-runbook.md).
+
+Adapted from `grilling` in [mattpocock/skills](https://github.com/mattpocock/skills)
+(commit `6fd9479`), MIT, Copyright (c) 2026 Matt Pocock; the upstream license is
+in [plugins/grilling/LICENSE](plugins/grilling/LICENSE). Changes from upstream:
+shorter questions with a "why now" line, recommendations that answer the
+question as worded, a clarification path, a scope-split prompt for oversized
+rounds, a decision summary at the gate, and a hard no-code rule.

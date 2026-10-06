@@ -49,3 +49,29 @@ Newest at the bottom.
   `~/Code/claude-skills` itself (e.g. `git pull --ff-only` on main) goes to Rich
   as a command for a normal terminal outside Claude, and any push command handed
   to him includes the `gh` credential helper form above.
+
+## S2 · 2026-10-06
+
+- **`claude --plugin-dir <path>` loads a plugin from the working tree for one
+  session.** Headless works too: `claude -p --plugin-dir plugins/grilling
+  "/grilling <topic>"` invoked the skill and printed round 1. Apply: smoke-test
+  every branch-only plugin this way before asking Rich to install it.
+- **The worktree guard refuses a nested `claude` inside any compound
+  construct.** `cd <scratch> && claude …`, `> file` redirects and pipes were
+  all rejected as "might run git"; so was `git -C <scratch>`. Only the plain
+  command from the worktree root ran. Apply: run headless smoke tests as one
+  bare `claude -p …` from the worktree root and check `git status` afterwards
+  as a separate command.
+- **Headless `-p` covers one turn only.** Behaviour that needs a reply
+  (clarification, the confirmation gate) can't be checked that way. Apply:
+  list those as interactive runbook steps for Rich instead of marking them
+  verified.
+- **The session started outside the branch's worktree.** The handoff's
+  `.claude/worktrees/wayfinder-domain-modeling` didn't exist; the session
+  opened in another checkout on `planning-skills`. Apply: the handoff's first
+  step is `git worktree list`; if the branch has no worktree, run
+  `git worktree add .claude/worktrees/wayfinder-domain-modeling
+  feat/wayfinder-domain-modeling` and then EnterWorktree with that path.
+- **Rich's installed `anthropic-skills:grill-me` is upstream's old
+  one-at-a-time text.** Apply: when porting, check `~/.claude/skills/synced/`
+  for an older synced copy of the same skill and plan its retirement.
