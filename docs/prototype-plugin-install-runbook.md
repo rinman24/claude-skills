@@ -126,10 +126,45 @@ Inside a Claude Code session:
 
 ## Step D — End-to-end smoke test
 
-Use a scratch git repo (or a branch you'll throw away). Steps 1–3 were checked
-headless on the build branch (S11), via `--plugin-dir` and
-`/prototype:prototype`. Steps 4–7 need a second turn, so run them
-interactively.
+Status: steps 1–3 were checked headless on the build branch (S11), via
+`--plugin-dir` and `/prototype:prototype`. Rich then ran steps 1–5 and 7
+interactively in `~/Code/squadra`, and all passed. Step 6 is deferred until
+there is a repo with a web UI to test it in.
+
+### Setup: a branch you'll throw away
+
+Steps 1–5 and 7 need a repo with no web app; any Python or docs repo will do
+(S11 used `~/Code/squadra`). Branch off first, because step 5 commits to a new
+`prototype/<name>` branch and then cleans up the branch you're on:
+
+```bash
+cd ~/Code/squadra                        # or any repo with no web app
+git switch -c scratch/prototype-test
+claude --plugin-dir /path/to/claude-skills/plugins/prototype   # or the installed plugin
+```
+
+With `--plugin-dir`, type `/prototype:prototype` wherever the steps below say
+`/prototype`.
+
+When you're done, in a normal terminal:
+
+```bash
+git switch main
+git branch -D scratch/prototype-test prototype/<name>
+```
+
+### Run order
+
+Steps 4, 5 and 7 continue a hand-over, so each one has to come straight after
+a step 1 in the same interactive session (a headless `claude -p` run ends
+after one reply).
+
+| Session | Repo | Steps |
+|---|---|---|
+| 1 | No web app, on `scratch/prototype-test` | Step 1 → step 4 → step 5. Then check `git status` (clean) and `git branch` (`prototype/<name>` exists) in a normal terminal. |
+| 2 | Same | Step 1 again → step 7. It has to be a new session, because step 4 already settled session 1's question. |
+| 3 | Same | Steps 2 and 3, each on its own (optional; both passed headless). |
+| 4 | A repo with a web app, on a throwaway branch | Step 6 on its own (deferred). |
 
 1. In a repo with no web app, run:
    `/prototype I can't decide what the battery dispatch summary should look like for a site with solar, a 2 MWh battery and a CHP unit. Show me options.`
@@ -150,7 +185,8 @@ interactively.
    prototype file.
 5. Say yes to keeping it. Expected: a `prototype/<name>` branch holding the
    prototype, and the current branch with no prototype files left.
-6. In a repo with a web app and an existing page that fits, repeat step 1.
+6. *(Deferred: no repo with a web UI yet.)* In a repo with a web app and an
+   existing page that fits, repeat step 1.
    Expected: sub-shape A, with variants on the existing route behind
    `?variant=`, the bar hidden in production builds, and the only change to
    the page being the switcher mount.
@@ -162,6 +198,7 @@ interactively.
 ## Definition of done
 
 - `/plugin` shows `prototype` enabled.
-- Step D 1–7 behave as above.
+- Step D 1–5 and 7 behave as above. Step 6 is deferred until there is a repo
+  with a web UI; run it then.
 - `git status` on the current branch shows nothing from the prototype after
   step 5; the prototype lives only on `prototype/<name>`.
