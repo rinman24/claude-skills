@@ -18,6 +18,12 @@
       "source": "./plugins/grilling",
       "description": "Stress-test a plan, decision, or idea with a round-based interview: numbered questions with a recommended answer each, facts looked up rather than asked, and a confirmation gate. Never writes code.",
       "category": "productivity"
+    },
+    {
+      "name": "domain-modeling",
+      "source": "./plugins/domain-modeling",
+      "description": "Build and sharpen a repo's domain language: challenge and sharpen terms, write GLOSSARY.md inline with Eric Evans (board-eric) reviewing every write, and keep a settled-term record so closed naming debates stay closed.",
+      "category": "productivity"
     }
   ]
 }

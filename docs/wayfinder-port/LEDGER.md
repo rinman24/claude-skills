@@ -70,7 +70,7 @@ End:
 | G2 | Grilling: build `plugins/grilling` from G1 decisions | S2 | ~35K | done | Validated; headless smoke test passed for round format, fact lookup, no-code. Rich to check clarification + gate interactively (runbook Step D 4 and 6) |
 | G3 | Retire the claude.ai-synced `anthropic-skills:grill-me` (old one-at-a-time text) | Rich | n/a | todo | After G2 smoke test passes (GD1); done in claude.ai, not this repo |
 | M1 | Domain-modeling: outline upstream approach + author's known issues; collect Rich's feedback | S3 | ~40K | done | Decisions MD1–MD13 below; Juval and Eric consulted (board-knowledge `sessions/2026-10-06-juval-settled-term-lookup.md`, `…-eric-settled-term-verbs.md`) |
-| M2 | Domain-modeling: build `plugins/domain-modeling` from M1 decisions | S4 | ~60K | todo | Spilled from S3 (past ~70K after M1). Larger than first estimated: bootstrap (MD9), settled record (MD10–11), Eric calls (MD6–7) |
+| M2 | Domain-modeling: build `plugins/domain-modeling` from M1 decisions | S4 | ~60K | done | Validated; headless smoke test passed for Eric consult, refusal on Eric's objection, and both-files write on approval. Rich to run runbook Step D 3–7 interactively (announcement after an answer, drift, Reopen, bootstrap, no-Eric berth). Build interpretations MD-B1–B5 below |
 | A1 | ADR: build `plugins/adr` (MD3) | S5 | ~35K | todo | Upstream `ADR-FORMAT.md` gates + format, plus "follow the repo's existing ADR convention"; domain-modeling hands off to it |
 
 ## Decisions
@@ -160,6 +160,27 @@ R3 vague-prompt-to-domain-language skill).
 - **MD13 · No grill-with-docs wrapper.** Run `/grilling` and
   `/domain-modeling` by name; wayfinder calls both explicitly (GD2).
 
+Build interpretations (S4, where MD1–MD13 left a detail open; not yet
+confirmed by Rich, change in the plugin if he disagrees):
+
+- **MD-B1 · Reopen skips Eric.** Eric reviews every `GLOSSARY.md` /
+  `GLOSSARY-MAP.md` write, every `Settle` and every pruning pass. `Reopen`
+  adds no language, so it runs without him, including where `board-eric` is
+  missing.
+- **MD-B2 · Eric advises, Rich decides.** An approval is written straight
+  away; a sharper wording or an objection goes back to the user as a question
+  before anything is written.
+- **MD-B3 · Lookup ignores history.** Lookup matches only `settled` and
+  `reopened` rows; a form whose only rows are `withdrawn` or `superseded` is
+  `unsettled`. `Settle` never overrides a `settled` row (Reopen first).
+- **MD-B4 · Bootstrap settles last.** A row's `Context` can't change, so the
+  bootstrap writes `GLOSSARY.md` per approved slice but holds every `Settle`
+  until after Eric's final context pass.
+- **MD-B5 · Reopen's reason and ref live in the announcement and git
+  history.** Rows are immutable apart from `Status`, so they keep their
+  original `Settled` and `Ref`. If that loses too much, the fix is a
+  `Reopened` column or an event-log format (Eric's Domain Events note).
+
 ## Inputs to triage
 
 Raw material from the session 1 read of Matt's repo. Not commitments; each one
@@ -203,3 +224,4 @@ becomes a work item, a decision, or `dropped`.
 | S1 | 2026-10-06 | Orientation + scaffolding | Explained both skills; created branch and tracking files; rebased onto main after PR #1 (handoff plugin removed) and PR #2 (marketplace renamed to `claude-skills`) | `handoffs/S2-grilling.md` |
 | S2 | 2026-10-06 | G1, G2 · Grilling | Outlined upstream grilling and its known issues; Rich decided GD1–GD7; built `plugins/grilling` (skill, manifest, upstream MIT LICENSE, marketplace entry, README section, runbook); validated and smoke-tested via `--plugin-dir` | `handoffs/S3-domain-modeling.md` |
 | S3 | 2026-10-06 | M1 · Domain-modeling decisions | Outlined upstream domain-modeling and its issues (K1–K6, R1–R3); four grilling rounds; consulted Juval (settled-term record) and Eric (its operations); Rich confirmed MD1–MD13. Build (M2) spilled to S4; ADR plugin split out as A1 | `handoffs/S4-domain-modeling-build.md` |
+| S4 | 2026-10-06 | M2 · Domain-modeling build | Built `plugins/domain-modeling` (SKILL.md, GLOSSARY-FORMAT.md, SETTLED-FORMAT.md, BOOTSTRAP.md, manifest, upstream MIT LICENSE, marketplace entry, README section, runbook); validated; two headless smoke runs (Eric objection → no write; Eric approval → both files). Recorded build interpretations MD-B1–B5 | `handoffs/S5-adr.md` |

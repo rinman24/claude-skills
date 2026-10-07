@@ -89,3 +89,37 @@ in [plugins/grilling/LICENSE](plugins/grilling/LICENSE). Changes from upstream:
 shorter questions with a "why now" line, recommendations that answer the
 question as worded, a clarification path, a scope-split prompt for oversized
 rounds, a decision summary at the gate, and a hard no-code rule.
+
+### domain-modeling
+
+Builds and sharpens a repo's domain language while you design. Type
+`/domain-modeling`, or Claude loads it when terminology, `GLOSSARY.md` or a
+naming question comes up. It:
+
+- challenges terms that conflict with `GLOSSARY.md`, sharpens fuzzy ones,
+  stress-tests boundaries with scenarios, and checks claims against the code;
+- writes each term to `GLOSSARY.md` the moment it is settled and announces the
+  write at the top of the next round, so you review every one;
+- records each ruling in `GLOSSARY-SETTLED.md` (never pruned, never deleted),
+  looks it up before asking any naming question, reports drift from it without
+  reopening it, and reopens a ruling only when you say so;
+- guards against bloat: a "term or spec?" test on every write, and a proposed
+  pruning pass past about 40 terms or 150 lines;
+- bootstraps a glossary for an existing codebase one module at a time, with
+  read-only extractor sub-agents and your review of each slice;
+- hands ADR-worthy decisions to the `adr` skill if it is installed.
+
+Every glossary write, settlement and pruning pass is reviewed first by Eric
+Evans via the `board-eric` agent from Rich's board of advisors. Where
+`board-eric` isn't available, the skill still challenges and looks things up,
+but writes nothing. Install with
+`claude plugin install domain-modeling@claude-skills --scope user`. See
+[docs/domain-modeling-plugin-install-runbook.md](docs/domain-modeling-plugin-install-runbook.md).
+
+Adapted from `domain-modeling` in
+[mattpocock/skills](https://github.com/mattpocock/skills) (commit `6fd9479`),
+MIT, Copyright (c) 2026 Matt Pocock; the upstream license is in
+[plugins/domain-modeling/LICENSE](plugins/domain-modeling/LICENSE). Changes from
+upstream: the settled-term record and its operations, Eric's review of every
+write, write announcements, the bloat guard, the brownfield bootstrap, and ADRs
+moved out to a separate `adr` plugin.

@@ -95,3 +95,19 @@ Newest at the bottom.
   Retire verb conflated two concepts and removed it. Apply: put a design to the
   structural advisor first, then the result to the language advisor, and
   record both session files in the ledger next to the decision.
+
+## S4 · 2026-10-06
+
+- **A headless smoke test that needs a write must use `--permission-mode
+  acceptEdits`.** It is still one bare `claude -p …` from the worktree root, so
+  the worktree guard accepts it. Apply: add the flag for any skill whose smoke
+  test checks for files written.
+- **An advisor in the loop makes smoke tests non-deterministic.** The first
+  run's terms (Site, Campus) collided with GenShift's real vocabulary, so Eric
+  objected and, correctly, nothing was written. Apply: smoke-test the write
+  path with a term from this repo's own domain, and pre-accept wording-only
+  changes in the prompt ("if Eric only sharpens the wording, I accept it").
+  Keep the refusal run too: it tests a different branch.
+- **The nested `claude -p` sees this repo's CLAUDE.md and memory.** It knew it
+  was the S4 smoke test and said so in its reply. Apply: harmless, but don't
+  read its meta-commentary as evidence the skill told it to.
