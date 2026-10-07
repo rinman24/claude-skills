@@ -227,3 +227,26 @@ Newest at the bottom.
 - **A plugin with no advisor ran three parallel headless smoke runs in about
   the time of one.** Apply: launch independent smoke runs in the background
   together, and read the results as they arrive.
+
+## S9 · 2026-10-07
+
+- **A plain `cd plugins/wayfinder && grep …` moved the session's cwd too.**
+  This was the third time, and this one stayed inside the worktree. Apply: no
+  `cd` at all; use `grep -r … plugins/wayfinder` from the root.
+- **Launching the Eric consult first, in the background, cost no
+  wall-clock.** The format files were written while he reviewed, and Rich's
+  answer took one AskUserQuestion with three questions. Apply: when a build
+  needs new terms, consult at the start with every term batched, and write
+  the parts that don't depend on the wording in the meantime.
+- **A proposed `_Avoid_` form can collide with an existing rejected form.**
+  "Task" was already rejected for Errand. A second row would make Lookup
+  return two answers, and domain-modeling's step 2 refuses to settle it.
+  Apply: run the Lookup awk test on every proposed Rejected form *before*
+  writing the rows, and drop any form already settled.
+- **Eric checks a context's own intro line against new terms.** Settling
+  Cleared made "clears the fog" in `GLOSSARY.md` ambiguous. Apply: when
+  settling a verb or state, grep the context's prose for other senses of the
+  same word and send those lines in the same consult.
+- **The handoff's budget held.** One consult and the build fit well under
+  80K. Apply: a plugin build of three skill files plus the standard
+  manifest, README and runbook is about 60–70K with one consult.

@@ -179,3 +179,38 @@ itself" defect), no folding into the real code after the verdict, a question
 check that turns away settled designs and whole-app demos, competing logic
 models, a UI sub-shape for repos with no app, and a branch kept only on the
 user's yes.
+
+### wayfinder
+
+Charts the way to one destination that is too big for a single session and
+whose route is still foggy. Type `/wayfinder` (Claude won't load it on its
+own). It:
+
+- keeps a committed **map** under `.scratch/wayfinder/<map>/`: `map.md`
+  (Destination, Increments, Decisions so far, Fog) plus one file per ticket;
+- runs one operation per call: **Begin** (name the destination, survey the
+  frontier, write the map and its first tickets), **Resolve** (one ticket per
+  session, by its kind: grilling with `grilling` + `domain-modeling`, research
+  by a read-only subagent, prototype with the user picking the variant, or an
+  errand as a checklist), **Revise** (only on your instruction), and
+  **Publish** (checks, then writes `docs/design/<map>.md`);
+- keeps the map small: every decision ticket unblocks a named increment, more
+  than about 6 increments means a split per subsystem, and no increment
+  changes more than 2 services;
+- writes only the map and the design document. It never builds and never
+  touches squadra's board; `design-to-board` (not yet built) transcribes a
+  cleared design document.
+
+Needs the `grilling` and `domain-modeling` plugins; `board-juval` is an
+optional consult. Install with
+`claude plugin install wayfinder@claude-skills --scope user`. See
+[docs/wayfinder-plugin-install-runbook.md](docs/wayfinder-plugin-install-runbook.md).
+
+Adapted from `wayfinder` in
+[mattpocock/skills](https://github.com/mattpocock/skills) (commit `f3fc563`),
+MIT, Copyright (c) 2026 Matt Pocock; the upstream license is in
+[plugins/wayfinder/LICENSE](plugins/wayfinder/LICENSE). Changes from upstream:
+a local committed map instead of an issue tracker, no Notes override (it never
+builds), a design document of increments as the output, Revise and Publish
+operations, over-charting rules, errands in place of tasks, the user always
+picks a prototype variant, and strictly one ticket in progress per map.

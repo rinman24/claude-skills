@@ -143,8 +143,8 @@ interactively.
    naming question is put to you. Settle it again; expect a new `settled` row
    and the old row's status `superseded` (no row deleted).
 6. In a repo with code but no glossary, ask it to bootstrap one. Expected: a
-   slice list for you to confirm, read-only extractor sub-agents, Eric's review
-   of each slice's term list, and a draft you approve before anything is
+   batch list for you to confirm, read-only extractor sub-agents, Eric's review
+   of each batch's term list, and a draft you approve before anything is
    written; settled rows only after the final context pass.
 7. In an environment without `board-eric`, run step 1 again. Expected: it says
    plainly that it won't write the glossary files, and writes nothing.
