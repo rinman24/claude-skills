@@ -73,8 +73,8 @@ End:
 | M2 | Domain-modeling: build `plugins/domain-modeling` from M1 decisions | S4 | ~60K | done | Validated; headless smoke test passed for Eric consult, refusal on Eric's objection, and both-files write on approval. Rich to run runbook Step D 3–7 interactively (announcement after an answer, drift, Reopen, bootstrap, no-Eric berth). Build interpretations MD-B1–B5 below |
 | A1 | ADR: build `plugins/adr` (MD3) | S5 | ~35K | done | Validated; headless smoke test passed for a gate-passing decision (`docs/adr/0001-…` written, one paragraph) and a gate-failing one (nothing written, each gate named). Rich to run runbook Step D 3–5 interactively (house convention, unknown gate, domain-modeling hand-off). Build interpretations AD-B1–B4 below |
 | W0 | Wayfinder: lay out work items with Rich from "Inputs to triage" | S6–S7 | ~40K + ~60K | done | WD1–WD26; S7 ran four consults (Juval ×2, Eric ×2) |
-| W1 | domain-modeling: rename "slice" → "batch" in MD9 / `BOOTSTRAP.md` (WD20) | S8 | ~10K | todo | Before W2, so Lookup's `slice` redirect never collides with the plugin's prose |
-| W2 | Glossary rows via `/domain-modeling` with Eric: `subsystem` (WD12), `map` (WD19), `increment` ruled-in squadra (squadra PR #41 merged), `errand` (WD25) | S8 | ~35K | todo | Blocked by W1. First `GLOSSARY.md` / `GLOSSARY-SETTLED.md` in this repo |
+| W1 | domain-modeling: rename "slice" → "batch" in MD9 / `BOOTSTRAP.md` (WD20) | S8 | ~10K | done | `BOOTSTRAP.md` (11 lines) and MD9; `rg -n -i slice plugins/domain-modeling` clean. Before W2, so Lookup's `slice` redirect never collides with the plugin's prose |
+| W2 | Glossary rows via `/domain-modeling` with Eric: `subsystem` (WD12), `map` (WD19), `increment` ruled-in squadra (squadra PR #41 merged), `errand` (WD25) | S8 | ~35K | in progress | Blocked by W1. First `GLOSSARY.md` / `GLOSSARY-SETTLED.md` in this repo |
 | W3 | Build `plugins/wayfinder`: SKILL.md (Chart: Begin/Resolve/Revise/Publish; WD3–WD9, WD15, WD17, WD19, WD22–WD23), `MAP-FORMAT.md` (WD26), `DESIGN-FORMAT.md` (WD21), manifest, upstream MIT LICENSE, marketplace entry, README section, runbook | S9 | ~80K | todo | Blocked by W2 |
 | W4 | Smoke-test wayfinder headless: Begin → Resolve one ticket → Publish on a toy map | S10 | ~40K | todo | Blocked by W3 |
 | W5 | Build `plugins/prototype` (WD7: the user picks the variant, never the agent) | S11 | ~60K | todo | No blockers; runs in parallel with S8 on its own branch/worktree (see its handoff) |
@@ -144,10 +144,11 @@ R3 vague-prompt-to-domain-language skill).
   nothing to `board-knowledge`; the glossary and settled record are the record.
 - **MD9 · Brownfield bootstrap (K5).** Read-only extractor subagents, one per
   top-level module, return candidate terms with `file:line` evidence; Eric
-  sees one slice's term list at a time (never raw code), then a final pass over
-  the per-slice lists for context boundaries and whether `GLOSSARY-MAP.md` is
-  needed. Rich reviews each slice's draft before anything is written. A section
-  of the skill, not a separate skill (R1).
+  sees one batch's term list at a time (never raw code), then a final pass over
+  the per-batch lists for context boundaries and whether `GLOSSARY-MAP.md` is
+  needed. Rich reviews each batch's draft before anything is written. A section
+  of the skill, not a separate skill (R1). ("Slice" renamed to "batch" in S8,
+  WD20/W1.)
 - **MD10 · Settled record (K3, Juval).** Lookup is separate from provenance.
   `GLOSSARY-SETTLED.md` columns: `Term | Rejected | Context | Ruling | Status |
   Settled | Ref`. `Ref` is an opaque `scheme:locator` (`gh:`, `scratch:`,
