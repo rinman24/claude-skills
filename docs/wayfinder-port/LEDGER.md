@@ -72,8 +72,15 @@ End:
 | M1 | Domain-modeling: outline upstream approach + author's known issues; collect Rich's feedback | S3 | ~40K | done | Decisions MD1–MD13 below; Juval and Eric consulted (board-knowledge `sessions/2026-10-06-juval-settled-term-lookup.md`, `…-eric-settled-term-verbs.md`) |
 | M2 | Domain-modeling: build `plugins/domain-modeling` from M1 decisions | S4 | ~60K | done | Validated; headless smoke test passed for Eric consult, refusal on Eric's objection, and both-files write on approval. Rich to run runbook Step D 3–7 interactively (announcement after an answer, drift, Reopen, bootstrap, no-Eric berth). Build interpretations MD-B1–B5 below |
 | A1 | ADR: build `plugins/adr` (MD3) | S5 | ~35K | done | Validated; headless smoke test passed for a gate-passing decision (`docs/adr/0001-…` written, one paragraph) and a gate-failing one (nothing written, each gate named). Rich to run runbook Step D 3–5 interactively (house convention, unknown gate, domain-modeling hand-off). Build interpretations AD-B1–B4 below |
-| W0 | Wayfinder: lay out work items with Rich from "Inputs to triage" | S6–S7 | ~40K + ~60K | in progress (S7) | Planning only. S6 recorded WD1–WD12 (three advisor consults); S7 asks Juval Q18, finishes the open questions below WD12, and lays out W1… |
-| W-SQ | squadra: rename its unit "slice" → "increment" (WD11) | Rich, in squadra | n/a | in progress | Rich pasted Eric's handoff (board session `2026-10-06-eric-squadra-unit-name.md` §4) into a squadra session. Settle `increment` here as a squadra-context row only after that PR merges |
+| W0 | Wayfinder: lay out work items with Rich from "Inputs to triage" | S6–S7 | ~40K + ~60K | done | WD1–WD26; S7 ran four consults (Juval ×2, Eric ×2) |
+| W1 | domain-modeling: rename "slice" → "batch" in MD9 / `BOOTSTRAP.md` (WD20) | S8 | ~10K | todo | Before W2, so Lookup's `slice` redirect never collides with the plugin's prose |
+| W2 | Glossary rows via `/domain-modeling` with Eric: `subsystem` (WD12), `map` (WD19), `increment` ruled-in squadra (squadra PR #41 merged), `errand` (WD25) | S8 | ~35K | todo | Blocked by W1. First `GLOSSARY.md` / `GLOSSARY-SETTLED.md` in this repo |
+| W3 | Build `plugins/wayfinder`: SKILL.md (Chart: Begin/Resolve/Revise/Publish; WD3–WD9, WD15, WD17, WD19, WD22–WD23), `MAP-FORMAT.md` (WD26), `DESIGN-FORMAT.md` (WD21), manifest, upstream MIT LICENSE, marketplace entry, README section, runbook | S9 | ~80K | todo | Blocked by W2 |
+| W4 | Smoke-test wayfinder headless: Begin → Resolve one ticket → Publish on a toy map | S10 | ~40K | todo | Blocked by W3 |
+| W5 | Build `plugins/prototype` (WD7: the user picks the variant, never the agent) | S11 | ~60K | todo | No blockers; runs in parallel with S8 on its own branch/worktree (see its handoff) |
+| W6 | Wire prototype tickets into wayfinder | S12 | ~25K | todo | Blocked by W3, W5 |
+| T1 | `design-to-board` (WD14) | later, not this port | n/a | todo | Blocked by W-SQ and W3; build against `DESIGN-FORMAT.md` and Juval's validation list |
+| W-SQ | squadra: rename its unit "slice" → "increment" (WD11) | Rich, in squadra | n/a | in progress | Rename merged (squadra PR #41, 2026-10-07; `Increment` settled in squadra's glossary: Vertical / Foundation, rejects infrastructure increment). Remaining: WD18's squadra requirements (positive-scope claims, `squadra tick --dry-run` contract test) |
 
 ## Decisions
 
@@ -228,9 +235,9 @@ amended as marked). Advisor sessions in
   Resolve, Revise and Publish (writes the design document). The word
   "work" appears nowhere in wayfinder (false cognate with squadra).
 - **WD4 · Notes override removed.** No map can "carry execution"; wayfinder
-  never builds. A `task` ticket only unblocks a decision.
+  never builds. An `errand` ticket (WD25; was "task") only unblocks a decision.
 - **WD5 · Downstream out of scope.** `to-spec`, `to-tickets`, `implement` are
-  not ported. (Whether the translator skill belongs to this port is open.)
+  not ported. `design-to-board` (the translator) is not in this port either (WD14).
 - **WD6 · No research plugin.** Research tickets use an inline read-only
   subagent (primary sources, cite every claim); findings go in the ticket's
   resolution, not a `research/<name>` branch.
@@ -262,7 +269,9 @@ amended as marked). Advisor sessions in
   _Foundation_ (no behaviour of its own; exists so the later increments it
   names can), or neither (its commit type carries the kind). `infrastructure
   increment`, `slice` and `vertical slice` are rejected forms. Wayfinder
-  conforms: `infrastructure increment` is dropped from this table.
+  conforms: `infrastructure increment` is dropped from this table, and
+  `vertical` is defined by behaviour, not layers. Juval's layer integration is
+  his test for whether an increment is vertical, not the definition (Eric).
 - **WD11 · squadra rename.** squadra's "slice" becomes "increment" (W-SQ, Rich
   driving it in squadra). Check Scrum's "Increment" before settling it there.
 - **WD12 · "Slice" glossary row (Option A).** Settle `subsystem` (Juval's
@@ -272,8 +281,8 @@ amended as marked). Advisor sessions in
   "vertical slice"). To be written via `/domain-modeling` (Eric's order: this
   row now, `increment` only after squadra's rename merges).
 
-Wayfinder (S7, from Rich's answers to rounds 1–2 of `/grilling`; each
-answer confirmed individually; the closing summary is still to come).
+Wayfinder (S7, from Rich's answers to three rounds of `/grilling`; each
+answer given explicitly; Rich then said "wrap up").
 Advisor sessions in `board-knowledge/sessions/`:
 `2026-10-06-juval-design-increment-split.md` (Q18),
 `2026-10-06-eric-term-board.md` ("board").
@@ -297,13 +306,15 @@ Advisor sessions in `board-knowledge/sessions/`:
   loudly back to wayfinder (missing kind, undeclared service, two increments
   touching one service with no edge, order contradicting edges, > 2 new
   services); never patches the document; honours `[board].parent_scope_ids`.
-  Name chosen by Rich; Eric reviewing it (S7, pending).
+  Name chosen by Rich; Eric approved it (fallback `design-to-squadra` only if
+  "design-to-board" gets heard as advisor review). Description verb:
+  "transcribes a cleared design document into increments on squadra's board;
+  it never designs." Context column in glossary rows: `design-to-board`.
 - **WD15 · Sequential tickets (Q5).** One decision ticket in progress per map
   at a time, marked in its file; separate maps may run in parallel. Wayfinder
   never says "claim" (squadra's verb, Eric).
 - **WD16 · Design document location (Q6).** `docs/design/<map>.md`, outside
-  `.scratch/`; it cites tickets as `scratch:` refs. Sections: Q10, pending
-  Juval and Eric.
+  `.scratch/`; it cites tickets as `scratch:` refs. Sections: WD21.
 - **WD17 · Over-charting rules (Q8).** (a) every decision ticket carries
   `Unblocks: <increment>`; (b) more than ~6 increments → split the map per
   subsystem; (c) an increment that can't be named in settled terms is fog;
@@ -330,13 +341,57 @@ Advisor sessions in `board-knowledge/sessions/`:
   "slice" for one module's batch of terms; rename to "batch" in its own W-item,
   before the glossary item (Eric).
 
-Still open after S7 round 2:
-- Q10 · design document sections (Juval and Eric consulted in S7).
-- Q13 · confirm `design-to-board` after Eric's review.
-- The map's file format: `map.md` sections (goal, `## Increments` index, Decisions so
-  far, Fog), ticket file fields (type, status, `Unblocks:`, blocked by,
-  resolution), the in-progress mark.
-- W-item layout.
+S7 round 3 (after Juval and Eric on Q10/Q13: board-knowledge
+`sessions/2026-10-07-juval-design-document-contract.md`,
+`sessions/2026-10-06-eric-design-document-contract.md`; asked in parallel, neither
+saw the other). WD21–WD26 refine WD13 and WD16; where they differ, these win.
+
+- **WD21 · Design document contract (Q14).** Bundled in W3 as `DESIGN-FORMAT.md`
+  (the document `design-to-board` is built against). YAML front matter
+  `format: wayfinder-design/1`, `map`, `status: cleared | revising`,
+  `revision: <N>`, `changed: [...]`. Sections: **Destination** (Eric; not
+  "Goal") listing behaviours `B1`, `B2`… (Juval, ~2–3) · **Decisions** (one
+  line per current decision with its `scratch:` ref; no errand tickets) ·
+  **Services** `Service | Layer | Encapsulates | Introduced in` (only services
+  this map changes or creates; `Encapsulates` required for a new one; the only
+  place "new" is stated) · **Increments** `ID | Increment | Kind | Touches |
+  Depends on | Order | Decided by | Published` (Kind: `vertical (B<n>)`,
+  `foundation → I<n>, …`, or blank, per squadra's glossary; `Touches` names
+  only; `Depends on` allows `<map>:<ID>`) · **Rules and planning assumptions**
+  (rule lines, e.g. WD23, kept apart from resource lines: ≤ 2 concurrent
+  runners, one reviewer; a line belongs only if changing it would make Rich
+  Revise the map). Juval's split is marked in the spec: contract = front
+  matter, Services, Increments, Rules; record = Destination, Decisions; the
+  translator never reads the record. Wayfinder checks before `cleared`: every
+  behaviour has a vertical increment and vice versa; every `Decided by` ref is
+  in Decisions. The document is never a copy of `map.md` (fog and ticket bodies
+  stay in the map). Translator validation list: Juval's session, "What the
+  translator validates".
+- **WD22 · Increment identity (Q15, Juval).** IDs `I1`, `I2`… never renumbered
+  or reused. A published row changes only its status (`Published: r1,
+  withdrawn r2`); any other change = withdraw + new ID. Withdrawn rows stay.
+  The translator only ever creates and withdraws. Revise sets only
+  `status: revising`; Publish rewrites the body, sets `cleared`, bumps
+  `revision`, fills `changed`. (Refines WD8's "edit in place".)
+- **WD23 · Integration rule (Q16).** Strict form: at most 2 **changed**
+  services (new or modified) per increment = a count of `Touches`. Replaces
+  "≤ 2 new services" in WD13, WD14 and WD17(d). Value lives in the document's
+  rule line.
+- **WD24 · No Settled terms section (Q17).** Design documents don't drive a
+  fleet in another repo yet; if they ever do, `design-to-board` brings it back,
+  selecting by terms used in Increments, term + `Ref` only.
+- **WD25 · `errand` (Q18b, Eric).** Wayfinder's non-decision ticket kind is
+  `errand`, not `task` ("Task" is squadra's child item; `chore` is a commit
+  type). Supersedes "task" in WD4.
+- **WD26 · Map format (Q19).** Bundled in W3 as `MAP-FORMAT.md`. `map.md`:
+  Destination · Increments (same columns as WD21) · Decisions so far · Fog.
+  Ticket file: Kind (`grilling | research | prototype | errand`), Status
+  (`open | in progress | closed | revised`), `Unblocks:`, Blocked by,
+  Resolution. "in progress" is the WD15 mark; no "claim".
+
+Still open: nothing for wayfinder. Rich has still not commented on MD-B1–B5
+or AD-B1–B4. squadra side of WD18 (positive-scope claims, `tick --dry-run`
+contract test) is with Rich in W-SQ.
 
 ## Inputs to triage
 
@@ -400,3 +455,4 @@ S6 dispositions:
 | S4 | 2026-10-06 | M2 · Domain-modeling build | Built `plugins/domain-modeling` (SKILL.md, GLOSSARY-FORMAT.md, SETTLED-FORMAT.md, BOOTSTRAP.md, manifest, upstream MIT LICENSE, marketplace entry, README section, runbook); validated; two headless smoke runs (Eric objection → no write; Eric approval → both files). Recorded build interpretations MD-B1–B5 | `handoffs/S5-adr.md` |
 | S5 | 2026-10-06 | A1 · ADR build | Built `plugins/adr` (SKILL.md, ADR-FORMAT.md, manifest, upstream MIT LICENSE, marketplace entry, README section, runbook); validated; two headless smoke runs (gate-passing decision → `docs/adr/0001-…`; gate-failing → nothing written, all three gates named). Recorded AD-B1–B4. No change to `plugins/domain-modeling` needed: its ADR section already calls the `adr` skill | `handoffs/S6-wayfinder-layout.md` |
 | S6 | 2026-10-06 | W0 · Wayfinder layout (part 1) | Outlined upstream wayfinder and its deps; three grilling rounds; consulted Juval (split, slices), Eric (split, vocabulary) and Eric again (squadra unit name → `increment`). Rich reframed: wayfinder is chart-only on a local committed board and outputs a design document; squadra builds. Recorded WD1–WD12 and triage dispositions; Q18 (Juval) and the W-layout left to S7 at Rich's call (context) | `handoffs/S7-wayfinder-layout-2.md` |
+| S7 | 2026-10-06/07 | W0 · Wayfinder layout (part 2) | Rich confirmed WD1–WD12; three grilling rounds decided WD13–WD26 (design document lists increments; `design-to-board` named, out of port; "board" → map; `errand`; design-document and map formats). Four consults: Juval (Q18; Q10), Eric ("board"; Q10 + name). Laid out W1–W6 and T1 | `handoffs/S8-glossary.md`, `handoffs/S11-prototype.md` |

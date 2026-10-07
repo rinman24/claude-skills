@@ -153,3 +153,31 @@ Newest at the bottom.
   Juval use" was settled by counting terms in `board-knowledge/raw/juval-lowy`.
   Apply: answer an advisor's factual blocking question yourself before putting
   the decision to Rich.
+
+## S7 · 2026-10-06/07
+
+- **A `cd` into board-knowledge moved the session's cwd again, despite the S6
+  lesson.** It was hidden inside a `for` loop. Apply: in any command touching
+  another repo, use only absolute paths; no `cd` anywhere in the command.
+- **Background advisor consults overlap with grilling rounds.** Launching
+  Juval (Q18) as soon as the round went out meant his answer was ready before
+  Rich replied. Two consults launched in parallel on the same question (Q10)
+  cost no extra wall-clock. Apply: start a consult the moment its question is
+  fixed, and present the rest of the round while it runs.
+- **Parallel consults on one question surface conflicts worth a round.** Juval
+  and Eric agreed on most of Q10 but differed on row identity (Q15), which
+  became Rich's decision. Apply: give both the same verbatim inputs, then
+  present "where they agree" plus one question per difference.
+- **Four consults pushed the session well past the two-consult guideline.**
+  Rich asked for the extra two. Checkpointing the ledger (commit `662cfe8`)
+  before launching them kept confirmed decisions safe. Apply: when the user
+  asks for consults beyond the budget, commit a ledger checkpoint first.
+- **Advisors' factual blocking questions were answered with `gh` in one
+  call.** squadra PR #41 merged state and its glossary on origin settled
+  Eric's question; a read-only subagent reading squadra answered Juval's.
+  Apply: same as S6, and note the answer under the question in the session
+  file.
+- **Parallel sessions on one branch would conflict in `LEDGER.md`.** S8 and
+  S11 run in parallel, so S11 works on its own branch and worktree and touches
+  only its W5 row and one session-log row. Apply: give every parallel
+  session its own branch, and keep shared-file edits to its own rows.
