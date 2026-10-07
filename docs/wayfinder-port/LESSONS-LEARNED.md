@@ -181,3 +181,29 @@ Newest at the bottom.
   S11 run in parallel, so S11 works on its own branch and worktree and touches
   only its W5 row and one session-log row. Apply: give every parallel
   session its own branch, and keep shared-file edits to its own rows.
+
+## S11 · 2026-10-07
+
+- **Under `--plugin-dir`, a plugin's skill is `/<plugin>:<skill>`, and a bare
+  `/<skill>` may not resolve.** The first headless run of `/prototype` came
+  back "not a command" and answered from the model alone; a settled-design
+  refusal looked right but wasn't the skill's doing. Two writing runs found
+  `prototype:prototype` by themselves. Apply: smoke-test with the namespaced
+  form (`/prototype:prototype …`), and read the nested reply for "isn't a
+  command" before counting a pass.
+- **A `cat >> … <<EOF` plus a `python3` heredoc in one Bash call was refused
+  by the worktree guard** (it couldn't verify the call stays in the worktree).
+  Apply: append to docs and JSON with the Edit tool, as S1 said; keep Bash for
+  single plain commands.
+- **Smoke runs that write prototype files drop them into the worktree**
+  (`docs/…prototype.html`, `prototypes/…`). Apply: check `git status
+  --untracked-files=all` after each run, inspect, then delete them before
+  committing.
+- **A nested headless run can't execute shell checks or open a browser** (no
+  approval in `acceptEdits`), so it reviews its prototype by reading it.
+  Apply: grep the generated file for the structural rules (switcher keys,
+  `replaceState`, input guard, pure module, no external URLs), and leave
+  "opens and renders" to Rich's interactive steps.
+- **A plugin with no advisor ran three parallel headless smoke runs in about
+  the time of one.** Apply: launch independent smoke runs in the background
+  together, and read the results as they arrive.

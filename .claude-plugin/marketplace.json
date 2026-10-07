@@ -30,6 +30,12 @@
       "source": "./plugins/adr",
       "description": "Record architecture decisions only when they clear three gates (hard to reverse, surprising without context, a real trade-off), in the repo's own ADR convention or a minimal docs/adr/ default.",
       "category": "productivity"
+    },
+    {
+      "name": "prototype",
+      "source": "./plugins/prototype",
+      "description": "Build a throwaway prototype (a clickable logic demo or radically different UI variants) to settle one design question that talking can't. Hands it over and waits: the verdict is always the user's, and it never builds the real thing.",
+      "category": "productivity"
     }
   ]
 }
