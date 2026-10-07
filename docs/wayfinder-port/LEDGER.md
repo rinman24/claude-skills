@@ -69,8 +69,9 @@ End:
 | G1 | Grilling: outline upstream approach + author's known issues; collect Rich's feedback | S2 | ~40K | done | Decisions GD1–GD7 below |
 | G2 | Grilling: build `plugins/grilling` from G1 decisions | S2 | ~35K | done | Validated; headless smoke test passed for round format, fact lookup, no-code. Rich to check clarification + gate interactively (runbook Step D 4 and 6) |
 | G3 | Retire the claude.ai-synced `anthropic-skills:grill-me` (old one-at-a-time text) | Rich | n/a | todo | After G2 smoke test passes (GD1); done in claude.ai, not this repo |
-| M1 | Domain-modeling: outline upstream approach + author's known issues; collect Rich's feedback | S3 | ~40K | todo | Stop for feedback before M2 |
-| M2 | Domain-modeling: build `plugins/domain-modeling` from M1 decisions | S3 | ~35K | todo | Spills to S4 if S3 is past ~70K after M1 |
+| M1 | Domain-modeling: outline upstream approach + author's known issues; collect Rich's feedback | S3 | ~40K | done | Decisions MD1–MD13 below; Juval and Eric consulted (board-knowledge `sessions/2026-10-06-juval-settled-term-lookup.md`, `…-eric-settled-term-verbs.md`) |
+| M2 | Domain-modeling: build `plugins/domain-modeling` from M1 decisions | S4 | ~60K | todo | Spilled from S3 (past ~70K after M1). Larger than first estimated: bootstrap (MD9), settled record (MD10–11), Eric calls (MD6–7) |
+| A1 | ADR: build `plugins/adr` (MD3) | S5 | ~35K | todo | Upstream `ADR-FORMAT.md` gates + format, plus "follow the repo's existing ADR convention"; domain-modeling hands off to it |
 
 ## Decisions
 
@@ -103,6 +104,62 @@ rejected.
   grilling (e.g. domain-modeling writing `GLOSSARY.md`) owns its own doc
   writes. (Rich's addition, extending D3.)
 
+Domain-modeling (S3, from Rich's answers to the M1 rounds; confirmed). Upstream
+issue IDs: K = known defect (K1 glossary bloats into a spec, K2 models skip
+loading the skill, K3 no settled-term lookup #717, K4 ADR format bundled #557,
+K5 slow brownfield bootstrap, K6 unreviewed glossary treated as truth), R =
+request the author rejected (R1 brownfield skill #101, R2 rename GLOSSARY.md,
+R3 vague-prompt-to-domain-language skill).
+
+- **MD1 · Name.** Plugin `domain-modeling`, skill `domain-modeling`.
+- **MD2 · Locations.** `GLOSSARY.md`, `GLOSSARY-MAP.md` and
+  `GLOSSARY-SETTLED.md` at the repo root; upstream names kept (R2).
+- **MD3 · ADRs split out (K4).** Separate `adr` plugin (A1): upstream's three
+  gates and minimal format, but follow the repo's existing ADR convention if
+  one exists. Domain-modeling calls the `adr` skill when a decision looks
+  ADR-worthy and the plugin is installed; otherwise it suggests one.
+- **MD4 · Inline writes (K6).** A term goes into `GLOSSARY.md` the moment it
+  is settled; each write is announced at the top of the next round for review.
+  Domain-modeling owns every doc write (GD7).
+- **MD5 · Bloat guard (K1).** "Term or spec?" test on every write; past ~40
+  terms or ~150 lines, propose a pruning pass with specific cuts. Pruning
+  touches `GLOSSARY.md` only, never the settled record.
+- **MD6 · Eric on every write.** Consult `board-eric` on every glossary write
+  and on every pruning pass. (Rich chose this over contested-terms-only.)
+- **MD7 · Reaching Eric.** Call the `board-eric` agent directly (Agent tool,
+  `subagent_type: board-eric`); `/ask-eric` and `~/Code/board` stay unchanged
+  (`disable-model-invocation: true` is a board Phase 2 decision). If
+  `board-eric` is unavailable, refuse the Eric-dependent steps; with MD6 that
+  means no glossary writes on a machine or berth without it. Say so plainly.
+- **MD8 · No session files.** Eric consults inside domain-modeling write
+  nothing to `board-knowledge`; the glossary and settled record are the record.
+- **MD9 · Brownfield bootstrap (K5).** Read-only extractor subagents, one per
+  top-level module, return candidate terms with `file:line` evidence; Eric
+  sees one slice's term list at a time (never raw code), then a final pass over
+  the per-slice lists for context boundaries and whether `GLOSSARY-MAP.md` is
+  needed. Rich reviews each slice's draft before anything is written. A section
+  of the skill, not a separate skill (R1).
+- **MD10 · Settled record (K3, Juval).** Lookup is separate from provenance.
+  `GLOSSARY-SETTLED.md` columns: `Term | Rejected | Context | Ruling | Status |
+  Settled | Ref`. `Ref` is an opaque `scheme:locator` (`gh:`, `scratch:`,
+  `backlog:`, `session:`) never followed during lookup; wayfinder passes its
+  ticket ref in. Rows are never deleted; status only moves forward. The bloat
+  threshold doesn't apply. The "term or spec?" test applies to `Ruling`.
+  Enforcement is not reopening: drift is reported and work continues.
+- **MD11 · Operations (Eric).** `Settle(term, rejected, context, ruling,
+  ref)`; `Lookup(form, context)` (query, no writes) returning `unsettled`,
+  `settled-term`, `rejected-form(→ term)`, `distinct-from(other)`, `reopened`
+  or `ruled-in(other context)`; `Reopen(form, context, reason, ref)` only on
+  explicit user instruction, flipping `settled` → `reopened`, or `withdrawn`
+  with a no-replacement flag. A later Settle supersedes a `reopened` row.
+  Statuses: `settled | reopened | superseded | withdrawn`. Distinction rulings
+  put both terms in `Term` and leave `Rejected` empty. Drift reports never use
+  the word "reopen". File header: Eric's rewritten line (board session file).
+- **MD12 · No backfill.** No GitHub naming rulings worth importing. The
+  `term-settled` backfill and a `gh:` resolver go to "Inputs to triage".
+- **MD13 · No grill-with-docs wrapper.** Run `/grilling` and
+  `/domain-modeling` by name; wayfinder calls both explicitly (GD2).
+
 ## Inputs to triage
 
 Raw material from the session 1 read of Matt's repo. Not commitments; each one
@@ -130,6 +187,14 @@ becomes a work item, a decision, or `dropped`.
   most-reported bug). Upstream D9 (decisions lost between grilling and
   to-spec) is grill-with-docs' problem; GD6's closing decision summary gives
   it something durable to write down.
+- From S3 (domain-modeling): the domain-modeling gaps above are now decided
+  (MD3, MD5, MD9, MD10–11). Wayfinder must pass its ticket ref into
+  domain-modeling's `Settle` as the `Ref` (MD10). A `gh:` ref resolver and an
+  optional `term-settled` label backfill (MD12) belong with the tracker
+  decision; Rich expects GitHub. Upstream K2 (models skip loading
+  domain-modeling) is the caller's job: wayfinder calls the Skill tool for
+  `grilling` and `domain-modeling` separately and checks both loaded. With MD7,
+  wayfinder tickets run in a berth without `board-eric` get no glossary writes.
 
 ## Session log
 
@@ -137,3 +202,4 @@ becomes a work item, a decision, or `dropped`.
 |---------|------|------|---------|-----------------|
 | S1 | 2026-10-06 | Orientation + scaffolding | Explained both skills; created branch and tracking files; rebased onto main after PR #1 (handoff plugin removed) and PR #2 (marketplace renamed to `claude-skills`) | `handoffs/S2-grilling.md` |
 | S2 | 2026-10-06 | G1, G2 · Grilling | Outlined upstream grilling and its known issues; Rich decided GD1–GD7; built `plugins/grilling` (skill, manifest, upstream MIT LICENSE, marketplace entry, README section, runbook); validated and smoke-tested via `--plugin-dir` | `handoffs/S3-domain-modeling.md` |
+| S3 | 2026-10-06 | M1 · Domain-modeling decisions | Outlined upstream domain-modeling and its issues (K1–K6, R1–R3); four grilling rounds; consulted Juval (settled-term record) and Eric (its operations); Rich confirmed MD1–MD13. Build (M2) spilled to S4; ADR plugin split out as A1 | `handoffs/S4-domain-modeling-build.md` |

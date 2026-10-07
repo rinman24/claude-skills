@@ -75,3 +75,23 @@ Newest at the bottom.
 - **Rich's installed `anthropic-skills:grill-me` is upstream's old
   one-at-a-time text.** Apply: when porting, check `~/.claude/skills/synced/`
   for an older synced copy of the same skill and plan its retirement.
+
+## S3 · 2026-10-06
+
+- **Board `/ask-<advisor>` skills are user-invoke-only.** They set
+  `disable-model-invocation: true` (board Phase 2 decision) and are generated
+  from `~/Code/board` templates, so editing `~/.claude/skills/ask-*/SKILL.md`
+  gets overwritten. Apply: when Rich asks for an advisor mid-session, follow
+  the skill's steps by hand (Agent with `subagent_type: board-<slug>`, relay
+  verbatim, write the session file with the Write tool). A skill that needs an
+  advisor calls the `board-<slug>` agent directly.
+- **Advisor consults are expensive in context.** Each verbatim relay plus its
+  session file cost ~8–10K tokens in the main session, and a decision round
+  with two consults pushed S3 past the build line. Apply: when a handoff plans
+  "outline, decide, build" in one session, budget ~10K per expected advisor
+  consult, or plan the build for the next session from the start.
+- **Advisor answers can change a design's structure, not just its wording.**
+  Juval split lookup from provenance (a new file); Eric found that Juval's
+  Retire verb conflated two concepts and removed it. Apply: put a design to the
+  structural advisor first, then the result to the language advisor, and
+  record both session files in the ledger next to the decision.
