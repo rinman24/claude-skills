@@ -30,6 +30,12 @@
       "source": "./plugins/adr",
       "description": "Record architecture decisions only when they clear three gates (hard to reverse, surprising without context, a real trade-off), in the repo's own ADR convention or a minimal docs/adr/ default.",
       "category": "productivity"
+    },
+    {
+      "name": "wayfinder",
+      "source": "./plugins/wayfinder",
+      "description": "Chart the way to one destination too big for a single session: a committed map of tickets resolved one per session with grilling and domain-modeling, published as a design document of increments. Writes only the map and the design document; never builds.",
+      "category": "productivity"
     }
   ]
 }
