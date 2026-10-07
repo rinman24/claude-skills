@@ -72,7 +72,7 @@ End:
 | M1 | Domain-modeling: outline upstream approach + author's known issues; collect Rich's feedback | S3 | ~40K | done | Decisions MD1–MD13 below; Juval and Eric consulted (board-knowledge `sessions/2026-10-06-juval-settled-term-lookup.md`, `…-eric-settled-term-verbs.md`) |
 | M2 | Domain-modeling: build `plugins/domain-modeling` from M1 decisions | S4 | ~60K | done | Validated; headless smoke test passed for Eric consult, refusal on Eric's objection, and both-files write on approval. Rich to run runbook Step D 3–7 interactively (announcement after an answer, drift, Reopen, bootstrap, no-Eric berth). Build interpretations MD-B1–B5 below |
 | A1 | ADR: build `plugins/adr` (MD3) | S5 | ~35K | done | Validated; headless smoke test passed for a gate-passing decision (`docs/adr/0001-…` written, one paragraph) and a gate-failing one (nothing written, each gate named). Rich to run runbook Step D 3–5 interactively (house convention, unknown gate, domain-modeling hand-off). Build interpretations AD-B1–B4 below |
-| W0 | Wayfinder: lay out work items with Rich from "Inputs to triage" | S6–S7 | ~40K + ~60K | in progress | Planning only. S6 recorded WD1–WD12 (three advisor consults); S7 asks Juval Q18, finishes the open questions below WD12, and lays out W1… |
+| W0 | Wayfinder: lay out work items with Rich from "Inputs to triage" | S6–S7 | ~40K + ~60K | in progress (S7) | Planning only. S6 recorded WD1–WD12 (three advisor consults); S7 asks Juval Q18, finishes the open questions below WD12, and lays out W1… |
 | W-SQ | squadra: rename its unit "slice" → "increment" (WD11) | Rich, in squadra | n/a | in progress | Rich pasted Eric's handoff (board session `2026-10-06-eric-squadra-unit-name.md` §4) into a squadra session. Settle `increment` here as a squadra-context row only after that PR merges |
 
 ## Decisions
@@ -204,26 +204,28 @@ confirmed by Rich, change in the plugin if he disagrees):
   `superseded by` status value): the new ADR says what it supersedes; the old
   one's `Status` is updated only if it has one; no ADR is deleted.
 
-Wayfinder (S6, from Rich's answers to three rounds; not yet summarised for a
-final confirmation, so S7 opens by confirming WD1–WD12). Advisor sessions in
+Wayfinder (S6, from Rich's answers to three rounds; confirmed by Rich in S7
+round 1, with Eric's "board" edits applied to WD1/WD2 and WD3, WD8, WD10
+amended as marked). Advisor sessions in
 `board-knowledge/sessions/`: `2026-10-06-juval-wayfinder-squadra-split.md`,
 `2026-10-06-eric-wayfinder-squadra-split.md`,
 `2026-10-06-eric-squadra-unit-name.md`. Upstream: mattpocock/skills @ `6fd9479`.
 
 - **WD1 · Swimlanes.** Wayfinder stays out of squadra's swimlane. It clears
-  the fog on a local board and produces a **design document**. A separate
-  translator skill (unnamed, scope open) moves that document onto the GitHub
-  board, and squadra (`rinman24/squadra`) builds from there. Wayfinder never
-  touches a GitHub or ADO board. (Rich's Q9 clarification; replaces his first
-  "no Work mode, squadra implements Work" wording.)
-- **WD2 · Local board.** Committed markdown under `.scratch/wayfinder/<map>/`:
+  the fog on its map and produces a **design document**. A separate
+  translator skill (`design-to-board`, WD14) moves that document onto
+  squadra's board (GitHub or ADO), and squadra (`rinman24/squadra`) builds
+  from there. Wayfinder never touches a board. (Rich's Q9 clarification;
+  replaces his first "no Work mode, squadra implements Work" wording. Wording
+  per Eric's "board" ruling, WD19.)
+- **WD2 · The map on disk.** Committed markdown under `.scratch/wayfinder/<map>/`:
   `map.md` plus one file per decision ticket. `Settle` gets `scratch:<path>` as
   its `Ref` (MD10). This **supersedes round-1 Q1** (GitHub only, bundled
   `TRACKER-GITHUB.md`), so the `gh:` resolver is moot.
 - **WD3 · Wayfinder resolves its own tickets locally (HITL)**: grilling +
   domain-modeling called by name (MD13), one decision ticket per session.
-  Proposed operation names (Eric, not yet confirmed): one mode, Chart, with
-  Begin, Resolve, Revise and Publish (writes the design document). The word
+  Operation names (Eric; confirmed S7 Q2): one mode, Chart, with Begin,
+  Resolve, Revise and Publish (writes the design document). The word
   "work" appears nowhere in wayfinder (false cognate with squadra).
 - **WD4 · Notes override removed.** No map can "carry execution"; wayfinder
   never builds. A `task` ticket only unblocks a decision.
@@ -238,8 +240,8 @@ final confirmation, so S7 opens by confirming WD1–WD12). Advisor sessions in
   variant, never the agent (upstream defect 3).
 - **WD8 · Revise.** Only on explicit user instruction: record what changed on
   the closed ticket, open a replacement that links back, rewrite its line in
-  Decisions-so-far, flag dependents. Eric's additions (proposed, not
-  confirmed): Reopen settled terms whose `Ref` is the revised ticket (a `Ref`
+  Decisions-so-far, flag dependents. Eric's additions (confirmed S7 Q3):
+  Reopen settled terms whose `Ref` is the revised ticket (a `Ref`
   scan, not a Lookup); after Publish, edit the design document, mark it
   revised and list the changed sections.
 - **WD9 · Over-charting is fought with vertical increments** (Rich's Q8
@@ -255,6 +257,12 @@ final confirmation, so S7 opens by confirming WD1–WD12). Advisor sessions in
   wayfinder's output, the Published Language to the translator. `cleared`: the
   hand-off event. Retired everywhere: `work`, `deliverable`. Rich's PR-unit
   idea is his translation of Juval, not Juval's definition.
+  **Amended S7 (Q9):** squadra's glossary (settled 2026-10-06, W-SQ) now
+  rules: an increment is _Vertical_ (behaviour observable end to end) or
+  _Foundation_ (no behaviour of its own; exists so the later increments it
+  names can), or neither (its commit type carries the kind). `infrastructure
+  increment`, `slice` and `vertical slice` are rejected forms. Wayfinder
+  conforms: `infrastructure increment` is dropped from this table.
 - **WD11 · squadra rename.** squadra's "slice" becomes "increment" (W-SQ, Rich
   driving it in squadra). Check Scrum's "Increment" before settling it there.
 - **WD12 · "Slice" glossary row (Option A).** Settle `subsystem` (Juval's
@@ -264,36 +272,71 @@ final confirmation, so S7 opens by confirming WD1–WD12). Advisor sessions in
   "vertical slice"). To be written via `/domain-modeling` (Eric's order: this
   row now, `increment` only after squadra's rename merges).
 
-Open for S7 (none decided yet):
-- **Q18 · Who splits the design into increments**: does the design document
-  list the increments (names, `Touches:`, order; "increment" enters
-  wayfinder's language; translator only transcribes, AFK) or does the
-  translator split it (then the translator must be HITL)? Rich: **ask Juval
-  first**, giving him Eric's blocking question 1 from
-  `2026-10-06-eric-squadra-unit-name.md`. Recommendation was "the document
-  lists them".
-- **Over-charting rules (old Q14, restate for a local board)**: every
-  decision ticket carries `Unblocks: <increment>`; more than ~6 increments
-  (Juval's use-case limit, his self-report) means split the map per subsystem;
-  an increment you can't name in settled terms is fog; Juval consult optional
-  (carry on if `board-juval` is missing), only for >2 new services or a new
-  component; increments listed in critical-path order. Depends on Q18.
-- **Board rules (old Q15) move to the translator/squadra**: nothing of
-  wayfinder's ever carries `fleet:*`; squadra claims by positive scope with a
-  `wayfinder:*` exclusion backstop and a `squadra tick --dry-run` contract
-  test. Decide whether these are recorded as squadra requirements (Rich's
-  handoff) or translator requirements.
-- Is the translator skill part of this port? Its name?
-- Design document format (sections, where it lives, how it cites decision
-  tickets); confirm the operation names in WD3.
-- Parallel tickets (upstream "parallel grilling re-asks"): sequential default?
-- The local board's file format (map.md sections incl. a `## Increments`
-  index above Decisions-so-far; ticket file fields; claim/blocking in
-  markdown).
-- W-item layout (old Q16 draft was GitHub-based and is stale): W1 build,
-  W2 smoke test (now local, no sandbox repo needed), W3 `prototype`, W4 wire
-  prototype (blocked by W3), translator if in scope, plus settling the WD12
-  row.
+Wayfinder (S7, from Rich's answers to rounds 1–2 of `/grilling`; each
+answer confirmed individually; the closing summary is still to come).
+Advisor sessions in `board-knowledge/sessions/`:
+`2026-10-06-juval-design-increment-split.md` (Q18),
+`2026-10-06-eric-term-board.md` ("board").
+
+- **WD13 · The design document lists the increments (Q18, Juval).**
+  Splitting the design into increments is project design, so it belongs in
+  wayfinder; `increment` enters wayfinder's language. Per increment, a table
+  with: Name + one-line intent · Kind (`vertical`, `foundation` naming the
+  increment(s) it enables, or neither, per WD10's amendment) · `Touches:`
+  (services, new ones marked) · Depends on (explicit edges, including
+  shared-service edges) · Order (critical path first) · Decided by (ticket
+  refs). The translator's test is determinism: two independent AFK runs on one
+  document give identical increments; anything else is a wayfinder defect.
+  Juval withdrew per-service issues: `Touches:` vs sub-issues is a format
+  mapping for the translator. His blocking question (does squadra cap one
+  increment's size?) was answered by reading squadra: no cap, so "≤ 2 new
+  services per increment" stands.
+- **WD14 · Translator `design-to-board`: not in this port (Q4, Q13).** A later
+  item after W-SQ. Requirements: it is ResourceAccess (transcribes, makes no
+  decisions, AFK); publishes only cleared increments; validates and fails
+  loudly back to wayfinder (missing kind, undeclared service, two increments
+  touching one service with no edge, order contradicting edges, > 2 new
+  services); never patches the document; honours `[board].parent_scope_ids`.
+  Name chosen by Rich; Eric reviewing it (S7, pending).
+- **WD15 · Sequential tickets (Q5).** One decision ticket in progress per map
+  at a time, marked in its file; separate maps may run in parallel. Wayfinder
+  never says "claim" (squadra's verb, Eric).
+- **WD16 · Design document location (Q6).** `docs/design/<map>.md`, outside
+  `.scratch/`; it cites tickets as `scratch:` refs. Sections: Q10, pending
+  Juval and Eric.
+- **WD17 · Over-charting rules (Q8).** (a) every decision ticket carries
+  `Unblocks: <increment>`; (b) more than ~6 increments → split the map per
+  subsystem; (c) an increment that can't be named in settled terms is fog;
+  (d) more than 2 new services in one increment → split into predecessor
+  increments; (e) Juval consulted only on (d) or a new component, optional
+  (carry on without `board-juval`); (f) increments listed in critical-path
+  order.
+- **WD18 · Old board rules (Q9).** The `wayfinder:*` exclusion backstop is
+  dropped (wayfinder writes nothing to a board). "Publish only cleared
+  increments; validate per WD14" are translator requirements. "squadra claims
+  by positive scope; `squadra tick --dry-run` contract test" go to W-SQ as
+  squadra requirements (Rich: part of W-SQ is already done).
+- **WD19 · "Board" (Q11, Eric).** Wayfinder has no board: the "local board" is
+  the **map** (`map.md` is the aggregate root, ticket files inside its
+  boundary); the skill says positively that wayfinder writes only the map and
+  the design document. In claude-skills a bare "board" is squadra's board
+  (Conformist; `[board]` keys). Advisors are named by member (`board-juval`),
+  "the advisors" for the collective. Glossary: Settle `map` (rejected:
+  `local board`, context: wayfinder); nothing about squadra's `board` is
+  settled here (translator out of port). Done-test: `rg -n -i '\bboards?\b'
+  plugins/ docs/wayfinder-port/` returns only squadra-sense uses, agent ids and
+  history.
+- **WD20 · "Slice" in domain-modeling (Q12).** MD9 and `BOOTSTRAP.md` say
+  "slice" for one module's batch of terms; rename to "batch" in its own W-item,
+  before the glossary item (Eric).
+
+Still open after S7 round 2:
+- Q10 · design document sections (Juval and Eric consulted in S7).
+- Q13 · confirm `design-to-board` after Eric's review.
+- The map's file format: `map.md` sections (goal, `## Increments` index, Decisions so
+  far, Fog), ticket file fields (type, status, `Unblocks:`, blocked by,
+  resolution), the in-progress mark.
+- W-item layout.
 
 ## Inputs to triage
 
