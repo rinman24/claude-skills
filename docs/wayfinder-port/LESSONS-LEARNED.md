@@ -181,3 +181,23 @@ Newest at the bottom.
   S11 run in parallel, so S11 works on its own branch and worktree and touches
   only its W5 row and one session-log row. Apply: give every parallel
   session its own branch, and keep shared-file edits to its own rows.
+
+## S8 · 2026-10-07
+
+- **A handoff's glossary plan can predate the format's own rules.** The plan
+  had "context: architecture" and a squadra copy row at the root. Both broke
+  the one-context-per-`GLOSSARY.md` rule. They also failed Eric's test,
+  because later decisions (WD17, WD21, WD26) had put those words into
+  wayfinder. Apply: before a Settle, check each row's context against where
+  the term is actually used today, not where an older ruling put it.
+- **Eric's Lookup test makes a good acceptance check, and awk can run it.**
+  The test is that every rejected form returns exactly one enforced answer in
+  the context that uses it. Apply: after any write to `GLOSSARY-SETTLED.md`,
+  simulate Lookup over the relevant forms with a short awk loop over the table.
+- **Context descriptions and `GLOSSARY-MAP.md` lines are glossary writes too.**
+  They needed a second, short Eric consult, and he corrected a fact (squadra
+  builds from the board, not from the design document). Apply: send the
+  description lines in the same consult as the terms.
+- **Two consults (one resumed with SendMessage) kept S8 well under budget.**
+  Apply: continue the same `board-eric` agent for follow-ups rather than start
+  a new one; it keeps its context, and the follow-up was cheap.
