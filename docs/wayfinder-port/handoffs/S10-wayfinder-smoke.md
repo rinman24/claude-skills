@@ -66,6 +66,6 @@ Notes for the runs:
 ## Wrap-up
 
 Follow the "End" steps of the session protocol in the ledger. The next handoff
-is `handoffs/S12-prototype-wiring.md` for W6 if W5 (S11) has merged;
-otherwise write the next one for whatever the ledger shows is unblocked, and
+is `handoffs/S12-prototype-wiring.md` for W6 (W5 merged in PR #3);
+write it from the ledger's W6 row and WD-B3, and
 tell Rich its path.

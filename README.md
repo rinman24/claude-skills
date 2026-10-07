@@ -148,6 +148,38 @@ MIT, Copyright (c) 2026 Matt Pocock; the upstream license is in
 skill (upstream issue #557), detection of the repo's own ADR convention, a
 named-gate refusal, and offer-before-write when the user didn't ask.
 
+### prototype
+
+Builds a throwaway prototype to settle one design question that talking can't.
+Type `/prototype`, or Claude loads it when you ask to prototype or try variants
+of something undecided. It:
+
+- checks first that there is an open question, and stops on a settled design
+  or a whole-app demo;
+- for "does this logic feel right?", builds one double-clickable HTML file:
+  a pure state model, a labelled state panel, free-play buttons and guided
+  walkthrough tabs (competing models on tabs when the question names them);
+- for "what should this look like?", builds 3–5 structurally different
+  variants switched by `?variant=` and a floating bar: on an existing page, on
+  a throwaway route, or in one self-contained HTML file when there's no app;
+- hands it over and waits: the verdict is always yours, even when it runs
+  headless or another skill asked it to resolve the question;
+- after your verdict, records it, offers to keep the prototype on a
+  never-merged `prototype/<name>` branch, and stops. It never folds the
+  result into the real code.
+
+Install with `claude plugin install prototype@claude-skills --scope user`. See
+[docs/prototype-plugin-install-runbook.md](docs/prototype-plugin-install-runbook.md).
+
+Adapted from `prototype` in [mattpocock/skills](https://github.com/mattpocock/skills)
+(commit `6fd9479`), MIT, Copyright (c) 2026 Matt Pocock; the upstream license is
+in [plugins/prototype/LICENSE](plugins/prototype/LICENSE). Changes from upstream:
+the user gives every verdict (fixing upstream's known "agent picked the variant
+itself" defect), no folding into the real code after the verdict, a question
+check that turns away settled designs and whole-app demos, competing logic
+models, a UI sub-shape for repos with no app, and a branch kept only on the
+user's yes.
+
 ### wayfinder
 
 Charts the way to one destination that is too big for a single session and
