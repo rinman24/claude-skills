@@ -128,3 +128,28 @@ Newest at the bottom.
   wrong (no padded sections), but the template's sentence count is a soft
   guide to the model. Apply: if Rich wants ADRs tighter, make the limit a rule
   in SKILL.md rather than leaving it in the template comment.
+
+## S6 · 2026-10-06
+
+- **Three verbatim advisor relays filled the session.** Each consult cost
+  ~10K (answer read, session file written, answer relayed), and S6 ran three,
+  so Rich stopped it before the layout. Apply: plan at most two consults per
+  session; if a third is needed, record the decisions and hand it to the next
+  session with the exact prompt context listed.
+- **Check the user's framing words against upstream before consulting.** Rich's
+  "no Work mode; squadra implements Work" read as "never build", but
+  upstream's Work mode is HITL deciding. Both advisors spent their first
+  blocking question on it, and Rich's clarification then reversed round-1 Q1
+  (GitHub → local board). Apply: when an answer reuses an upstream term in a
+  new sense, ask one clarifying question before spending an advisor consult.
+- **A later answer can supersede an earlier one in the same session.** WD2
+  supersedes round-1 Q1. Apply: record the supersession in the decision
+  itself so S7 doesn't build the stale answer.
+- **A `cd` outside the worktree persisted the shell's cwd.** A Bash call that
+  started with `cd ~/Code/board-knowledge/...` left the session there (earlier
+  `cd`s into the scratch dir were reset). Apply: use absolute paths for
+  out-of-worktree reads; never lead a command with `cd` outside the worktree.
+- **Facts an advisor asks for are often a grep away.** Eric's "which word does
+  Juval use" was settled by counting terms in `board-knowledge/raw/juval-lowy`.
+  Apply: answer an advisor's factual blocking question yourself before putting
+  the decision to Rich.

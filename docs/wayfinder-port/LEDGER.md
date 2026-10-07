@@ -72,7 +72,8 @@ End:
 | M1 | Domain-modeling: outline upstream approach + author's known issues; collect Rich's feedback | S3 | ~40K | done | Decisions MD1–MD13 below; Juval and Eric consulted (board-knowledge `sessions/2026-10-06-juval-settled-term-lookup.md`, `…-eric-settled-term-verbs.md`) |
 | M2 | Domain-modeling: build `plugins/domain-modeling` from M1 decisions | S4 | ~60K | done | Validated; headless smoke test passed for Eric consult, refusal on Eric's objection, and both-files write on approval. Rich to run runbook Step D 3–7 interactively (announcement after an answer, drift, Reopen, bootstrap, no-Eric berth). Build interpretations MD-B1–B5 below |
 | A1 | ADR: build `plugins/adr` (MD3) | S5 | ~35K | done | Validated; headless smoke test passed for a gate-passing decision (`docs/adr/0001-…` written, one paragraph) and a gate-failing one (nothing written, each gate named). Rich to run runbook Step D 3–5 interactively (house convention, unknown gate, domain-modeling hand-off). Build interpretations AD-B1–B4 below |
-| W0 | Wayfinder: lay out work items with Rich from "Inputs to triage" | S6 | ~40K | todo | Planning only; produces W-items, decisions and a split into sessions |
+| W0 | Wayfinder: lay out work items with Rich from "Inputs to triage" | S6–S7 | ~40K + ~60K | in progress | Planning only. S6 recorded WD1–WD12 (three advisor consults); S7 asks Juval Q18, finishes the open questions below WD12, and lays out W1… |
+| W-SQ | squadra: rename its unit "slice" → "increment" (WD11) | Rich, in squadra | n/a | in progress | Rich pasted Eric's handoff (board session `2026-10-06-eric-squadra-unit-name.md` §4) into a squadra session. Settle `increment` here as a squadra-context row only after that PR merges |
 
 ## Decisions
 
@@ -203,10 +204,117 @@ confirmed by Rich, change in the plugin if he disagrees):
   `superseded by` status value): the new ADR says what it supersedes; the old
   one's `Status` is updated only if it has one; no ADR is deleted.
 
+Wayfinder (S6, from Rich's answers to three rounds; not yet summarised for a
+final confirmation, so S7 opens by confirming WD1–WD12). Advisor sessions in
+`board-knowledge/sessions/`: `2026-10-06-juval-wayfinder-squadra-split.md`,
+`2026-10-06-eric-wayfinder-squadra-split.md`,
+`2026-10-06-eric-squadra-unit-name.md`. Upstream: mattpocock/skills @ `6fd9479`.
+
+- **WD1 · Swimlanes.** Wayfinder stays out of squadra's swimlane. It clears
+  the fog on a local board and produces a **design document**. A separate
+  translator skill (unnamed, scope open) moves that document onto the GitHub
+  board, and squadra (`rinman24/squadra`) builds from there. Wayfinder never
+  touches a GitHub or ADO board. (Rich's Q9 clarification; replaces his first
+  "no Work mode, squadra implements Work" wording.)
+- **WD2 · Local board.** Committed markdown under `.scratch/wayfinder/<map>/`:
+  `map.md` plus one file per decision ticket. `Settle` gets `scratch:<path>` as
+  its `Ref` (MD10). This **supersedes round-1 Q1** (GitHub only, bundled
+  `TRACKER-GITHUB.md`), so the `gh:` resolver is moot.
+- **WD3 · Wayfinder resolves its own tickets locally (HITL)**: grilling +
+  domain-modeling called by name (MD13), one decision ticket per session.
+  Proposed operation names (Eric, not yet confirmed): one mode, Chart, with
+  Begin, Resolve, Revise and Publish (writes the design document). The word
+  "work" appears nowhere in wayfinder (false cognate with squadra).
+- **WD4 · Notes override removed.** No map can "carry execution"; wayfinder
+  never builds. A `task` ticket only unblocks a decision.
+- **WD5 · Downstream out of scope.** `to-spec`, `to-tickets`, `implement` are
+  not ported. (Whether the translator skill belongs to this port is open.)
+- **WD6 · No research plugin.** Research tickets use an inline read-only
+  subagent (primary sources, cite every claim); findings go in the ticket's
+  resolution, not a `research/<name>` branch.
+- **WD7 · Prototype plugin.** `prototype` is ported as its own plugin, a W-item
+  after the wayfinder core, and it blocks every W-item that depends on it.
+  Until then, prototype tickets follow one inline rule: the user picks the
+  variant, never the agent (upstream defect 3).
+- **WD8 · Revise.** Only on explicit user instruction: record what changed on
+  the closed ticket, open a replacement that links back, rewrite its line in
+  Decisions-so-far, flag dependents. Eric's additions (proposed, not
+  confirmed): Reopen settled terms whose `Ref` is the revised ticket (a `Ref`
+  scan, not a Lookup); after Publish, edit the design document, mark it
+  revised and list the changed sections.
+- **WD9 · Over-charting is fought with vertical increments** (Rich's Q8
+  intent): wayfinder leads toward vertical increments and may consult Juval on
+  decomposition. The concrete rules are open (see below).
+- **WD10 · Vocabulary (Eric's revised table, Q13).** `increment`: squadra's
+  unit, one board item / claim / branch / PR, done when merged, persists across
+  attempts. `vertical`: an attribute of an increment (integrates Client /
+  Manager / Engine / ResourceAccess / Resource). `foundation increment`,
+  `infrastructure increment`: non-vertical, must say why (a foundation one
+  names the increment where it becomes vertical). `service change`, never
+  "service task". `decision ticket`: wayfinder only. `design document`:
+  wayfinder's output, the Published Language to the translator. `cleared`: the
+  hand-off event. Retired everywhere: `work`, `deliverable`. Rich's PR-unit
+  idea is his translation of Juval, not Juval's definition.
+- **WD11 · squadra rename.** squadra's "slice" becomes "increment" (W-SQ, Rich
+  driving it in squadra). Check Scrum's "Increment" before settling it there.
+- **WD12 · "Slice" glossary row (Option A).** Settle `subsystem` (Juval's
+  unit: up to three Managers with their Engines and ResourceAccess), with
+  `slice` and `vertical slice` as rejected forms; context: architecture.
+  Grep basis: Righting Software uses "subsystem" 65×, "slice" 14× (5×
+  "vertical slice"). To be written via `/domain-modeling` (Eric's order: this
+  row now, `increment` only after squadra's rename merges).
+
+Open for S7 (none decided yet):
+- **Q18 · Who splits the design into increments**: does the design document
+  list the increments (names, `Touches:`, order; "increment" enters
+  wayfinder's language; translator only transcribes, AFK) or does the
+  translator split it (then the translator must be HITL)? Rich: **ask Juval
+  first**, giving him Eric's blocking question 1 from
+  `2026-10-06-eric-squadra-unit-name.md`. Recommendation was "the document
+  lists them".
+- **Over-charting rules (old Q14, restate for a local board)**: every
+  decision ticket carries `Unblocks: <increment>`; more than ~6 increments
+  (Juval's use-case limit, his self-report) means split the map per subsystem;
+  an increment you can't name in settled terms is fog; Juval consult optional
+  (carry on if `board-juval` is missing), only for >2 new services or a new
+  component; increments listed in critical-path order. Depends on Q18.
+- **Board rules (old Q15) move to the translator/squadra**: nothing of
+  wayfinder's ever carries `fleet:*`; squadra claims by positive scope with a
+  `wayfinder:*` exclusion backstop and a `squadra tick --dry-run` contract
+  test. Decide whether these are recorded as squadra requirements (Rich's
+  handoff) or translator requirements.
+- Is the translator skill part of this port? Its name?
+- Design document format (sections, where it lives, how it cites decision
+  tickets); confirm the operation names in WD3.
+- Parallel tickets (upstream "parallel grilling re-asks"): sequential default?
+- The local board's file format (map.md sections incl. a `## Increments`
+  index above Decisions-so-far; ticket file fields; claim/blocking in
+  markdown).
+- W-item layout (old Q16 draft was GitHub-based and is stale): W1 build,
+  W2 smoke test (now local, no sandbox repo needed), W3 `prototype`, W4 wire
+  prototype (blocked by W3), translator if in scope, plus settling the WD12
+  row.
+
 ## Inputs to triage
 
 Raw material from the session 1 read of Matt's repo. Not commitments; each one
 becomes a work item, a decision, or `dropped`.
+
+S6 dispositions:
+- `setup-matt-pocock-skills` tracker operations → WD2 (local board, format
+  bundled in the plugin); `domain.md` consumer rules → wayfinder's Begin and
+  Resolve call domain-modeling (Lookup) and read ADRs; detail in W1.
+- Skill dependencies → `grilling`/`domain-modeling` by name (MD13);
+  `research` → WD6; `prototype` → WD7; downstream → WD5.
+- Tracker choice → WD2 (local committed markdown); `local-backlog` dropped as
+  a tracker (no blocking or claims, git-excluded).
+- Wayfinder gaps: builds code → WD4 + GD7; over-charting → WD9 (rules open);
+  prototype variant → WD7; parallel re-asks → open; verbose questions → GD3;
+  reopen guidance → WD8; skips loading domain-modeling → MD13.
+- Domain-modeling gaps → decided in MD3, MD5, MD9–MD11.
+- Rich's own changes → WD1, WD3, WD9.
+- `gh:` resolver → dropped (WD2: wayfinder never touches GitHub);
+  `term-settled` backfill → dropped (MD12).
 
 - Replace `setup-matt-pocock-skills` dependencies: tracker "Wayfinding
   operations" and the `domain.md` consumer rules (read GLOSSARY/ADRs first).
@@ -248,3 +356,4 @@ becomes a work item, a decision, or `dropped`.
 | S3 | 2026-10-06 | M1 · Domain-modeling decisions | Outlined upstream domain-modeling and its issues (K1–K6, R1–R3); four grilling rounds; consulted Juval (settled-term record) and Eric (its operations); Rich confirmed MD1–MD13. Build (M2) spilled to S4; ADR plugin split out as A1 | `handoffs/S4-domain-modeling-build.md` |
 | S4 | 2026-10-06 | M2 · Domain-modeling build | Built `plugins/domain-modeling` (SKILL.md, GLOSSARY-FORMAT.md, SETTLED-FORMAT.md, BOOTSTRAP.md, manifest, upstream MIT LICENSE, marketplace entry, README section, runbook); validated; two headless smoke runs (Eric objection → no write; Eric approval → both files). Recorded build interpretations MD-B1–B5 | `handoffs/S5-adr.md` |
 | S5 | 2026-10-06 | A1 · ADR build | Built `plugins/adr` (SKILL.md, ADR-FORMAT.md, manifest, upstream MIT LICENSE, marketplace entry, README section, runbook); validated; two headless smoke runs (gate-passing decision → `docs/adr/0001-…`; gate-failing → nothing written, all three gates named). Recorded AD-B1–B4. No change to `plugins/domain-modeling` needed: its ADR section already calls the `adr` skill | `handoffs/S6-wayfinder-layout.md` |
+| S6 | 2026-10-06 | W0 · Wayfinder layout (part 1) | Outlined upstream wayfinder and its deps; three grilling rounds; consulted Juval (split, slices), Eric (split, vocabulary) and Eric again (squadra unit name → `increment`). Rich reframed: wayfinder is chart-only on a local committed board and outputs a design document; squadra builds. Recorded WD1–WD12 and triage dispositions; Q18 (Juval) and the W-layout left to S7 at Rich's call (context) | `handoffs/S7-wayfinder-layout-2.md` |
