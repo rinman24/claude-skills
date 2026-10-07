@@ -73,9 +73,9 @@ End:
 | M2 | Domain-modeling: build `plugins/domain-modeling` from M1 decisions | S4 | ~60K | done | Validated; headless smoke test passed for Eric consult, refusal on Eric's objection, and both-files write on approval. Rich to run runbook Step D 3–7 interactively (announcement after an answer, drift, Reopen, bootstrap, no-Eric berth). Build interpretations MD-B1–B5 below |
 | A1 | ADR: build `plugins/adr` (MD3) | S5 | ~35K | done | Validated; headless smoke test passed for a gate-passing decision (`docs/adr/0001-…` written, one paragraph) and a gate-failing one (nothing written, each gate named). Rich to run runbook Step D 3–5 interactively (house convention, unknown gate, domain-modeling hand-off). Build interpretations AD-B1–B4 below |
 | W0 | Wayfinder: lay out work items with Rich from "Inputs to triage" | S6–S7 | ~40K + ~60K | done | WD1–WD26; S7 ran four consults (Juval ×2, Eric ×2) |
-| W1 | domain-modeling: rename "slice" → "batch" in MD9 / `BOOTSTRAP.md` (WD20) | S8 | ~10K | todo | Before W2, so Lookup's `slice` redirect never collides with the plugin's prose |
-| W2 | Glossary rows via `/domain-modeling` with Eric: `subsystem` (WD12), `map` (WD19), `increment` ruled-in squadra (squadra PR #41 merged), `errand` (WD25) | S8 | ~35K | todo | Blocked by W1. First `GLOSSARY.md` / `GLOSSARY-SETTLED.md` in this repo |
-| W3 | Build `plugins/wayfinder`: SKILL.md (Chart: Begin/Resolve/Revise/Publish; WD3–WD9, WD15, WD17, WD19, WD22–WD23), `MAP-FORMAT.md` (WD26), `DESIGN-FORMAT.md` (WD21), manifest, upstream MIT LICENSE, marketplace entry, README section, runbook | S9 | ~80K | todo | Blocked by W2 |
+| W1 | domain-modeling: rename "slice" → "batch" in MD9 / `BOOTSTRAP.md` (WD20) | S8 | ~10K | done | `BOOTSTRAP.md` (11 lines) and MD9; `rg -n -i slice plugins/domain-modeling` clean. Before W2, so Lookup's `slice` redirect never collides with the plugin's prose |
+| W2 | Glossary rows via `/domain-modeling` with Eric: `subsystem` (WD12), `map` (WD19), `increment` ruled-in squadra (squadra PR #41 merged), `errand` (WD25) | S8 | ~35K | done | Layout per WD27: `GLOSSARY-SETTLED.md` + `GLOSSARY-MAP.md` at root, `plugins/wayfinder/GLOSSARY.md`; all four rows in Wayfinder. WD19 done-test clean (remaining hits: squadra sense, `board-*` ids, `~/Code/board` project, history, and Map's `_Avoid_: local board`) |
+| W3 | Build `plugins/wayfinder`: SKILL.md (Chart: Begin/Resolve/Revise/Publish; WD3–WD9, WD15, WD17, WD19, WD22–WD23), `MAP-FORMAT.md` (WD26), `DESIGN-FORMAT.md` (WD21), manifest, upstream MIT LICENSE, marketplace entry, README section, runbook | S9 | ~80K | todo | W2 done. `plugins/wayfinder/GLOSSARY.md` already exists (WD27); build around it, write skill prose in its settled terms |
 | W4 | Smoke-test wayfinder headless: Begin → Resolve one ticket → Publish on a toy map | S10 | ~40K | todo | Blocked by W3 |
 | W5 | Build `plugins/prototype` (WD7: the user picks the variant, never the agent) | S11 | ~60K | done | Built on `feat/prototype-plugin` (draft PR into this branch). Validated; headless smoke test passed for UI variants in a repo with no app (sub-shape C, hand-over, no pick), the logic demo (hand-over, no ruling) and a settled design (refused, nothing written). Rich to run runbook Step D 4–7 interactively. Decisions from one S11 grilling round (Rich: "all recommended"): PD1 the verdict is always the user's: the skill hands over and waits, headless or called by another skill; PD2 one logic model by default, competing models on tabs only when the question names alternatives; PD3 it ends at recording the verdict, never folds into the real code; PD4 the prototype is kept on a never-merged `prototype/<name>` branch only on the user's yes; PD5 UI sub-shape C, one self-contained HTML file when the repo has no app; PD6 model-invocable (so W6 can call it), with a question check that turns away settled designs and whole-app demos |
 | W6 | Wire prototype tickets into wayfinder | S12 | ~25K | todo | Blocked by W3, W5 |
@@ -144,10 +144,11 @@ R3 vague-prompt-to-domain-language skill).
   nothing to `board-knowledge`; the glossary and settled record are the record.
 - **MD9 · Brownfield bootstrap (K5).** Read-only extractor subagents, one per
   top-level module, return candidate terms with `file:line` evidence; Eric
-  sees one slice's term list at a time (never raw code), then a final pass over
-  the per-slice lists for context boundaries and whether `GLOSSARY-MAP.md` is
-  needed. Rich reviews each slice's draft before anything is written. A section
-  of the skill, not a separate skill (R1).
+  sees one batch's term list at a time (never raw code), then a final pass over
+  the per-batch lists for context boundaries and whether `GLOSSARY-MAP.md` is
+  needed. Rich reviews each batch's draft before anything is written. A section
+  of the skill, not a separate skill (R1). ("Slice" renamed to "batch" in S8,
+  WD20/W1.)
 - **MD10 · Settled record (K3, Juval).** Lookup is separate from provenance.
   `GLOSSARY-SETTLED.md` columns: `Term | Rejected | Context | Ruling | Status |
   Settled | Ref`. `Ref` is an opaque `scheme:locator` (`gh:`, `scratch:`,
@@ -280,6 +281,7 @@ amended as marked). Advisor sessions in
   Grep basis: Righting Software uses "subsystem" 65×, "slice" 14× (5×
   "vertical slice"). To be written via `/domain-modeling` (Eric's order: this
   row now, `increment` only after squadra's rename merges).
+  **Amended S8 (WD27):** context is Wayfinder, not architecture.
 
 Wayfinder (S7, from Rich's answers to three rounds of `/grilling`; each
 answer given explicitly; Rich then said "wrap up").
@@ -389,6 +391,44 @@ saw the other). WD21–WD26 refine WD13 and WD16; where they differ, these win.
   (`open | in progress | closed | revised`), `Unblocks:`, Blocked by,
   Resolution. "in progress" is the WD15 mark; no "claim".
 
+S8 (W2, Eric reviewed every write; Rich accepted all of Eric's revisions):
+
+- **WD27 · Glossary layout and contexts (Eric, revising his WD12/S7 rulings).**
+  All four first terms are settled in the **Wayfinder** context, because
+  wayfinder speaks them (WD17, WD21, WD26). A row in another context would
+  only be `ruled-in`, which is not enforced. Files:
+  - `GLOSSARY-SETTLED.md` and `GLOSSARY-MAP.md` at the root.
+  - `plugins/wayfinder/GLOSSARY.md` headed `# Wayfinder`, created ahead of W3.
+  - No root `GLOSSARY.md`: each plugin is its own context.
+
+  squadra fleet is not copied in as rows. It appears in `GLOSSARY-MAP.md` as
+  "Wayfinder → squadra fleet: Conformist on Increment", linked to squadra's
+  glossary. A copied row would go stale if squadra reopened the term.
+
+  Rows written on 2026-10-07:
+
+  | Term | Rejected | Ref |
+  |---|---|---|
+  | Subsystem | Slice, Vertical slice | `session:2026-10-06-eric-squadra-unit-name` |
+  | Map | Local board | `session:2026-10-06-eric-term-board` |
+  | Errand | Task, Chore | `session:2026-10-06-eric-design-document-contract` |
+  | Increment | Infrastructure increment | `session:2026-10-06-eric-design-document-contract` |
+
+  Eric's acceptance test is that Lookup in Wayfinder returns exactly one
+  enforced answer for `slice`, `vertical slice`, `infrastructure increment`,
+  `local board`, `task` and `increment`. It passes.
+
+  Wording changes made under WD3 and WD14:
+  - Errand's definition says "manual step", not "work".
+  - The map's Relationships line says `design-to-board` "(not yet built) will
+    read". Change it to "reads" when T1 ships.
+  - Eric chose not to rule on "non-decision ticket": whether a research ticket
+    counts as a decision ticket stays with W3.
+
+  `ruled-in` across several foreign contexts needs no format change until a
+  second owned context settles an overlapping form. The fix then is that
+  `ruled-in` lists every matching context.
+
 Still open: nothing for wayfinder. Rich has still not commented on MD-B1–B5
 or AD-B1–B4. squadra side of WD18 (positive-scope claims, `tick --dry-run`
 contract test) is with Rich in W-SQ.
@@ -399,7 +439,7 @@ Raw material from the session 1 read of Matt's repo. Not commitments; each one
 becomes a work item, a decision, or `dropped`.
 
 S6 dispositions:
-- `setup-matt-pocock-skills` tracker operations → WD2 (local board, format
+- `setup-matt-pocock-skills` tracker operations → WD2 (the map on disk, format
   bundled in the plugin); `domain.md` consumer rules → wayfinder's Begin and
   Resolve call domain-modeling (Lookup) and read ADRs; detail in W1.
 - Skill dependencies → `grilling`/`domain-modeling` by name (MD13);
@@ -456,4 +496,5 @@ S6 dispositions:
 | S5 | 2026-10-06 | A1 · ADR build | Built `plugins/adr` (SKILL.md, ADR-FORMAT.md, manifest, upstream MIT LICENSE, marketplace entry, README section, runbook); validated; two headless smoke runs (gate-passing decision → `docs/adr/0001-…`; gate-failing → nothing written, all three gates named). Recorded AD-B1–B4. No change to `plugins/domain-modeling` needed: its ADR section already calls the `adr` skill | `handoffs/S6-wayfinder-layout.md` |
 | S6 | 2026-10-06 | W0 · Wayfinder layout (part 1) | Outlined upstream wayfinder and its deps; three grilling rounds; consulted Juval (split, slices), Eric (split, vocabulary) and Eric again (squadra unit name → `increment`). Rich reframed: wayfinder is chart-only on a local committed board and outputs a design document; squadra builds. Recorded WD1–WD12 and triage dispositions; Q18 (Juval) and the W-layout left to S7 at Rich's call (context) | `handoffs/S7-wayfinder-layout-2.md` |
 | S7 | 2026-10-06/07 | W0 · Wayfinder layout (part 2) | Rich confirmed WD1–WD12; three grilling rounds decided WD13–WD26 (design document lists increments; `design-to-board` named, out of port; "board" → map; `errand`; design-document and map formats). Four consults: Juval (Q18; Q10), Eric ("board"; Q10 + name). Laid out W1–W6 and T1 | `handoffs/S8-glossary.md`, `handoffs/S11-prototype.md` |
+| S8 | 2026-10-07 | W1, W2 · Batch rename + first glossary rows | W1: "slice" → "batch" in `BOOTSTRAP.md` and MD9. W2: two Eric consults; Eric moved all four terms into the Wayfinder context, objected to a squadra copy row, sharpened three wordings and two description lines; Rich accepted all (WD27). Wrote `GLOSSARY-SETTLED.md`, `GLOSSARY-MAP.md`, `plugins/wayfinder/GLOSSARY.md`; Lookup test and WD19 done-test pass; fixed two stale "board" uses in port docs | `handoffs/S9-wayfinder-build.md` |
 | S11 | 2026-10-07 | W5 · Prototype build (parallel with S8, branch `feat/prototype-plugin`) | One grilling round on upstream vs WD7 (PD1–PD6 in W5's notes); built `plugins/prototype` (SKILL.md, LOGIC.md, UI.md, manifest, upstream MIT LICENSE, marketplace entry, README section, runbook); validated; three headless smoke runs passed. Draft PR into `feat/wayfinder-domain-modeling` | None (W6 waits for W3; S10 writes S12's handoff once W5 merges) |
