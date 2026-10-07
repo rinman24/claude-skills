@@ -250,3 +250,31 @@ Newest at the bottom.
 - **The handoff's budget held.** One consult and the build fit well under
   80K. Apply: a plugin build of three skill files plus the standard
   manifest, README and runbook is about 60–70K with one consult.
+
+## S10 · 2026-10-07
+
+- **A hand-seeded "should pass" map is what found the real defect.** The
+  failing map failed for the seeded reasons, plus check 4. Only the clean map
+  showed that check 4 refused everything. Apply: whenever a skill has a
+  gate, smoke-test one input that should obviously pass as well as one that
+  should fail. A gate that also rejects the clean input is broken.
+- **A gate worded "in settled terms" needs both a source and a context.**
+  `GLOSSARY-SETTLED.md` holds only contested rulings, and a map's destination
+  may sit outside every listed context. Apply: when a skill checks words
+  against the glossary, name the operation (`Lookup`), the outcome that fails,
+  and how the context is chosen.
+- **Give the first ticket on the frontier a research Kind so Resolve fits in
+  one headless turn.** A grilling ticket would stop at its questions. Apply:
+  when the Begin prompt lists tickets, make the first one research, and leave
+  grilling-ticket Resolve for an interactive check.
+- **The map format has nowhere to record a service's Layer or Encapsulates.**
+  Publish found them in a ticket Resolution because the seed put them there.
+  Apply: W6 or a later revision might give the map a Services list. Until
+  then, a grilling ticket that introduces a service should state its layer
+  and what it encapsulates in the Resolution.
+- **Running headless smoke runs in parallel held up again (S11).** Four ran
+  side by side; dependent runs (Resolve on Begin's map) went once their input
+  existed. Reading each run's reply and the files it wrote is what costs
+  context, not waiting. Apply: the ~40K estimate for a smoke unit holds only
+  if replies are read once and files are listed with `tail -n +1`, not
+  re-read.

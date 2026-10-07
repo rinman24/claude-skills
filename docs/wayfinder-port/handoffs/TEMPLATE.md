@@ -35,7 +35,7 @@ Estimated work: ~<N>K tokens (budget: under 100K total, hard stop at 120K)
 
 ## Suggested skills
 
-<e.g. anthropic-skills:skill-creator, anthropic-skills:grill-me>
+<e.g. anthropic-skills:skill-creator, grilling:grilling>
 
 ## Wrap-up
 

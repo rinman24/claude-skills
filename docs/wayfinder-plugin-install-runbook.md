@@ -128,8 +128,9 @@ Inside a Claude Code session:
 
 ## Step D — End-to-end smoke test
 
-Use a scratch git repo (or a branch you'll throw away). Not yet run: W4 checks
-steps 1, 3 and 5 headless on the build branch; the rest need a second turn.
+Use a scratch git repo (or a branch you'll throw away). Steps 1, 3 and 5 passed
+headless on the build branch (W4, S10); steps 2, 4, 6 and 7 need a second
+turn, so run them interactively.
 
 1. Run `/wayfinder <a loose idea too big for one session>`. Expected: it loads
    `grilling` and `domain-modeling` and asks about the destination first.

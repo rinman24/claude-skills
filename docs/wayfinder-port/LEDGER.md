@@ -76,7 +76,7 @@ End:
 | W1 | domain-modeling: rename "slice" → "batch" in MD9 / `BOOTSTRAP.md` (WD20) | S8 | ~10K | done | `BOOTSTRAP.md` (11 lines) and MD9; `rg -n -i slice plugins/domain-modeling` clean. Before W2, so Lookup's `slice` redirect never collides with the plugin's prose |
 | W2 | Glossary rows via `/domain-modeling` with Eric: `subsystem` (WD12), `map` (WD19), `increment` ruled-in squadra (squadra PR #41 merged), `errand` (WD25) | S8 | ~35K | done | Layout per WD27: `GLOSSARY-SETTLED.md` + `GLOSSARY-MAP.md` at root, `plugins/wayfinder/GLOSSARY.md`; all four rows in Wayfinder. WD19 done-test clean (remaining hits: squadra sense, `board-*` ids, `~/Code/board` project, history, and Map's `_Avoid_: local board`) |
 | W3 | Build `plugins/wayfinder`: SKILL.md (Chart: Begin/Resolve/Revise/Publish; WD3–WD9, WD15, WD17, WD19, WD22–WD23), `MAP-FORMAT.md` (WD26), `DESIGN-FORMAT.md` (WD21), manifest, upstream MIT LICENSE, marketplace entry, README section, runbook | S9 | ~80K | done | Validated (`claude plugin validate .` and the plugin). Four glossary rows first (WD28). Build interpretations WD-B1–B10 below. Not smoke-tested (W4) |
-| W4 | Smoke-test wayfinder headless: Begin → Resolve one ticket → Publish on a toy map | S10 | ~40K | todo | W3 done; runbook Step D 1, 3, 5 are the headless cases |
+| W4 | Smoke-test wayfinder headless: Begin → Resolve one ticket → Publish on a toy map | S10 | ~40K | done | Headless passes: Step D 1 (Begin with answers given up front wrote `map.md` and two tickets, resolved nothing), 3 (Resolve took the first frontier ticket, a research one, with one subagent and cited sources; closed it, added one Decisions line, graduated fog into a new ticket, stopped), 5 (Publish wrote a cleared `docs/design/<map>.md` on a hand-seeded map; on a failing copy it named checks 1 and 3 and wrote nothing). Defect fixed: check 4 failed every map whose names had no `GLOSSARY-SETTLED.md` row (WD-B11, unconfirmed). Rich to run Step D 2, 4, 6, 7 interactively |
 | W5 | Build `plugins/prototype` (WD7: the user picks the variant, never the agent) | S11 | ~60K | done | Built on `feat/prototype-plugin` (PR #3, merged). Validated; headless smoke test passed for UI variants in a repo with no app (sub-shape C, hand-over, no pick), the logic demo (hand-over, no ruling) and a settled design (refused, nothing written). Rich verified runbook Step D 1–5 and 7 interactively in `~/Code/squadra` on a scratch branch (2026-10-07); Step D 6 (sub-shape A, existing page) deferred until a repo with a web UI exists. Decisions from one S11 grilling round (Rich: "all recommended"): PD1 the verdict is always the user's: the skill hands over and waits, headless or called by another skill; PD2 one logic model by default, competing models on tabs only when the question names alternatives; PD3 it ends at recording the verdict, never folds into the real code; PD4 the prototype is kept on a never-merged `prototype/<name>` branch only on the user's yes; PD5 UI sub-shape C, one self-contained HTML file when the repo has no app; PD6 model-invocable (so W6 can call it), with a question check that turns away settled designs and whole-app demos |
 | W6 | Wire prototype tickets into wayfinder | S12 | ~25K | todo | W3 and W5 done; replaces WD-B3 (inline variants) with the prototype plugin |
 | T1 | `design-to-board` (WD14) | later, not this port | n/a | todo | Blocked by W-SQ and W3; build against `DESIGN-FORMAT.md` and Juval's validation list |
@@ -479,8 +479,21 @@ confirmed by Rich, change in the plugin if he disagrees):
   (newer than S6's `6fd9479`). The wayfinder changes since then are the
   label, real-id, no-PR and resolve-by-type fixes, and the port already
   covers each one.
+- **WD-B11 · Check 4 means "no rejected form", in the destination's context
+  (S10).** As built, Publish read WD17(c)'s "named in settled terms" as
+  "every term has a `GLOSSARY-SETTLED.md` row" and refused a clean toy map,
+  since that file records only contested rulings and nothing in Resolve
+  settles increment names. It also couldn't tell which context to look in
+  ("work item" is rejected in Wayfinder, but the map was about the port
+  ledger). `DESIGN-FORMAT.md` check 4 now runs `Lookup` on the terms in
+  increment names and behaviours in the context whose `GLOSSARY-MAP.md`
+  description covers the destination. Only a `rejected-form` hit fails, a
+  term with no row passes, and no covering context means no row applies.
+  Charting-time "can't be named in settled terms is fog" (SKILL.md, MAP-FORMAT)
+  is unchanged: there it is the agent's judgment, not a gate.
 
-Still open: nothing for wayfinder. Rich has still not commented on MD-B1–B5
+Still open: Rich to confirm or overrule WD-B1–B11 (B11 changes what Publish
+refuses). Rich has still not commented on MD-B1–B5
 or AD-B1–B4. squadra side of WD18 (positive-scope claims, `tick --dry-run`
 contract test) is with Rich in W-SQ.
 
@@ -550,3 +563,4 @@ S6 dispositions:
 | S8 | 2026-10-07 | W1, W2 · Batch rename + first glossary rows | W1: "slice" → "batch" in `BOOTSTRAP.md` and MD9. W2: two Eric consults; Eric moved all four terms into the Wayfinder context, objected to a squadra copy row, sharpened three wordings and two description lines; Rich accepted all (WD27). Wrote `GLOSSARY-SETTLED.md`, `GLOSSARY-MAP.md`, `plugins/wayfinder/GLOSSARY.md`; Lookup test and WD19 done-test pass; fixed two stale "board" uses in port docs | `handoffs/S9-wayfinder-build.md` |
 | S9 | 2026-10-07 | W3 · Wayfinder build | One batched Eric consult (Ticket, Decision ticket, Design document approved with sharper wording; Cleared objected as event → state; GLOSSARY.md intro line) and Rich accepted all (WD28). Built `plugins/wayfinder` (SKILL.md, MAP-FORMAT.md, DESIGN-FORMAT.md, manifest, upstream MIT LICENSE, marketplace entry, README section, runbook); validated; recorded WD-B1–B10. Fixed a leftover "slice" in the domain-modeling runbook (WD20) | `handoffs/S10-wayfinder-smoke.md` |
 | S11 | 2026-10-07 | W5 · Prototype build (parallel with S8, branch `feat/prototype-plugin`) | One grilling round on upstream vs WD7 (PD1–PD6 in W5's notes); built `plugins/prototype` (SKILL.md, LOGIC.md, UI.md, manifest, upstream MIT LICENSE, marketplace entry, README section, runbook); validated; three headless smoke runs passed. Draft PR into `feat/wayfinder-domain-modeling` | None (W6 waits for W3; S10 writes S12's handoff once W5 merges) |
+| S10 | 2026-10-07 | W4 · Wayfinder smoke | Five headless runs plus one re-run: Begin with answers (map written), Begin without answers (asked first, wrote nothing), Resolve (one research ticket closed), Publish fail (checks named, nothing written), Publish pass (refused on check 4, fixed as WD-B11, re-run wrote a cleared document). Toy maps and `docs/design/` output deleted. Fixed `TEMPLATE.md`'s retired `grill-me` example | `handoffs/S12-prototype-wiring.md` |

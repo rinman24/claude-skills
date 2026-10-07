@@ -75,7 +75,7 @@ From the map:
 1. No ticket on the map is `open` or `in progress`, and Fog is empty.
 2. Every behaviour has a vertical increment, and every vertical increment names a behaviour.
 3. Every `Decided by` ref appears in Decisions.
-4. Every increment is named in settled terms: no rejected form, no unsettled term.
+4. Every increment is named in settled terms: run domain-modeling's `Lookup` on the terms in each increment name and behaviour, in the context the destination belongs to (the `GLOSSARY-MAP.md` context whose description covers it). A `rejected-form` hit fails. A term with no row is a plain word and passes; only a `GLOSSARY-SETTLED.md` row can fail this check. If no listed context covers the destination, no row applies: say so and pass.
 5. No more than about 6 live increments; past that, the map is split per subsystem instead of published.
 
 The translator's validation list (it fails loudly back to wayfinder if any of these fails, so wayfinder checks them first):
