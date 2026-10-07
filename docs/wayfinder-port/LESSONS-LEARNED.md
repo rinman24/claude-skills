@@ -78,7 +78,7 @@ Newest at the bottom.
 
 ## S3 · 2026-10-06
 
-- **Board `/ask-<advisor>` skills are user-invoke-only.** They set
+- **The advisors' `/ask-<advisor>` skills are user-invoke-only.** They set
   `disable-model-invocation: true` (board Phase 2 decision) and are generated
   from `~/Code/board` templates, so editing `~/.claude/skills/ask-*/SKILL.md`
   gets overwritten. Apply: when Rich asks for an advisor mid-session, follow

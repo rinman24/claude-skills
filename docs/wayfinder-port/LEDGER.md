@@ -400,7 +400,7 @@ Raw material from the session 1 read of Matt's repo. Not commitments; each one
 becomes a work item, a decision, or `dropped`.
 
 S6 dispositions:
-- `setup-matt-pocock-skills` tracker operations → WD2 (local board, format
+- `setup-matt-pocock-skills` tracker operations → WD2 (the map on disk, format
   bundled in the plugin); `domain.md` consumer rules → wayfinder's Begin and
   Resolve call domain-modeling (Lookup) and read ADRs; detail in W1.
 - Skill dependencies → `grilling`/`domain-modeling` by name (MD13);
