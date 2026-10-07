@@ -111,3 +111,20 @@ Newest at the bottom.
 - **The nested `claude -p` sees this repo's CLAUDE.md and memory.** It knew it
   was the S4 smoke test and said so in its reply. Apply: harmless, but don't
   read its meta-commentary as evidence the skill told it to.
+
+## S5 · 2026-10-06
+
+- **A skill with no advisor in the loop smoke-tests deterministically.** Both
+  `adr` runs did exactly what the skill says on the first try, and the
+  gate-pass case needed only `--permission-mode acceptEdits`. Apply: when a
+  handoff budgets a build at ~35K, a plugin without advisor calls really does
+  fit; save the slack for the interactive cases the runbook hands to Rich.
+- **Write the smoke-test decision so every gate is visibly answered.** The
+  passing prompt named the alternatives, the reason, the cost of reversal and
+  why a reader would be surprised; the failing one said "nobody suggested
+  anything else". Apply: smoke-test prompts for gated skills should leave the
+  model nothing to infer, so a pass or fail is the skill's doing.
+- **The generated ADR ran to six sentences against upstream's "1-3".** Not
+  wrong (no padded sections), but the template's sentence count is a soft
+  guide to the model. Apply: if Rich wants ADRs tighter, make the limit a rule
+  in SKILL.md rather than leaving it in the template comment.

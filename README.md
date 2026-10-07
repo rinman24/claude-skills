@@ -123,3 +123,27 @@ MIT, Copyright (c) 2026 Matt Pocock; the upstream license is in
 upstream: the settled-term record and its operations, Eric's review of every
 write, write announcements, the bloat guard, the brownfield bootstrap, and ADRs
 moved out to a separate `adr` plugin.
+
+### adr
+
+Records architecture decisions, sparingly. Type `/adr`, or Claude loads it when
+you ask to record a decision or when `domain-modeling` hands one over. It:
+
+- writes an ADR only when the decision clears all three gates: hard to reverse,
+  surprising without context, and the result of a real trade-off; when one
+  fails it writes nothing and says which gate failed and why;
+- follows the repo's existing ADR convention (location, numbering, template,
+  status vocabulary, index file) when it finds one, and otherwise writes a
+  one-paragraph `docs/adr/NNNN-slug.md`;
+- writes straight away when you asked for the ADR, but only offers it when
+  another skill or Claude itself raised it.
+
+Install with `claude plugin install adr@claude-skills --scope user`. See
+[docs/adr-plugin-install-runbook.md](docs/adr-plugin-install-runbook.md).
+
+Adapted from `ADR-FORMAT.md` in `domain-modeling` in
+[mattpocock/skills](https://github.com/mattpocock/skills) (commit `6fd9479`),
+MIT, Copyright (c) 2026 Matt Pocock; the upstream license is in
+[plugins/adr/LICENSE](plugins/adr/LICENSE). Changes from upstream: a separate
+skill (upstream issue #557), detection of the repo's own ADR convention, a
+named-gate refusal, and offer-before-write when the user didn't ask.

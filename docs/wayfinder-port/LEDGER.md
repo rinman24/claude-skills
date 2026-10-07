@@ -71,7 +71,8 @@ End:
 | G3 | Retire the claude.ai-synced `anthropic-skills:grill-me` (old one-at-a-time text) | Rich | n/a | todo | After G2 smoke test passes (GD1); done in claude.ai, not this repo |
 | M1 | Domain-modeling: outline upstream approach + author's known issues; collect Rich's feedback | S3 | ~40K | done | Decisions MD1–MD13 below; Juval and Eric consulted (board-knowledge `sessions/2026-10-06-juval-settled-term-lookup.md`, `…-eric-settled-term-verbs.md`) |
 | M2 | Domain-modeling: build `plugins/domain-modeling` from M1 decisions | S4 | ~60K | done | Validated; headless smoke test passed for Eric consult, refusal on Eric's objection, and both-files write on approval. Rich to run runbook Step D 3–7 interactively (announcement after an answer, drift, Reopen, bootstrap, no-Eric berth). Build interpretations MD-B1–B5 below |
-| A1 | ADR: build `plugins/adr` (MD3) | S5 | ~35K | todo | Upstream `ADR-FORMAT.md` gates + format, plus "follow the repo's existing ADR convention"; domain-modeling hands off to it |
+| A1 | ADR: build `plugins/adr` (MD3) | S5 | ~35K | done | Validated; headless smoke test passed for a gate-passing decision (`docs/adr/0001-…` written, one paragraph) and a gate-failing one (nothing written, each gate named). Rich to run runbook Step D 3–5 interactively (house convention, unknown gate, domain-modeling hand-off). Build interpretations AD-B1–B4 below |
+| W0 | Wayfinder: lay out work items with Rich from "Inputs to triage" | S6 | ~40K | todo | Planning only; produces W-items, decisions and a split into sessions |
 
 ## Decisions
 
@@ -181,6 +182,27 @@ confirmed by Rich, change in the plugin if he disagrees):
   original `Settled` and `Ref`. If that loses too much, the fix is a
   `Reopened` column or an event-log format (Eric's Domain Events note).
 
+ADR build interpretations (S5, where MD3 left a detail open; not yet
+confirmed by Rich, change in the plugin if he disagrees):
+
+- **AD-B1 · Write or offer.** The skill writes straight away only when the user
+  asked for the ADR. When domain-modeling (or any caller, or the model itself)
+  raises one, it offers it in one line and writes on the user's yes (same
+  principle as GD6: a calling skill is not the user's permission). The gates
+  are always the adr skill's call, not the caller's.
+- **AD-B2 · Unknown gate → one question.** Upstream says skip if any gate is
+  missing; the skill distinguishes "fails" (write nothing, name the gate) from
+  "can't tell" (ask that one question).
+- **AD-B3 · Convention detection order.** Stated instructions (`CLAUDE.md`,
+  `AGENTS.md`, `CONTRIBUTING.md`, `README.md`, `.adr-dir`, `.log4brains.yml`)
+  win over existing files; then the repo's template or two most recent ADRs
+  set filename, numbering, headings and status vocabulary; an index file gets
+  a line; two conflicting conventions → ask. Only with none does the upstream
+  `docs/adr/NNNN-slug.md` default apply.
+- **AD-B4 · Superseding.** Added to `ADR-FORMAT.md` (upstream only had the
+  `superseded by` status value): the new ADR says what it supersedes; the old
+  one's `Status` is updated only if it has one; no ADR is deleted.
+
 ## Inputs to triage
 
 Raw material from the session 1 read of Matt's repo. Not commitments; each one
@@ -225,3 +247,4 @@ becomes a work item, a decision, or `dropped`.
 | S2 | 2026-10-06 | G1, G2 · Grilling | Outlined upstream grilling and its known issues; Rich decided GD1–GD7; built `plugins/grilling` (skill, manifest, upstream MIT LICENSE, marketplace entry, README section, runbook); validated and smoke-tested via `--plugin-dir` | `handoffs/S3-domain-modeling.md` |
 | S3 | 2026-10-06 | M1 · Domain-modeling decisions | Outlined upstream domain-modeling and its issues (K1–K6, R1–R3); four grilling rounds; consulted Juval (settled-term record) and Eric (its operations); Rich confirmed MD1–MD13. Build (M2) spilled to S4; ADR plugin split out as A1 | `handoffs/S4-domain-modeling-build.md` |
 | S4 | 2026-10-06 | M2 · Domain-modeling build | Built `plugins/domain-modeling` (SKILL.md, GLOSSARY-FORMAT.md, SETTLED-FORMAT.md, BOOTSTRAP.md, manifest, upstream MIT LICENSE, marketplace entry, README section, runbook); validated; two headless smoke runs (Eric objection → no write; Eric approval → both files). Recorded build interpretations MD-B1–B5 | `handoffs/S5-adr.md` |
+| S5 | 2026-10-06 | A1 · ADR build | Built `plugins/adr` (SKILL.md, ADR-FORMAT.md, manifest, upstream MIT LICENSE, marketplace entry, README section, runbook); validated; two headless smoke runs (gate-passing decision → `docs/adr/0001-…`; gate-failing → nothing written, all three gates named). Recorded AD-B1–B4. No change to `plugins/domain-modeling` needed: its ADR section already calls the `adr` skill | `handoffs/S6-wayfinder-layout.md` |

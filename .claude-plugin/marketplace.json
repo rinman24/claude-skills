@@ -24,6 +24,12 @@
       "source": "./plugins/domain-modeling",
       "description": "Build and sharpen a repo's domain language: challenge and sharpen terms, write GLOSSARY.md inline with Eric Evans (board-eric) reviewing every write, and keep a settled-term record so closed naming debates stay closed.",
       "category": "productivity"
+    },
+    {
+      "name": "adr",
+      "source": "./plugins/adr",
+      "description": "Record architecture decisions only when they clear three gates (hard to reverse, surprising without context, a real trade-off), in the repo's own ADR convention or a minimal docs/adr/ default.",
+      "category": "productivity"
     }
   ]
 }

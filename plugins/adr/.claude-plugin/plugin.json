@@ -1,0 +1,9 @@
+{
+  "name": "adr",
+  "version": "0.1.0",
+  "description": "Record architecture decisions only when they clear three gates (hard to reverse, surprising without context, a real trade-off), in the repo's own ADR convention or a minimal docs/adr/ default.",
+  "author": {
+    "name": "rinman24"
+  },
+  "license": "MIT"
+}
