@@ -49,15 +49,47 @@ Start:
 
 End:
 1. Update item statuses and the session log.
-2. Append any lessons to `LESSONS-LEARNED.md`.
-3. Write the next session's handoff prompt from `handoffs/TEMPLATE.md` as
+2. Update [Rich's queue](#richs-queue): tick what he did this session, add
+   anything new left for him, and record his rulings in the build
+   interpretation tables.
+3. Append any lessons to `LESSONS-LEARNED.md`.
+4. Write the next session's handoff prompt from `handoffs/TEMPLATE.md` as
    `handoffs/S<N+1>-<slug>.md`.
-4. Commit and push the branch (see `LESSONS-LEARNED.md` for the push command).
-5. Tell Rich the path of the new handoff prompt.
+5. Commit and push the branch (see `LESSONS-LEARNED.md` for the push command).
+6. Tell Rich the path of the new handoff prompt and what's still open in his
+   queue.
 
 ## Status legend
 
 `todo` · `in progress` · `done` · `blocked` · `dropped`
+
+## Rich's queue
+
+Everything waiting on Rich, in one place. Sessions tick items when he does
+them and add new ones at End. Suggested order: the wayfinder interactive
+checks before S12 edits the skill, then the confirmations, then the rest.
+
+Confirm or overrule (reply e.g. "confirm all except WD-B7"; the session
+records it in the table's Status column):
+- [ ] WD-B1–B11 ([table](#decisions), after WD28). WD-B3 is replaced by W6;
+      decide WD-B7 after wayfinder Step D 6; WD-B10 is record only
+- [ ] MD-B1–B5 ([table](#decisions), after MD13)
+- [ ] AD-B1–B4 ([table](#decisions), after MD-B)
+
+Interactive checks (each runbook's Step D; under `--plugin-dir` type
+`/<plugin>:<skill>`):
+- [ ] wayfinder Step D 2, 4, 6, 7 (`docs/wayfinder-plugin-install-runbook.md`)
+- [ ] grilling Step D 4, 6 (`docs/grilling-plugin-install-runbook.md`)
+- [ ] domain-modeling Step D 3–7 (`docs/domain-modeling-plugin-install-runbook.md`)
+- [ ] adr Step D 3–5 (`docs/adr-plugin-install-runbook.md`)
+- [ ] prototype Step D 6 (`docs/prototype-plugin-install-runbook.md`), once a
+      repo with a web UI exists
+
+Elsewhere:
+- [ ] G3: retire `anthropic-skills:grill-me` in claude.ai
+- [ ] W-SQ: squadra side of WD18 (positive-scope claims, `squadra tick
+      --dry-run` contract test)
+- [ ] Start S12: paste `handoffs/S12-prototype-wiring.md` into a fresh session
 
 ## Work items
 
@@ -170,47 +202,27 @@ R3 vague-prompt-to-domain-language skill).
 - **MD13 · No grill-with-docs wrapper.** Run `/grilling` and
   `/domain-modeling` by name; wayfinder calls both explicitly (GD2).
 
-Build interpretations (S4, where MD1–MD13 left a detail open; not yet
-confirmed by Rich, change in the plugin if he disagrees):
+Build interpretations (S4, where MD1–MD13 left a detail open; change in the
+plugin if Rich disagrees). Status: `unconfirmed`, `confirmed <date>`,
+`overruled <date>: <what instead>`, or `record only` (nothing to decide).
 
-- **MD-B1 · Reopen skips Eric.** Eric reviews every `GLOSSARY.md` /
-  `GLOSSARY-MAP.md` write, every `Settle` and every pruning pass. `Reopen`
-  adds no language, so it runs without him, including where `board-eric` is
-  missing.
-- **MD-B2 · Eric advises, Rich decides.** An approval is written straight
-  away; a sharper wording or an objection goes back to the user as a question
-  before anything is written.
-- **MD-B3 · Lookup ignores history.** Lookup matches only `settled` and
-  `reopened` rows; a form whose only rows are `withdrawn` or `superseded` is
-  `unsettled`. `Settle` never overrides a `settled` row (Reopen first).
-- **MD-B4 · Bootstrap settles last.** A row's `Context` can't change, so the
-  bootstrap writes `GLOSSARY.md` per approved slice but holds every `Settle`
-  until after Eric's final context pass.
-- **MD-B5 · Reopen's reason and ref live in the announcement and git
-  history.** Rows are immutable apart from `Status`, so they keep their
-  original `Settled` and `Ref`. If that loses too much, the fix is a
-  `Reopened` column or an event-log format (Eric's Domain Events note).
+| ID | Interpretation | Status | Detail |
+|----|----------------|--------|--------|
+| MD-B1 | Reopen skips Eric | unconfirmed | Eric reviews every `GLOSSARY.md` / `GLOSSARY-MAP.md` write, every `Settle` and every pruning pass. `Reopen` adds no language, so it runs without him, including where `board-eric` is missing |
+| MD-B2 | Eric advises, Rich decides | unconfirmed | An approval is written straight away; a sharper wording or an objection goes back to the user as a question before anything is written |
+| MD-B3 | Lookup ignores history | unconfirmed | Lookup matches only `settled` and `reopened` rows; a form whose only rows are `withdrawn` or `superseded` is `unsettled`. `Settle` never overrides a `settled` row (Reopen first) |
+| MD-B4 | Bootstrap settles last | unconfirmed | A row's `Context` can't change, so the bootstrap writes `GLOSSARY.md` per approved batch but holds every `Settle` until after Eric's final context pass |
+| MD-B5 | Reopen's reason and ref live in the announcement and git history | unconfirmed | Rows are immutable apart from `Status`, so they keep their original `Settled` and `Ref`. If that loses too much, the fix is a `Reopened` column or an event-log format (Eric's Domain Events note) |
 
-ADR build interpretations (S5, where MD3 left a detail open; not yet
-confirmed by Rich, change in the plugin if he disagrees):
+ADR build interpretations (S5, where MD3 left a detail open; change in the
+plugin if Rich disagrees). Status values as for MD-B.
 
-- **AD-B1 · Write or offer.** The skill writes straight away only when the user
-  asked for the ADR. When domain-modeling (or any caller, or the model itself)
-  raises one, it offers it in one line and writes on the user's yes (same
-  principle as GD6: a calling skill is not the user's permission). The gates
-  are always the adr skill's call, not the caller's.
-- **AD-B2 · Unknown gate → one question.** Upstream says skip if any gate is
-  missing; the skill distinguishes "fails" (write nothing, name the gate) from
-  "can't tell" (ask that one question).
-- **AD-B3 · Convention detection order.** Stated instructions (`CLAUDE.md`,
-  `AGENTS.md`, `CONTRIBUTING.md`, `README.md`, `.adr-dir`, `.log4brains.yml`)
-  win over existing files; then the repo's template or two most recent ADRs
-  set filename, numbering, headings and status vocabulary; an index file gets
-  a line; two conflicting conventions → ask. Only with none does the upstream
-  `docs/adr/NNNN-slug.md` default apply.
-- **AD-B4 · Superseding.** Added to `ADR-FORMAT.md` (upstream only had the
-  `superseded by` status value): the new ADR says what it supersedes; the old
-  one's `Status` is updated only if it has one; no ADR is deleted.
+| ID | Interpretation | Status | Detail |
+|----|----------------|--------|--------|
+| AD-B1 | Write or offer | unconfirmed | The skill writes straight away only when the user asked for the ADR. When domain-modeling (or any caller, or the model itself) raises one, it offers it in one line and writes on the user's yes (same principle as GD6: a calling skill is not the user's permission). The gates are always the adr skill's call, not the caller's |
+| AD-B2 | Unknown gate → one question | unconfirmed | Upstream says skip if any gate is missing; the skill distinguishes "fails" (write nothing, name the gate) from "can't tell" (ask that one question) |
+| AD-B3 | Convention detection order | unconfirmed | Stated instructions (`CLAUDE.md`, `AGENTS.md`, `CONTRIBUTING.md`, `README.md`, `.adr-dir`, `.log4brains.yml`) win over existing files; then the repo's template or two most recent ADRs set filename, numbering, headings and status vocabulary; an index file gets a line; two conflicting conventions → ask. Only with none does the upstream `docs/adr/NNNN-slug.md` default apply |
+| AD-B4 | Superseding | unconfirmed | Added to `ADR-FORMAT.md` (upstream only had the `superseded by` status value): the new ADR says what it supersedes; the old one's `Status` is updated only if it has one; no ADR is deleted |
 
 Wayfinder (S6, from Rich's answers to three rounds; confirmed by Rich in S7
 round 1, with Eric's "board" edits applied to WD1/WD2 and WD3, WD8, WD10
@@ -446,56 +458,24 @@ S9 (W3; one Eric consult, Rich accepted every recommendation):
   line still lists task. The Lookup test passes for 13 forms. `Ref`:
   `session:2026-10-07`.
 
-Build interpretations (S9, where WD1–WD28 left a detail open; not yet
-confirmed by Rich, change in the plugin if he disagrees):
+Build interpretations (S9–S10, where WD1–WD28 left a detail open; change in
+the plugin if Rich disagrees). Status values as for MD-B.
 
-- **WD-B1 · Out of scope lives under Destination.** WD26 lists four map
-  sections, so upstream's separate Out of scope section became an
-  `Out of scope:` list in Destination (scope is the destination's business).
-- **WD-B2 · No research exception.** Upstream fired research subagents at
-  charting and exempted research from one-per-session; WD15 is applied
-  strictly: Begin resolves nothing, and research tickets go one at a time.
-- **WD-B3 · Prototype before W6.** Variants are shown in the conversation, not
-  written as files (wayfinder writes only the map and the design document);
-  the user picks. W6 replaces this with the prototype plugin.
-- **WD-B4 · Errands are checklists.** Wayfinder hands the user a checklist and
-  may run read-only commands; it doesn't perform the manual step itself.
-- **WD-B5 · Errands in the map.** An errand's `Unblocks:` names a ticket, not
-  an increment. Errands get a `(errand)` line in Decisions so far, never in
-  the design document.
-- **WD-B6 · WD22 immutability starts at first Publish.** Unpublished increment
-  rows may be edited freely; a published row only changes its `Published`
-  cell.
-- **WD-B7 · Revise's Reopen.** The user's Revise instruction counts as the
-  explicit instruction MD11 needs, so Revise has domain-modeling reopen rows
-  whose `Ref` is the revised ticket (WD8). The reason is the user's revision.
-- **WD-B8 · `scratch:` refs.** `scratch:wayfinder/<map>/<file>`, the path under
-  `.scratch/`. Ticket files are `NN-<slug>.md`, numbers never reused.
-- **WD-B9 · Publish runs the translator's checks too.** `DESIGN-FORMAT.md`
-  lists 13 checks: WD21's two, WD17's naming and size rules, and Juval's
-  validation list. Juval's `Created by` is spelled `Introduced in` (WD21).
-  `changed` lists section names.
-- **WD-B10 · Upstream base.** Adapted from mattpocock/skills @ `f3fc563`
-  (newer than S6's `6fd9479`). The wayfinder changes since then are the
-  label, real-id, no-PR and resolve-by-type fixes, and the port already
-  covers each one.
-- **WD-B11 · Check 4 means "no rejected form", in the destination's context
-  (S10).** As built, Publish read WD17(c)'s "named in settled terms" as
-  "every term has a `GLOSSARY-SETTLED.md` row" and refused a clean toy map,
-  since that file records only contested rulings and nothing in Resolve
-  settles increment names. It also couldn't tell which context to look in
-  ("work item" is rejected in Wayfinder, but the map was about the port
-  ledger). `DESIGN-FORMAT.md` check 4 now runs `Lookup` on the terms in
-  increment names and behaviours in the context whose `GLOSSARY-MAP.md`
-  description covers the destination. Only a `rejected-form` hit fails, a
-  term with no row passes, and no covering context means no row applies.
-  Charting-time "can't be named in settled terms is fog" (SKILL.md, MAP-FORMAT)
-  is unchanged: there it is the agent's judgment, not a gate.
+| ID | Interpretation | Status | Detail |
+|----|----------------|--------|--------|
+| WD-B1 | Out of scope lives under Destination | unconfirmed | WD26 lists four map sections, so upstream's separate Out of scope section became an `Out of scope:` list in Destination (scope is the destination's business) |
+| WD-B2 | No research exception | unconfirmed | Upstream fired research subagents at charting and exempted research from one-per-session; WD15 is applied strictly: Begin resolves nothing, and research tickets go one at a time |
+| WD-B3 | Prototype before W6 | unconfirmed (W6 replaces it) | Variants are shown in the conversation, not written as files (wayfinder writes only the map and the design document); the user picks. W6 replaces this with the prototype plugin |
+| WD-B4 | Errands are checklists | unconfirmed | Wayfinder hands the user a checklist and may run read-only commands; it doesn't perform the manual step itself |
+| WD-B5 | Errands in the map | unconfirmed | An errand's `Unblocks:` names a ticket, not an increment. Errands get a `(errand)` line in Decisions so far, never in the design document |
+| WD-B6 | WD22 immutability starts at first Publish | unconfirmed | Unpublished increment rows may be edited freely; a published row only changes its `Published` cell |
+| WD-B7 | Revise's Reopen | unconfirmed (decide after wayfinder Step D 6) | The user's Revise instruction counts as the explicit instruction MD11 needs, so Revise has domain-modeling reopen rows whose `Ref` is the revised ticket (WD8). The reason is the user's revision |
+| WD-B8 | `scratch:` refs | unconfirmed | `scratch:wayfinder/<map>/<file>`, the path under `.scratch/`. Ticket files are `NN-<slug>.md`, numbers never reused |
+| WD-B9 | Publish runs the translator's checks too | unconfirmed | `DESIGN-FORMAT.md` lists 13 checks: WD21's two, WD17's naming and size rules, and Juval's validation list. Juval's `Created by` is spelled `Introduced in` (WD21). `changed` lists section names |
+| WD-B10 | Upstream base | record only | Adapted from mattpocock/skills @ `f3fc563` (newer than S6's `6fd9479`). The wayfinder changes since then are the label, real-id, no-PR and resolve-by-type fixes, and the port already covers each one |
+| WD-B11 | Check 4 means "no rejected form", in the destination's context (S10) | unconfirmed | As built, Publish read WD17(c)'s "named in settled terms" as "every term has a `GLOSSARY-SETTLED.md` row" and refused a clean toy map, since that file records only contested rulings and nothing in Resolve settles increment names. It also couldn't tell which context to look in ("work item" is rejected in Wayfinder, but the map was about the port ledger). `DESIGN-FORMAT.md` check 4 now runs `Lookup` on the terms in increment names and behaviours in the context whose `GLOSSARY-MAP.md` description covers the destination. Only a `rejected-form` hit fails, a term with no row passes, and no covering context means no row applies. Charting-time "can't be named in settled terms is fog" (SKILL.md, MAP-FORMAT) is unchanged: there it is the agent's judgment, not a gate |
 
-Still open: Rich to confirm or overrule WD-B1–B11 (B11 changes what Publish
-refuses). Rich has still not commented on MD-B1–B5
-or AD-B1–B4. squadra side of WD18 (positive-scope claims, `tick --dry-run`
-contract test) is with Rich in W-SQ.
+Still open: everything Rich owes is in [Rich's queue](#richs-queue).
 
 ## Inputs to triage
 
