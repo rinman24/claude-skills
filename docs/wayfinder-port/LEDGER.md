@@ -79,8 +79,15 @@ Interactive checks (each runbook's Step D; under `--plugin-dir` type
 `/<plugin>:<skill>`):
 - [x] wayfinder Step D 4, 6, 7 (Rich, 2026-10-08, in
       `~/Code/scratch/wayfinder-smoke`; D 6 found the WD-B13 gap, fixed)
-- [ ] grilling Step D 4, 6 (`docs/grilling-plugin-install-runbook.md`)
-- [ ] domain-modeling Step D 3–7 (`docs/domain-modeling-plugin-install-runbook.md`)
+- [x] grilling Step D 4, 6 (`docs/grilling-plugin-install-runbook.md`):
+      both passed (Rich, 2026-10-08, Q1)
+- [x] domain-modeling Step D 3–7 (`docs/domain-modeling-plugin-install-runbook.md`):
+      Rich, 2026-10-08, Q1. 2–5 passed in `~/Code/scratch/dm-smoke` (step 2's
+      collision was caught by Claude's own challenge before Eric, then Eric
+      sharpened on the follow-up; step 5 ran both as reopen-with-change and as
+      bare reopen + re-settle). 6 (bootstrap, `~/Code/billet`, Berth batch
+      only, then final pass + Settle) passed on structure but broke MD-B2
+      (W8.2). 7 passed (plain refusal, read-only steps only, nothing written)
 - [ ] adr Step D 3–5 (`docs/adr-plugin-install-runbook.md`)
 - [ ] prototype Step D 6 (`docs/prototype-plugin-install-runbook.md`), once a
       repo with a web UI exists
@@ -92,13 +99,13 @@ Elsewhere:
 - [x] Start S12: paste `handoffs/S12-prototype-wiring.md` into a fresh session
 
 Added in S12:
-- [ ] Confirm or overrule WD-B14–B15 ([table](#decisions), after WD-B13)
+- [x] Confirm or overrule WD-B14–B15 ([table](#decisions), after WD-B13): both confirmed 2026-10-08 (Q1)
 - [ ] wayfinder Step D 8, the verdict half (`docs/wayfinder-plugin-install-runbook.md`):
       give a verdict on a waiting prototype ticket; check the Resolution, the
       `closed` status, one Decisions line and no prototype file left behind
 - [x] Prototype location: Rich chose `.scratch/prototypes/<map>/`
       (2026-10-08); W7 makes the change and adds WD-B16
-- [ ] Start Q1: paste `handoffs/Q1-rich-queue.md` into a fresh session
+- [x] Start Q1: paste `handoffs/Q1-rich-queue.md` into a fresh session
 
 ## Work items
 
@@ -123,6 +130,10 @@ Added in S12:
 | W7 | Wayfinder tells `prototype` to put a pending prototype under `.scratch/prototypes/<map>/`, not the map folder (WD-B16) | Q1 | ~15K | done | Rich's choice after S12's headless run put it in `.scratch/wayfinder/<map>/`. `SKILL.md` prototype bullet and "What wayfinder writes", runbook Step D 8. Validated. Headless Resolve on a toy map (UI question, no app): prototype landed at `.scratch/prototypes/queue-page/01-queue-layout.prototype.html`; in the map folder only the ticket's `in progress` changed; handed over without picking. Toy map and prototype deleted. `plugins/prototype` unchanged |
 | Q1 | Walk Rich through his queue, one item at a time | Q1 | ~30–50K | in progress | Rich's order (2026-10-08): Q1, then S13 (W8), then the PR to main (W9). Records rulings and defects; fixes nothing |
 | W8 | Fix what Q1 turns up | S13 | tbd | todo | Q1 adds items here. If Q1 finds nothing, S13 does W9 instead |
+| W8.1 | domain-modeling runbook Step D 2: expect the objection from Claude's own challenge or from Eric, not only Eric | S13 | ~2K | todo | Q1: Rich's colliding term was caught by the skill's challenge steps (`SKILL.md` 37–47) before Eric was called; behaviour is per the skill, the runbook wording is too narrow. Docs only |
+| W8.2 | domain-modeling: any change to an Eric-reviewed wording goes to the user as a question, and the announcement says who approved each wording | S13 | ~8K | todo | Q1 step 6 (billet bootstrap) broke MD-B2 three times: Claude moved Eric's authorized-keys rule to Host admin user against his verdict (noted in the draft, never asked); after the final pass it wrote Eric's sharper First start and Claude Locker wording into `GLOSSARY.md` without asking; its summary then said every wording was one "you accepted". Tighten `SKILL.md` ("Eric reviews every write") and `BOOTSTRAP.md` step 4 |
+| W8.3 | domain-modeling `BOOTSTRAP.md` step 1: batch per top-level module, or per subsystem when the top-level directories are layers | S13 | ~2K | todo | Q1 step 6: billet's top-level dirs are layers (`access`, `workspace`, `contracts`); Claude batched by subsystem, which was right but outside the written rule |
+| W8.4 | domain-modeling no-Eric refusal: don't offer "paste it by hand" as a way around Eric's review | S13 | ~2K | todo | Q1 step 7: the refusal itself was correct (MD7), then it offered the snippets for a manual write that "skips Eric's review". Rich: log it |
 | W9 | PR `feat/wayfinder-domain-modeling` → main, then install the port's plugins from the marketplace | after S13 | ~10K | todo | No PR yet; 30 commits ahead of main at S12 |
 | T1 | `design-to-board` (WD14) | later, not this port | n/a | todo | Blocked by W-SQ and W3; build against `DESIGN-FORMAT.md` and Juval's validation list |
 | W-SQ | squadra: rename its unit "slice" → "increment" (WD11) | Rich, in squadra | n/a | in progress | Rename merged (squadra PR #41, 2026-10-07; `Increment` settled in squadra's glossary: Vertical / Foundation, rejects infrastructure increment). Remaining: WD18's squadra requirements (positive-scope claims, `squadra tick --dry-run` contract test) |
@@ -489,8 +500,8 @@ the plugin if Rich disagrees). Status values as for MD-B.
 | WD-B11 | Check 4 means "no rejected form", in the destination's context (S10) | confirmed 2026-10-08 | As built, Publish read WD17(c)'s "named in settled terms" as "every term has a `GLOSSARY-SETTLED.md` row" and refused a clean toy map, since that file records only contested rulings and nothing in Resolve settles increment names. It also couldn't tell which context to look in ("work item" is rejected in Wayfinder, but the map was about the port ledger). `DESIGN-FORMAT.md` check 4 now runs `Lookup` on the terms in increment names and behaviours in the context whose `GLOSSARY-MAP.md` description covers the destination. Only a `rejected-form` hit fails, a term with no row passes, and no covering context means no row applies. Charting-time "can't be named in settled terms is fog" (SKILL.md, MAP-FORMAT) is unchanged: there it is the agent's judgment, not a gate |
 | WD-B12 | Begin checks the size before grilling (S10) | confirmed 2026-10-08 | Rich's interactive Step D 2 (a Python dataclass; `echo "Hello World"`) got a full grilling round before "no map needed", because Begin's only size check sat in step 2, after the destination round. Begin now has a step 0: if the idea as stated plainly fits in one session, say a map isn't needed and ask how to proceed, without loading grilling or writing anything; when in doubt, go on, and step 2 still catches the rest. Headless re-runs: both small ideas stop at once; a large idea (`/ledger-lint`) still grills |
 | WD-B13 | Revise repoints `Decided by`, and its replacement is a decision ticket (S10) | confirmed 2026-10-08 | Rich's Step D 6 on a real map left I1 and I3's `Decided by` on the revised ticket, which would fail Publish check 3 (the design document shows a revised ticket only through its replacement). Revise step 3 now repoints `Decided by` in unpublished rows; a published row is listed as a dependent and the next Publish withdraws and replaces it. A headless re-run then made the replacement an errand inside `Decided by`, so step 2 now says the replacement is a decision ticket, with an errand ahead of it (`Unblocks:` the replacement) if a manual step comes first. Re-run on a copy of Rich's map: both hold |
-| WD-B14 | A prototype ticket waits for its verdict in `in progress` (S12) | unconfirmed | WD7 and PD1 make the user's verdict the only way to close it, and WD15 allows one ticket per session. So the ticket stays `in progress` until the user rules, even across sessions, and blocks other tickets on the map as any `in progress` ticket does. Naming it in Resolve resumes it by handing the existing prototype over again |
-| WD-B15 | Wayfinder writes the prototype Resolution; a turned-away question goes back to the user (S12) | unconfirmed | Wayfinder asks `prototype` to return the verdict to it rather than write the ticket, so the ticket has one writer. The Resolution gives the question, the user's verdict in their own words and a link (`prototype/<name>` branch and path, or "not kept"). If `prototype`'s question check refuses (settled, whole application, grillable), wayfinder says the ticket may be mis-kinded and asks; it never changes `Kind` itself (Kind is read, never inferred) |
+| WD-B14 | A prototype ticket waits for its verdict in `in progress` (S12) | confirmed 2026-10-08 (Q1) | WD7 and PD1 make the user's verdict the only way to close it, and WD15 allows one ticket per session. So the ticket stays `in progress` until the user rules, even across sessions, and blocks other tickets on the map as any `in progress` ticket does. Naming it in Resolve resumes it by handing the existing prototype over again |
+| WD-B15 | Wayfinder writes the prototype Resolution; a turned-away question goes back to the user (S12) | confirmed 2026-10-08 (Q1) | Wayfinder asks `prototype` to return the verdict to it rather than write the ticket, so the ticket has one writer. The Resolution gives the question, the user's verdict in their own words and a link (`prototype/<name>` branch and path, or "not kept"). If `prototype`'s question check refuses (settled, whole application, grillable), wayfinder says the ticket may be mis-kinded and asks; it never changes `Kind` itself (Kind is read, never inferred) |
 | WD-B16 | Pending prototypes live outside the map folder (Q1, W7) | confirmed 2026-10-08 (Rich, after S12) | With no app in the repo, S12's run put the prototype in `.scratch/wayfinder/<map>/`, so committing the map while a verdict was pending would commit it too and break MAP-FORMAT's folder contents. Rich chose `.scratch/prototypes/<map>/`, named after the ticket (`<NN>-<slug>.prototype.html` for a single file). Not gitignored, because `prototype` keeps a prototype by committing it to `prototype/<name>`. Wayfinder's prototype bullet tells `prototype` the location when it hands over; `plugins/prototype` is unchanged. Exception: a UI prototype that has to sit inside the app. The handoff named only sub-shape A (switcher on an existing page); W7 also exempts sub-shape B (a throwaway route), since a route has to follow the app's routing |
 
 Still open: everything Rich owes is in [Rich's queue](#richs-queue).
