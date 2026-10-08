@@ -285,3 +285,11 @@ Newest at the bottom.
   have caught it. Apply: when listing checks as "interactive only", ask
   whether the *expected* behaviour fits in one turn; if so, run it headless
   too.
+- **A real map found what toy maps didn't.** Rich's Costco map had increments
+  decided by the revised ticket, so Revise's missing `Decided by` repoint
+  showed up. Fixing it and re-running then showed a second gap (replacement as
+  an errand). Apply: for an operation that rewrites cross-references, test on
+  a map where the target is referenced from every kind of place (`Blocked
+  by`, `Decided by`, Decisions so far), and re-run after each fix: one fix can
+  uncover the next. Copy the real map into the worktree's `.scratch/` for the
+  headless re-run, then delete it.

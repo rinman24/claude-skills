@@ -128,9 +128,10 @@ Inside a Claude Code session:
 
 ## Step D — End-to-end smoke test
 
-Use a scratch git repo (or a branch you'll throw away). Steps 1, 2, 3 and 5 passed
-headless on the build branch (W4, S10; step 2 after the WD-B12 fix); steps 4,
-6 and 7 need a second turn, so run them interactively.
+Use a scratch git repo (or a branch you'll throw away). All steps passed on the
+build branch: 1, 2, 3 and 5 headless (W4, S10; step 2 after the WD-B12 fix),
+4, 6 and 7 interactively by Rich (step 6 after the WD-B13 fix). Steps 4, 6
+and 7 need a second turn.
 
 1. Run `/wayfinder <a loose idea too big for one session>`. Expected: it loads
    `grilling` and `domain-modeling` and asks about the destination first.
@@ -151,9 +152,11 @@ headless on the build branch (W4, S10; step 2 after the WD-B12 fix); steps 4,
    `status: cleared`, `revision: 1`, and `Decided by` refs that all appear in
    Decisions. With a check failing, it names the failure and writes nothing.
 6. Say "revise <ticket>: <what changed>". Expected: the ticket becomes
-   `revised` with a `## Revised` section, a replacement ticket links back, its
-   Decisions line points at the replacement, and the design document's status
-   becomes `revising` with nothing else changed.
+   `revised` with a `## Revised` section, a replacement decision ticket (never
+   an errand) links back, its Decisions line points at the replacement, every
+   `Blocked by` and every unpublished increment's `Decided by` that named it
+   now names the replacement, and the design document's status becomes
+   `revising` with nothing else changed.
 7. At any point, ask it to "just build" an increment. Expected: it declines;
    it writes nothing outside the map and the design document.
 

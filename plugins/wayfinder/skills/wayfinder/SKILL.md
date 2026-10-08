@@ -71,8 +71,8 @@ One ticket in progress per map at a time, no exceptions. Separate maps may run i
 Only when the user explicitly says a closed decision changed. Never revise on your own initiative, and don't design around a decision you think is wrong: put it to the user.
 
 1. On the closed ticket: set `Status: revised` and add a `## Revised <date>` section saying what changed, linking the replacement.
-2. Open the replacement ticket with `Replaces:` pointing back and the same `Unblocks:`; it is resolved in its own session.
-3. Rewrite the old ticket's line in Decisions so far to point at the replacement, and repoint every `Blocked by` that named the old ticket.
+2. Open the replacement ticket with `Replaces:` pointing back and the same `Unblocks:`; it is resolved in its own session. The replacement is a decision ticket (grilling, research or prototype), never an errand: it carries the decision. If a manual step has to come first, also open an errand whose `Unblocks:` names the replacement.
+3. Rewrite the old ticket's line in Decisions so far to point at the replacement, and repoint every `Blocked by` that named the old ticket. In unpublished increment rows, replace the old ticket with the replacement in `Decided by`. A published row that names it can't be edited: list it as a dependent (step 4), and the next Publish withdraws it and adds a new row.
 4. Flag dependents: list every ticket whose Resolution relied on the old decision and every increment it decided, in the map and in your reply.
 5. Settled terms: scan `GLOSSARY-SETTLED.md` for rows whose `Ref` is the revised ticket's ref (a text search, not a Lookup), and have domain-modeling `Reopen` each one, with the user's revision as the reason.
 6. If the design document is published, set its `status: revising` and change nothing else. Publish rewrites it.
