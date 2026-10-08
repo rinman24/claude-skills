@@ -136,8 +136,8 @@ Inside a Claude Code session:
 Use a scratch git repo (or a branch you'll throw away). All steps passed on the
 build branch: 1, 2, 3 and 5 headless (W4, S10; step 2 after the WD-B12 fix),
 4, 6 and 7 interactively by Rich (step 6 after the WD-B13 fix), and 8's
-hand-over headless (W6, S12). Steps 4, 6, 7 and 8's verdict need a second
-turn.
+hand-over headless (W6, S12; re-run after the WD-B16 location change, W7).
+Steps 4, 6, 7 and 8's verdict need a second turn.
 
 1. Run `/wayfinder <a loose idea too big for one session>`. Expected: it loads
    `grilling` and `domain-modeling` and asks about the destination first.
@@ -167,9 +167,11 @@ turn.
    it writes nothing outside the map and the design document.
 8. Run `/wayfinder <map>` on a map whose first frontier ticket has
    `Kind: prototype`. Expected: it sets the ticket `in progress`, loads the
-   `prototype` skill, builds a prototype for the ticket's question and hands
-   it over (`🧪 Prototype ready`), then waits: no variant picked, ticket still
-   `in progress`, no Decisions line. Give a verdict. Expected: the Resolution
+   `prototype` skill, builds a prototype for the ticket's question under
+   `.scratch/prototypes/<map>/`, named after the ticket (nothing new in
+   `.scratch/wayfinder/<map>/` except the ticket's `in progress` status), and
+   hands it over (`🧪 Prototype ready`), then waits: no variant picked,
+   ticket still `in progress`, no Decisions line. Give a verdict. Expected: the Resolution
    gives your verdict in your words and links the prototype (its
    `prototype/<name>` branch, or "not kept"), the ticket is `closed`, one
    Decisions line is added, and no prototype file is left on the current
