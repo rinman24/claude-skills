@@ -128,17 +128,19 @@ Inside a Claude Code session:
 
 ## Step D — End-to-end smoke test
 
-Use a scratch git repo (or a branch you'll throw away). Steps 1, 3 and 5 passed
-headless on the build branch (W4, S10); steps 2, 4, 6 and 7 need a second
-turn, so run them interactively.
+Use a scratch git repo (or a branch you'll throw away). Steps 1, 2, 3 and 5 passed
+headless on the build branch (W4, S10; step 2 after the WD-B12 fix); steps 4,
+6 and 7 need a second turn, so run them interactively.
 
 1. Run `/wayfinder <a loose idea too big for one session>`. Expected: it loads
    `grilling` and `domain-modeling` and asks about the destination first.
    After you answer, it writes `.scratch/wayfinder/<map>/map.md` (Destination
    with `B1`…, Increments, empty Decisions so far, Fog) and ticket files, each
    with `Kind`, `Status: open` and `Unblocks:`. It resolves nothing and stops.
-2. Run `/wayfinder` with an idea small enough for one session. Expected: it
-   says no map is needed and asks how to proceed; nothing is written.
+2. Run `/wayfinder` with an idea small enough for one session (e.g. "define a
+   Python dataclass `Person` with `name: str` and `age: int`"). Expected: before
+   any grilling round, it says no map is needed and asks how to proceed;
+   nothing is written.
 3. Run `/wayfinder <map>`. Expected: it takes the first frontier ticket, sets
    `Status: in progress` first, resolves it by its kind, then sets `closed`
    with a Resolution and adds one line to Decisions so far. One ticket only.

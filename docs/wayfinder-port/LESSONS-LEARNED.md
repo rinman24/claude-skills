@@ -278,3 +278,10 @@ Newest at the bottom.
   context, not waiting. Apply: the ~40K estimate for a smoke unit holds only
   if replies are read once and files are listed with `tail -n +1`, not
   re-read.
+- **A "stop early" exit placed after an expensive step isn't early.** Begin's
+  "no map needed" check sat after two grilling rounds, so Rich's tiny ideas
+  were grilled first. The headless smoke plan skipped D2 as needing a second
+  turn, but D2's correct behaviour is a one-turn stop, so headless could
+  have caught it. Apply: when listing checks as "interactive only", ask
+  whether the *expected* behaviour fits in one turn; if so, run it headless
+  too.

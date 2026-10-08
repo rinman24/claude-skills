@@ -49,6 +49,7 @@ One ticket in progress per map at a time, no exceptions. Separate maps may run i
 
 ### Begin
 
+0. **Check the size first.** Before loading any skill or asking anything, judge the idea as stated. If it plainly fits in one session (one change you could make now, or a question you could answer now, with no decision that needs another session), stop: say a map isn't needed, in a line or two, and ask the user how to proceed. Don't grill, don't write anything, and don't start doing the work. When in doubt, go on to step 1; step 2 catches the rest.
 1. **Name the destination.** Call the Skill tool for `grilling` and `domain-modeling` and settle what this map is finding its way to, including the behaviours `B1`, `B2`… observable once it is reached. The destination fixes the scope, so it comes first.
 2. **Survey the frontier.** Grill again, breadth-first: across the whole space rather than deep on one thread, to surface the open decisions and the increments you can already name. If this turns up no fog (the whole route fits in one session), stop: say a map isn't needed and ask the user how to proceed.
 3. **Write the map**: `map.md` with Destination, the increments you can name, an empty Decisions so far, and the rest sketched as Fog.
