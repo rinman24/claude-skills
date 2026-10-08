@@ -41,9 +41,10 @@ Estimated work: ~25K tokens (budget: under 100K total, hard stop at 120K)
   prototype skill hands over and waits, even when another skill calls it;
   it's model-invocable for this purpose (PD6).
 - WD-B3 is the interim behaviour this unit replaces.
-- Check the WD-B table's Status column (ledger, after WD28) for Rich's
-  rulings. Apply any overrule he has recorded; otherwise don't change them
-  beyond WD-B3. When W6 lands, set WD-B3's Status to `replaced (W6)`.
+- Rich confirmed WD-B1–B13, MD-B1–B5 and AD-B1–B4 on 2026-10-08 (Status
+  column in each table). Don't change them beyond WD-B3; when W6 lands, set
+  WD-B3's Status to `replaced (W6)`. A new build interpretation gets a new
+  row marked `unconfirmed` and a line in Rich's queue.
 
 ## Out of scope for this session
 
