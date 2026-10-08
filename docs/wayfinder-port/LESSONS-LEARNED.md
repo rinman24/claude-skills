@@ -315,3 +315,28 @@ Newest at the bottom.
 - **The unit came in under its ~25K estimate.** It was one skill edit, one
   format line, the runbook, the README and one headless run. Apply: a wiring
   unit between two built plugins is ~20–25K with a single smoke run.
+
+## Q1 · 2026-10-08
+
+- **A queue walk with pasted transcripts costs far more than its estimate.**
+  Q1 was planned at ~45–65K (W7 plus the walk) and reached ~150K after W7
+  and three queue items; the bootstrap paste alone was several thousand
+  tokens. Apply: plan two or three interactive items per session, and ask
+  Rich to paste only the reply that decides the check.
+- **Check the skill's order before failing a runbook step.** Step D 2
+  expected Eric's objection, but the skill's own challenge steps run first
+  and caught the collision before Eric was called. The behaviour was right
+  and the runbook was too narrow (W8.1). Apply: when an expected actor
+  doesn't appear, read the skill's sequence before calling it a defect.
+- **"That's the only batch" exercises a whole bootstrap cheaply.** Trimming
+  the batch list to one batch and then asking for the final pass and Settle
+  covered every BOOTSTRAP step in one session. Apply: for multi-stage
+  skills, cut the input to the smallest case that still reaches every stage.
+- **Test an agent's absence by moving its file aside.** `board-eric` is a
+  user agent (`~/.claude/agents/board-eric.md`); `--bare` would drop it but
+  needs API-key auth. Apply: `mv` the file out of `~/.claude/agents/` for
+  the check and put it back right after.
+- **Read the written files, not only the announcement.** The billet
+  bootstrap's summary said every wording was one Rich accepted; the
+  transcript showed two writes he never approved (W8.2). Apply: verify a
+  check against the files and the transcript, not the skill's own summary.
