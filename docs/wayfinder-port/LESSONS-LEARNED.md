@@ -293,3 +293,25 @@ Newest at the bottom.
   by`, `Decided by`, Decisions so far), and re-run after each fix: one fix can
   uncover the next. Copy the real map into the worktree's `.scratch/` for the
   headless re-run, then delete it.
+
+## S12 · 2026-10-08
+
+- **Two `--plugin-dir` flags load two branch plugins in one headless run.**
+  `claude -p --plugin-dir plugins/wayfinder --plugin-dir plugins/prototype
+  --permission-mode acceptEdits "/wayfinder:wayfinder <map>"` let wayfinder's
+  Skill call find `prototype` from the working tree. Apply: when one skill
+  calls another, load both with `--plugin-dir` so the test exercises the
+  branch versions, not whatever is installed.
+- **A skill that waits for the user is easy to test headless.** The correct
+  behaviour, a hand-over that stops, fits in one turn, so the headless run
+  checked exactly the part that matters (no pick, no close). Apply: for
+  "hand over and wait" skills, test the hand-over headless and leave only
+  the reply half to Rich.
+- **"Next to what it prototypes" meant the map folder.** With no app in the
+  repo, `prototype` put its HTML file in `.scratch/wayfinder/<map>/`, inside
+  the committed map. Apply: when a called skill places its own files, check
+  where they landed against the caller's write rules; record the gap rather
+  than editing the called plugin (out of scope without Rich's say).
+- **The unit came in under its ~25K estimate.** It was one skill edit, one
+  format line, the runbook, the README and one headless run. Apply: a wiring
+  unit between two built plugins is ~20–25K with a single smoke run.

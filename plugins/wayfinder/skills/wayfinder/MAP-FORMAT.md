@@ -67,7 +67,7 @@ Replaces: 04
 
 ## Resolution
 
-<Written when the ticket closes. The decision and why; for research, the findings with a source cited for each; for a prototype, the variant the user picked; for an errand, what was done and the resulting facts.>
+<Written when the ticket closes. The decision and why; for research, the findings with a source cited for each; for a prototype, the user's verdict in their own words and a link to the prototype (its `prototype/<name>` branch and path, or "not kept"); for an errand, what was done and the resulting facts.>
 ```
 
 - **Kind** says how the ticket is resolved; read it, never infer the kind from the body. Grilling, research and prototype tickets are decision tickets; an errand decides nothing.

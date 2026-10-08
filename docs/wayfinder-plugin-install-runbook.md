@@ -28,7 +28,9 @@ single session. It is user-invoked only: type `/wayfinder`. It:
 2. **Resolve**: takes one ticket per session (the one you name, or the first
    on the frontier), marks it `in progress`, resolves it by its kind, records
    the Resolution and a line in Decisions so far, and graduates any fog the
-   answer made precise.
+   answer made precise. A prototype ticket is handed to the `prototype` skill,
+   which builds the prototype and waits for your verdict; the ticket stays
+   `in progress` until you give it.
 3. **Revise**: only when you say a closed decision changed. It marks the
    ticket `revised`, opens a replacement, flags dependents, has
    `domain-modeling` reopen terms settled from that ticket, and sets a
@@ -36,8 +38,9 @@ single session. It is user-invoked only: type `/wayfinder`. It:
 4. **Publish**: runs the design document's checks and writes
    `docs/design/<map>.md` with `status: cleared`.
 
-It writes only the map and the design document; glossary files are written by
-`domain-modeling` under its own rules. It never builds and never touches
+It writes only the map and the design document itself; glossary files are
+written by `domain-modeling` and throwaway prototype files by `prototype`, each
+under its own rules. It never builds and never touches
 squadra's board or any issue tracker. There are no hooks. Adapted from
 `mattpocock/skills` (MIT); see the README.
 
@@ -64,10 +67,12 @@ claude-skills/
 which claude          # Claude Code CLI present
 claude plugin install grilling@claude-skills --scope user
 claude plugin install domain-modeling@claude-skills --scope user
+claude plugin install prototype@claude-skills --scope user
 ```
 
 - `grilling` and `domain-modeling` resolve every grilling ticket and the
   Begin conversation. Without `domain-modeling` there are no glossary writes.
+- `prototype` resolves every prototype ticket.
 - `board-eric` (needed by `domain-modeling` for writes) and `board-juval`
   (optional decomposition consult) ship with Rich's `~/Code/board` setup.
   Check with `/agents` inside a session.
@@ -130,8 +135,9 @@ Inside a Claude Code session:
 
 Use a scratch git repo (or a branch you'll throw away). All steps passed on the
 build branch: 1, 2, 3 and 5 headless (W4, S10; step 2 after the WD-B12 fix),
-4, 6 and 7 interactively by Rich (step 6 after the WD-B13 fix). Steps 4, 6
-and 7 need a second turn.
+4, 6 and 7 interactively by Rich (step 6 after the WD-B13 fix), and 8's
+hand-over headless (W6, S12). Steps 4, 6, 7 and 8's verdict need a second
+turn.
 
 1. Run `/wayfinder <a loose idea too big for one session>`. Expected: it loads
    `grilling` and `domain-modeling` and asks about the destination first.
@@ -159,12 +165,22 @@ and 7 need a second turn.
    `revising` with nothing else changed.
 7. At any point, ask it to "just build" an increment. Expected: it declines;
    it writes nothing outside the map and the design document.
+8. Run `/wayfinder <map>` on a map whose first frontier ticket has
+   `Kind: prototype`. Expected: it sets the ticket `in progress`, loads the
+   `prototype` skill, builds a prototype for the ticket's question and hands
+   it over (`🧪 Prototype ready`), then waits: no variant picked, ticket still
+   `in progress`, no Decisions line. Give a verdict. Expected: the Resolution
+   gives your verdict in your words and links the prototype (its
+   `prototype/<name>` branch, or "not kept"), the ticket is `closed`, one
+   Decisions line is added, and no prototype file is left on the current
+   branch.
 
 ---
 
 ## Definition of done
 
 - `/plugin` shows `wayfinder` enabled.
-- Step D 1–7 behave as above.
+- Step D 1–8 behave as above.
 - `git status` shows only files under `.scratch/wayfinder/`, `docs/design/`,
-  and any glossary files `domain-modeling` wrote.
+  and any glossary files `domain-modeling` wrote; prototype files are only on
+  a `prototype/<name>` branch, if kept.

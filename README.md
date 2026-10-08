@@ -191,17 +191,18 @@ own). It:
 - runs one operation per call: **Begin** (name the destination, survey the
   frontier, write the map and its first tickets), **Resolve** (one ticket per
   session, by its kind: grilling with `grilling` + `domain-modeling`, research
-  by a read-only subagent, prototype with the user picking the variant, or an
-  errand as a checklist), **Revise** (only on your instruction), and
+  by a read-only subagent, prototype through `prototype` with the user giving
+  the verdict, or an errand as a checklist), **Revise** (only on your instruction), and
   **Publish** (checks, then writes `docs/design/<map>.md`);
 - keeps the map small: every decision ticket unblocks a named increment, more
   than about 6 increments means a split per subsystem, and no increment
   changes more than 2 services;
-- writes only the map and the design document. It never builds and never
+- writes only the map and the design document itself (`domain-modeling` and
+  `prototype` write their own files). It never builds and never
   touches squadra's board; `design-to-board` (not yet built) transcribes a
   cleared design document.
 
-Needs the `grilling` and `domain-modeling` plugins; `board-juval` is an
+Needs the `grilling`, `domain-modeling` and `prototype` plugins; `board-juval` is an
 optional consult. Install with
 `claude plugin install wayfinder@claude-skills --scope user`. See
 [docs/wayfinder-plugin-install-runbook.md](docs/wayfinder-plugin-install-runbook.md).

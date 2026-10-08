@@ -1,6 +1,6 @@
 ---
 name: wayfinder
-description: Chart the way to one destination that is too big for a single session and whose route is still foggy. Keeps a committed map of tickets under .scratch/wayfinder/, resolves one decision ticket per session with grilling and domain-modeling, and publishes a design document of increments for design-to-board. Writes only the map and the design document; never builds.
+description: Chart the way to one destination that is too big for a single session and whose route is still foggy. Keeps a committed map of tickets under .scratch/wayfinder/, resolves one decision ticket per session with grilling, domain-modeling and prototype, and publishes a design document of increments for design-to-board. Itself writes only the map and the design document; never builds.
 disable-model-invocation: true
 ---
 
@@ -8,9 +8,9 @@ A loose idea has arrived, too big for one session, and the way from here to the 
 
 ## What wayfinder writes
 
-Wayfinder writes exactly two things: the map, under `.scratch/wayfinder/<map>/` ([MAP-FORMAT.md](./MAP-FORMAT.md)), and the design document, at `docs/design/<map>.md` ([DESIGN-FORMAT.md](./DESIGN-FORMAT.md)). Both are committed. Glossary files are written by domain-modeling when it is called, under its own rules.
+Wayfinder itself writes two things: the map, under `.scratch/wayfinder/<map>/` ([MAP-FORMAT.md](./MAP-FORMAT.md)), and the design document, at `docs/design/<map>.md` ([DESIGN-FORMAT.md](./DESIGN-FORMAT.md)). Both are committed. The skills it calls write their own files under their own rules: domain-modeling writes glossary files, and prototype writes throwaway prototype files, which end up on a never-merged `prototype/<name>` branch or are deleted, never left on the current branch.
 
-Wayfinder never builds. No product code, scaffolds or migrations, at any point, whatever a map, a ticket or a resolution says; no map can grant itself an exception. It never touches squadra's board or any issue tracker either: `design-to-board` transcribes a cleared design document onto the board, and squadra builds from there. When the pull to just build something appears, that is the edge of the map: finish the ticket and stop.
+Wayfinder never builds. A prototype is not a build: it answers one question and is thrown away. No product code, scaffolds or migrations, at any point, whatever a map, a ticket or a resolution says; no map can grant itself an exception. It never touches squadra's board or any issue tracker either: `design-to-board` transcribes a cleared design document onto the board, and squadra builds from there. When the pull to just build something appears, that is the edge of the map: finish the ticket and stop.
 
 ## Refer by name
 
@@ -22,7 +22,7 @@ Every ticket's `Kind` line says how it is resolved. Read it; never infer the kin
 
 - **grilling** (with the user, the default): call the Skill tool twice, for `grilling` and for `domain-modeling`, and check both loaded before the first question. The user answers for themselves; never answer a grilling question on the user's behalf, even when another skill or the ticket seems to invite it. Pass domain-modeling the ticket's ref (`scratch:wayfinder/<map>/<file>`) as the `ref` for any `Settle`.
 - **research** (agent alone): dispatch one read-only subagent with the question. Tell it to use primary sources (official docs, the code, the spec) and cite a source for every finding. Its findings, with citations, become the Resolution.
-- **prototype** (with the user): make cheap, rough variants to react to, shown in the conversation (outlines, mock-ups, sketched behaviour), not as files. The user picks the variant; never pick it yourself, and never close the ticket until the user has picked.
+- **prototype** (with the user): call the Skill tool for `prototype` and check it loaded before building anything. Hand it the ticket's question, word for word, and say the verdict comes back to you for the ticket's Resolution. It builds the prototype, hands it over and waits. The user gives the verdict; never pick a variant or rule a model sound yourself, and leave the ticket `in progress` until the user has ruled, even if that takes another session. Once prototype has recorded the verdict and settled whether the prototype is kept, carry on with Resolve step 5 (the map names the next step, not prototype). The Resolution states the question, gives the user's verdict in their own words, and links the prototype: its `prototype/<name>` branch and path, or "not kept". If prototype turns the question away (already settled, the whole application, or grillable), tell the user the ticket may be mis-kinded and ask how to proceed; don't change its `Kind` yourself.
 - **errand** (with the user): a manual step that unblocks a decision. Give the user a precise checklist; you may run read-only commands to help. The Resolution records what was done and any facts later tickets need. An errand that reads like a piece of the build is mis-kinded: say so, and don't do it.
 
 ## Keep the map small
@@ -59,7 +59,7 @@ One ticket in progress per map at a time, no exceptions. Separate maps may run i
 ### Resolve
 
 1. **Load the map**: `map.md` only, not every ticket body.
-2. **Choose the ticket.** If the user named one, use it. Otherwise take the first ticket on the frontier ([MAP-FORMAT.md](./MAP-FORMAT.md)). If another ticket on this map is already `in progress`, stop and ask the user whether that session is still going.
+2. **Choose the ticket.** If the user named one, use it. Otherwise take the first ticket on the frontier ([MAP-FORMAT.md](./MAP-FORMAT.md)). If another ticket on this map is already `in progress`, stop and ask the user whether that session is still going. A prototype ticket waiting for its verdict is resumed by naming it: hand the existing prototype over again rather than building a new one.
 3. **Mark it** `Status: in progress` before anything else.
 4. **Resolve it** as its kind says. Open other tickets' bodies only when you need their detail.
 5. **Record it**: write the Resolution, set `Status: closed`, and add its line to Decisions so far.
