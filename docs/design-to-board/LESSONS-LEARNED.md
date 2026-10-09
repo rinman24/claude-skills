@@ -120,3 +120,22 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
   valid document, each asserted to match once.
 - **Rich commits to the branch during a session.** A ledger commit landed
   mid-session. Apply: `git log -3` before editing the ledger at the end.
+
+## S2b · 2026-10-09
+
+- **Blind advisors can agree on structure and split on a name.** Juval and
+  Eric both kept "transcribes" and WD14's ResourceAccess, then split on the
+  step's name. One question to Rich with both options settled it; the parts
+  of the losing answer that didn't conflict (Juval's third Engine, table as
+  data) were carried to the next unit as unruled, not silently adopted.
+  Apply: after a split, list what both agree on, rule only the conflict, and
+  park the rest with a named owner.
+- **Extract the agent's last assistant text from the JSONL transcript with a
+  short Python parser.** It kept both answers verbatim and out of context
+  (only the relay was in context). Apply: reuse it for every `/ask-*` file.
+- **`docs/*/handoffs/` is gitignored on this branch.** Handoff edits never
+  reach a commit or PR. Apply: anything a later session must rely on goes in
+  the ledger (rows, queue, decisions), not only in a handoff.
+- **A consultation-only session with both advisors in parallel came in near
+  the estimate** (~75K with the writes). Apply: keep naming disputes to
+  their own short session, as S2b did.

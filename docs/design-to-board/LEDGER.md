@@ -162,11 +162,23 @@ Added S1d (2026-10-09):
 - [ ] Merge each build unit's PR (DB2–DB5) when you've reviewed it.
 
 Added S2 (2026-10-09):
-- [ ] Start S2b: `handoffs/S2b-glossary.md`. You type `/ask-juval` and
+- [x] Start S2b: `handoffs/S2b-glossary.md`. You type `/ask-juval` and
       `/ask-eric` on "transcribes" (WD14) vs Eric's "reconciles", rule it
       (DB-D9), and S2b writes DB-W's `GLOSSARY-MAP.md` lines. Then merge
       PR #13 and start S3.
 - [ ] Review DB2's readings of checks 6–15 (DB2 row) and the PR.
+
+Added S2b (2026-10-09):
+- [ ] Merge PR #13 (DB-W + DB2, now ready for review), then start S3:
+      `handoffs/S3-plan.md` (DB3). Early in S3, rule Juval's unruled
+      recommendation (DB-D9): the reconcile in a third Engine, the
+      translation table as literal data with a completeness test.
+- [ ] Optional: commit or keep the two uncommitted session files in
+      `~/Code/board-knowledge/sessions/` (`2026-10-09-eric-transcribe-vs-reconcile.md`,
+      `2026-10-09-juval-transcribe-or-reconcile.md`); `## Choice` is filled
+      in from your rulings, so check it reads as you meant.
+- [ ] Optional: the map's older line "Wayfinder → squadra fleet" still says
+      "`design-to-board` (not yet built)"; a later glossary pass can drop it.
 
 ## Work items
 
@@ -233,3 +245,4 @@ translator behaviour, not a DESIGN-FORMAT check; squadra's
 | S1c | 2026-10-09 | DB1 (part) | Merged `origin/main` (`b11a7aa`); `/ask-juval` (DBQ5, DBQ8) and `/ask-eric` (DBQ6) run in parallel; ruled DB-D6–DB-D8; DB-W grows check 15 and the WD14 rewording; SQ3 requirement in Rich's queue. Stopped at ~110K before the build split | `handoffs/S1d-split.md` |
 | S1d | 2026-10-09 | DB1 (done) | Merged `origin/main` (`078e4a5`, handoff-skill PR #12); read squadra's board-writes ledger (SQ2 merged, SQ2b in progress) and `verb-contract.md`; split the build into DB2 (E1), DB3 (E2), DB4 (F), DB5 (G); T1 moved from E1 to E2 (it asserts the plan); DB-W placed in S2 before DB2, DB-G in DB5. No rulings needed | `handoffs/S2-validate.md` |
 | S2 | 2026-10-09 | DB-W (part), DB2 (done) | `origin/main` unchanged. DB-W: DESIGN-FORMAT, Publish step 2, WD14, wayfinder 0.2.0 (`0f72433`); `GLOSSARY-MAP.md` drafted, Eric (board-eric, via domain-modeling) approved with sharper wording on three lines and asked for a fourth, so it waits on Rich. DB2: plugin `design-to-board` 0.1.0, strict reader, checks 6–15, report, SKILL.md as a Client, marketplace entry; 50 tests green; all three `claude plugin validate` pass (`68307e8`); draft PR #13 | `handoffs/S3-plan.md` |
+| S2b | 2026-10-09 | DB-W (done) | `origin/main` unchanged. `/ask-juval` and `/ask-eric` blind in parallel on "transcribes" vs "reconciles": both keep "transcribes" and WD14's ResourceAccess; Eric two verbs (reconcile = the step), Juval one (step stays "the plan"). Rich ruled DB-D9 (Eric's two verbs; withdrawn row never on the board → nothing); session files written from the transcripts. `GLOSSARY-MAP.md` lines and two `GLOSSARY-SETTLED.md` rows on Rich's yes, DB-D7 amended (`5a6aa02`). PR #13 ready for review | `handoffs/S3-plan.md` |
