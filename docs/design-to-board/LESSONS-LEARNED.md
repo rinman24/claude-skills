@@ -80,3 +80,20 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
   lives only in this worktree. Earlier handoffs stay tracked. Apply: don't
   `git add -f` a handoff; the ledger's session log names it, and the
   worktree must not be removed before the next session starts.
+
+## S1d · 2026-10-09
+
+- **A test belongs to the unit that builds what it asserts.** The suggested
+  cut put T1 (the golden plan) in the reader unit, which has no `plan` yet.
+  Apply: when splitting, name each test's subject and place it with that
+  code; give earlier units their own tests (here: one failing fixture per
+  check).
+- **The sibling ledger's status sets the build order, not the split.** E1 and
+  E2 need only squadra's frozen contract (SQ2, merged); F and G wait on SQ3,
+  SQ4 and SQ5, which are still `todo`. Apply: record each unit's squadra
+  gate in its row, and before starting a gated unit grep squadra's ledger for
+  those items' status first.
+- **A small cross-plugin change can share a build session.** DB-W (~12K)
+  must precede checks 14 and 15, and a session of its own would be mostly
+  boot. Apply: pair it with the unit that consumes it, as its own commit,
+  when the two together stay under ~70K of planned work.
