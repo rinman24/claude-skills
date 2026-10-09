@@ -176,3 +176,24 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
   contract, the Juval and Eric files) took about a third. Apply: in S4 read
   only the ledger rows the handoff names (DB4, DB-D6, DB-D7, DB-D10, DB-D11),
   not the whole ledger.
+
+## S4 · 2026-10-09
+
+- **Read squadra from `origin/main` with `git show`, never by checking it
+  out.** Rich's `~/Code/squadra` sat on an older `main`; `git show
+  origin/main:<path>` and `git archive origin/main` gave the contract, the
+  notes and an installable tree without touching his checkout. Apply: any
+  session that needs another repo's merged state.
+- **A shim in front of the real CLI gives crash, race and fault injection
+  for free.** One small script on PATH counts write calls and, before write
+  n, fails it or patches the fake's file (which also arms the fake's one-shot
+  create fault). T5's every-k, the inside-create partials and T6's race came
+  from the same fixture, with no change to squadra. Apply: DB5's GitHub run
+  needs none of it; reuse it for any later executor test.
+- **Assert the precondition a convergence test depends on.** T5 passed
+  first time; checking that the inside-create stops really left a partial
+  item (`state: null`, for j < k only) is what proved the re-run finished one.
+- **Start-up reads stayed small by reading rows, not files** (S3's lesson
+  applied): the ledger rows by line number, squadra's notes N16–N19 by grep.
+  The fixed cost is the injected rules and the system prompt, ~60K before the
+  first read here. Apply: S5 reads the DB5 row, Repo facts and SQ5's row only.
