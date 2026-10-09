@@ -1,7 +1,7 @@
 ---
 name: design-to-board
-description: Transcribe a cleared wayfinder design document (docs/design/<map>.md) into increments on squadra's board; it never designs. This version reads the document and runs DESIGN-FORMAT's translator checks 6–15, and writes nothing. User-invoked only, after wayfinder's Publish says the document is cleared.
-argument-hint: <docs/design/<map>.md>
+description: Transcribe a cleared wayfinder design document (docs/design/<map>.md) into increments on squadra's board; it never designs. This version validates the document (DESIGN-FORMAT's translator checks 6–15), reads squadra's board and prints the plan of withdrawals and queues; it writes nothing. User-invoked only, after wayfinder's Publish says the document is cleared.
+argument-hint: <docs/design/<map>.md> [--parent <id>] [--dry-run]
 disable-model-invocation: true
 ---
 
@@ -13,9 +13,12 @@ document is wayfinder's Published Language
 this skill reads it and never designs. The work is done by a deterministic
 script; you are its Client.
 
-This version validates only: it reads the document strictly and runs checks
-6–15. On a valid document it says so and writes nothing. The board steps
-(plan, dry run, queueing and withdrawing through squadra) come later.
+This version stops at the plan. It reads the document strictly and runs
+checks 6–15, reads squadra's board with `squadra board origins` (run it in the
+target repo; squadra finds its own `squadra.toml`), and reconciles the two into
+a plan: withdrawals first, then queues in dependency order. It prints the plan
+and writes nothing, with or without `--dry-run`. Queueing and withdrawing
+through squadra come later.
 
 ## Run
 
@@ -27,10 +30,12 @@ python3 -B "${CLAUDE_PLUGIN_ROOT}/scripts/design_to_board.py" $ARGUMENTS
 
 Relay the script's output to the user as it is, then stop.
 
-- Exit 0: the document is valid. Say so; nothing was written.
+- Exit 0: the plan (or "nothing to write"). Relay it; nothing was written.
 - Exit 1: failed, nothing written. Each line is `check · row · reason · fix`.
-  Relay every line; the fix says what the user does next (for a document
-  defect, revise the map in wayfinder and Publish again).
+  Relay every line; the fix says what the user does next: for a document
+  defect, revise the map in wayfinder and Publish again; for `--parent`,
+  re-run with the parent the line names; for the board, wait for or stop a
+  run, transcribe another map first, or repair the board in squadra.
 - Exit 2: the arguments were wrong (usage). Relay the usage message.
 
 ## Never

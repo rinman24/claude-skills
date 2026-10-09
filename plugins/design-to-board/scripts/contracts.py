@@ -1,7 +1,8 @@
-"""Contracts between design-to-board's layers: the read design document and the failure report."""
+"""Contracts between design-to-board's layers: the read design document, the board snapshot, the plan and the failure report."""
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass
 
 FORMAT = "wayfinder-design/1"
@@ -16,6 +17,14 @@ LAYERS = ("Manager", "Engine", "ResourceAccess", "Client", "Utility")
 
 EXIT_VALID = 0
 EXIT_FAILED_NOTHING_WRITTEN = 1
+
+# squadra's Lifecycle buckets as `squadra board origins` spells them; ABSENT is an Origin no Increment carries.
+ABSENT = "absent"
+QUEUED = "queued"
+ACTIVE = "active"
+DONE = "done"
+WITHDRAWN = "withdrawn"
+LIFECYCLES = (ABSENT, QUEUED, ACTIVE, DONE, WITHDRAWN)
 
 
 @dataclass(frozen=True, slots=True)
@@ -89,7 +98,63 @@ class Failure:
 class ValidationResult:
     document: DesignDocument | None
     failures: tuple[Failure, ...]
+    front_matter: FrontMatter | None = None
 
     @property
     def valid(self) -> bool:
         return not self.failures
+
+
+@dataclass(frozen=True, slots=True)
+class Increment:
+    """One entry of squadra's `increments_by_origin()`; claim scope is reported, never filtered."""
+
+    item_id: int
+    parent: int | None
+    lifecycle: str
+    in_claim_scope: bool
+
+
+# `increments_by_origin()` as a value: every Origin an Increment carries on the board, partial items left out.
+Snapshot = Mapping[str, Increment]
+
+
+@dataclass(frozen=True, slots=True)
+class WithdrawStep:
+    origin: str
+
+
+@dataclass(frozen=True, slots=True)
+class QueueStep:
+    """A `queue_increment` call; predecessors are named by Origin, never item ID."""
+
+    origin: str
+    predecessors: tuple[str, ...]
+    title: str
+    body: str
+
+
+@dataclass(frozen=True, slots=True)
+class Plan:
+    """The reconcile's writes: withdrawals first (predecessors first), then queues in Kahn order."""
+
+    map: str
+    revision: int
+    parent: int
+    withdrawals: tuple[WithdrawStep, ...]
+    queues: tuple[QueueStep, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class ReconcileResult:
+    plan: Plan | None
+    failures: tuple[Failure, ...]
+
+
+class BoardReadError(Exception):
+    """`squadra board origins` didn't give a snapshot: not found (exit_code None), or squadra's exit code and stderr."""
+
+    def __init__(self, exit_code: int | None, message: str) -> None:
+        super().__init__(message)
+        self.exit_code = exit_code
+        self.message = message

@@ -52,7 +52,7 @@
     {
       "name": "design-to-board",
       "source": "./plugins/design-to-board",
-      "description": "Transcribe a cleared wayfinder design document into increments on squadra's board; it never designs. Reads the document strictly and runs DESIGN-FORMAT's translator checks 6–15; board writes come later.",
+      "description": "Transcribe a cleared wayfinder design document into increments on squadra's board; it never designs. Validates the document (DESIGN-FORMAT checks 6–15), reads squadra's board and prints the plan (dry run); board writes come later.",
       "category": "productivity"
     }
   ]
