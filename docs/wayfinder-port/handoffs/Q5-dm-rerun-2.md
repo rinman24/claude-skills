@@ -41,7 +41,8 @@ Estimated work: ~25–40K (budget: under 100K total, hard stop at 120K).
 
 ## Decisions already made
 
-- MD-B6, MD-B7 confirmed; MD-B8 unconfirmed (Rich may confirm it here).
+- MD-B6, MD-B7, MD-B8 confirmed. The plugin is already updated to 0.1.1;
+  just confirm `claude plugin list` shows it.
 - The billet findings already in Rich's queue are his; don't re-log them.
 
 ## Out of scope for this session
