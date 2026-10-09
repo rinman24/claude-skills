@@ -418,3 +418,26 @@ Newest at the bottom.
   was the first sign. Apply: before writing a PR body or install commands,
   check `gh pr list --state all --json number,baseRefName` and
   `claude plugin list`, not the handoff's history.
+
+## Q4 · 2026-10-08
+
+- **A scripted line can land at the wrong prompt when the skill asks a
+  multiple-choice question.** The bootstrap showed its batch list as a
+  question with a recommended option, so Rich's "that's the only batch" line
+  arrived at the batch 1 approval prompt instead, and the skill took it as
+  approval (W8.11). Apply: script interactive lines as "when you see X, say
+  Y, or pick 'Other' and type it", and expect a question widget to take the
+  turn the script assumed.
+- **A short script beats reading a settled table by eye.** Matching every
+  `GLOSSARY.md` `_Avoid_` line to its row's Rejected column took one Python
+  heredoc and covered all 27 rows. Apply: verify bulk writes with a
+  cross-check script, then read only the entries that changed after approval.
+- **A bootstrap test in a real repo finds real things.** The billet run
+  surfaced an ADR-0005 gap (`az vm create`'s implicit NSG, VNet, NIC) and an
+  `Up` code gap. Apply: before dropping a scratch branch, copy any finding
+  about the target repo into Rich's queue so it outlives the branch.
+- **Ask for the deciding reply, accept the whole transcript.** Rich pasted
+  the full bootstrap (~10K) instead of two parts; it still fit, and it showed
+  W8.11, which the two parts would have hidden. Apply: for a multi-stage
+  check, the full transcript is worth its cost once; keep single-reply pastes
+  for single-turn checks.
