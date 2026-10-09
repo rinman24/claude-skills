@@ -1,8 +1,9 @@
 # Handoff: S13 · Fix what the queue walk turned up
 
 Rich starts a fresh `claude` session in the worktree and pastes this whole file
-as the first message. Start it only after Q2 has finished the queue walk; Q2
-may have added W8 items to the ledger and to this file.
+as the first message. Q2 finished the queue walk and added W8.5–W8.7 below.
+Q3 (the W-SQ consult with Juval) touches only the ledger's W-SQ rows, so run
+S13 after it, not in parallel (both edit `LEDGER.md`).
 
 ## Context
 
@@ -18,10 +19,13 @@ Read first, in order:
 3. `plugins/domain-modeling/skills/domain-modeling/SKILL.md` ("Eric reviews
    every write", the no-Eric line) and `BOOTSTRAP.md`
 4. `docs/domain-modeling-plugin-install-runbook.md` Step D
+5. `plugins/adr/skills/adr/SKILL.md` ("Write or offer") and
+   `docs/adr-plugin-install-runbook.md` Step D 3
+6. `docs/prototype-plugin-install-runbook.md` (Status line and Step D 6)
 
 ## This session's unit
 
-Ledger items: W8.1–W8.4, plus any W8.<n> Q2 added.
+Ledger items: W8.1–W8.7.
 - W8.1: runbook Step D 2 expects the objection from Claude's own challenge
   or from Eric.
 - W8.2: any change to an Eric-reviewed wording (Eric's sharpening, or Claude
@@ -31,15 +35,26 @@ Ledger items: W8.1–W8.4, plus any W8.<n> Q2 added.
 - W8.3: `BOOTSTRAP.md` step 1 batches per top-level module, or per
   subsystem when the top-level directories are layers.
 - W8.4: the no-Eric refusal doesn't offer a manual write that skips Eric.
+- W8.5: adr runbook Step D 3 uses a decision that fits the target repo, or
+  expects the skill to ask which repo owns it (Q2: billet has no event store,
+  so the Postgres/DynamoDB decision was refused until Rich said it was a test).
+  Docs only.
+- W8.6: adr's offer, when another skill hands a decision over, stays the one
+  line `SKILL.md` asks for (Q2 step 5's ran ~8 lines). Tighten the wording.
+- W8.7: prototype runbook drops the "deferred" notes on step 6 and names
+  `~/Code/scratch/site-dash` (a toy Flask app with `APP_ENV=production`) as
+  its repo. Docs only.
 
 Goal: each item fixed, validated, and checked headless where a one-turn
 check exists (W8.4: run step 7's prompt with `board-eric` unavailable;
-W8.2 is a second-turn behaviour, so add or sharpen a runbook step for Rich).
-Estimated work: ~20–30K (budget: under 100K total, hard stop at 120K).
+W8.6: hand a decision to `adr` headless with domain-modeling loaded and count
+the offer's lines; W8.2 is a second-turn behaviour, so add or sharpen a
+runbook step for Rich).
+Estimated work: ~25–35K (budget: under 100K total, hard stop at 120K).
 
 ## Decisions already made
 
-- Each W8 row's notes record Rich's call to log it (Q1, 2026-10-08).
+- Each W8 row's notes record Rich's call to log it (Q1 and Q2, 2026-10-08).
 - MD-B2 (Eric advises, Rich decides) is the rule W8.2 enforces; it is
   confirmed, not reopened.
 

@@ -88,29 +88,63 @@ Interactive checks (each runbook's Step D; under `--plugin-dir` type
       bare reopen + re-settle). 6 (bootstrap, `~/Code/billet`, Berth batch
       only, then final pass + Settle) passed on structure but broke MD-B2
       (W8.2). 7 passed (plain refusal, read-only steps only, nothing written)
-- [ ] adr Step D 3–5 (`docs/adr-plugin-install-runbook.md`)
-- [ ] prototype Step D 6 (`docs/prototype-plugin-install-runbook.md`), once a
-      repo with a web UI exists
+- [x] adr Step D 3–5 (`docs/adr-plugin-install-runbook.md`): 3 passed
+      (Rich, 2026-10-08, Q2, `~/Code/billet` on `scratch/adr-check`):
+      `docs/adr/adr-0016-postgres-event-store.md` in the house template, short
+      sections, `mkdocs.yml` nav gained the line, nothing else changed; it
+      flagged that ADR-0015 reserves 0016. It first refused because the
+      decision doesn't fit billet (W8.5). 4 passed (`~/Code/scratch/dm-smoke`):
+      one question on what Fly.io was weighed against, no guess, nothing written.
+      5 passed (dm-smoke, both plugins): domain-modeling loaded `adr`, no
+      glossary write, offer, wrote `docs/adr/0001-handoffs-are-committed-markdown-files.md`
+      (one paragraph) only after yes; the offer ran ~8 lines, not one (W8.6)
+- [x] prototype Step D 6 (`docs/prototype-plugin-install-runbook.md`): passed
+      (Rich, 2026-10-08, Q2) in `~/Code/scratch/site-dash`, a toy Flask app
+      Q2 built for it (`/sites/riverside` with a battery dispatch summary;
+      `APP_ENV=production`). Sub-shape A: three variants in
+      `templates/prototype/dispatch_summary.html` behind `?variant=`, `app.py`
+      untouched, `site.html` +2 lines (`{% if not is_production %}` include,
+      revert comment); production renders the original table only; no pick.
+      It also flagged inconsistent sample data (Q2's, not a skill defect).
+      The runbook's "(Deferred: …)" note on step 6 is now stale (W8.7)
 
 Elsewhere:
-- [ ] G3: retire `anthropic-skills:grill-me` in claude.ai
+- [x] G3: retire `anthropic-skills:grill-me` in claude.ai: done (Rich
+      confirmed not listed in claude.ai, 2026-10-08, Q2; local sync dropped it
+      2026-10-06, absent from the synced manifest)
 - [ ] W-SQ: squadra side of WD18 (positive-scope claims, `squadra tick
-      --dry-run` contract test)
+      --dry-run` contract test). Q2 found most of it in squadra
+      (`parent_scope_ids`, opt-in; dry-run tick tests); whether scope becomes
+      mandatory goes to Juval in Q3, and his answer sets what's left
 - [x] Start S12: paste `handoffs/S12-prototype-wiring.md` into a fresh session
 
 Added in S12:
 - [x] Confirm or overrule WD-B14–B15 ([table](#decisions), after WD-B13): both confirmed 2026-10-08 (Q1)
-- [ ] wayfinder Step D 8, the verdict half (`docs/wayfinder-plugin-install-runbook.md`):
-      give a verdict on a waiting prototype ticket; check the Resolution, the
-      `closed` status, one Decisions line and no prototype file left behind
+- [x] wayfinder Step D 8, the verdict half (`docs/wayfinder-plugin-install-runbook.md`):
+      passed (Rich, 2026-10-08, Q2, toy map `queue-page` in
+      `~/Code/scratch/wf-verdict`). Hand-over again clean (only `in progress` in
+      the map folder, prototype at `.scratch/prototypes/queue-page/01-queue-layout.prototype.html`,
+      no pick). After the verdict: ticket `closed`, Resolution quotes it verbatim
+      and links `prototype/queue-layout` + path; one Decisions line; nothing
+      under `.scratch/prototypes/` on main (WD-B16 holds). It left the map edits
+      uncommitted and asked first (SKILL.md 11 says the map is committed; not logged)
 - [x] Prototype location: Rich chose `.scratch/prototypes/<map>/`
       (2026-10-08); W7 makes the change and adds WD-B16
 - [x] Start Q1: paste `handoffs/Q1-rich-queue.md` into a fresh session
 
 Added in Q1:
-- [ ] Start Q2: paste `handoffs/Q2-rich-queue-2.md` into a fresh session
-      (adr Step D 3 was handed over in Q1; if you ran it, report it first)
-- [ ] After Q2: start S13 with `handoffs/S13-queue-follow-ups.md`
+- [x] Start Q2: paste `handoffs/Q2-rich-queue-2.md` into a fresh session
+- [ ] After Q2: start S13 with `handoffs/S13-queue-follow-ups.md` (now after Q3)
+
+Added in Q2:
+- [ ] Start Q3: paste `handoffs/Q3-wsq-juval.md` into a fresh session; you
+      type `/ask-juval` there, and rule on W-SQ's remaining scope
+- [ ] Optional cleanup of Q2's scratch state: billet `scratch/adr-check`
+      (`git -C ~/Code/billet restore mkdocs.yml && git -C ~/Code/billet clean -f docs/adr && git -C ~/Code/billet switch main && git -C ~/Code/billet branch -D scratch/adr-check`);
+      `~/Code/scratch/dm-smoke/docs/adr/`; `~/Code/scratch/wf-verdict`
+      (toy map + `prototype/queue-layout`); `~/Code/scratch/site-dash`
+      branch `scratch/prototype-test` and its dev server on port 5077. Keep
+      `site-dash` itself as the prototype Step D 6 repo (W8.7)
 
 ## Work items
 
@@ -121,7 +155,7 @@ Added in Q1:
 | L0 | Set up worktree, branch, ledger, lessons, handoff template | S1 | n/a | done | |
 | G1 | Grilling: outline upstream approach + author's known issues; collect Rich's feedback | S2 | ~40K | done | Decisions GD1–GD7 below |
 | G2 | Grilling: build `plugins/grilling` from G1 decisions | S2 | ~35K | done | Validated; headless smoke test passed for round format, fact lookup, no-code. Rich to check clarification + gate interactively (runbook Step D 4 and 6) |
-| G3 | Retire the claude.ai-synced `anthropic-skills:grill-me` (old one-at-a-time text) | Rich | n/a | todo | After G2 smoke test passes (GD1); done in claude.ai, not this repo |
+| G3 | Retire the claude.ai-synced `anthropic-skills:grill-me` (old one-at-a-time text) | Rich | n/a | done | After G2 smoke test passes (GD1); done in claude.ai, not this repo |
 | M1 | Domain-modeling: outline upstream approach + author's known issues; collect Rich's feedback | S3 | ~40K | done | Decisions MD1–MD13 below; Juval and Eric consulted (board-knowledge `sessions/2026-10-06-juval-settled-term-lookup.md`, `…-eric-settled-term-verbs.md`) |
 | M2 | Domain-modeling: build `plugins/domain-modeling` from M1 decisions | S4 | ~60K | done | Validated; headless smoke test passed for Eric consult, refusal on Eric's objection, and both-files write on approval. Rich to run runbook Step D 3–7 interactively (announcement after an answer, drift, Reopen, bootstrap, no-Eric berth). Build interpretations MD-B1–B5 below |
 | A1 | ADR: build `plugins/adr` (MD3) | S5 | ~35K | done | Validated; headless smoke test passed for a gate-passing decision (`docs/adr/0001-…` written, one paragraph) and a gate-failing one (nothing written, each gate named). Rich to run runbook Step D 3–5 interactively (house convention, unknown gate, domain-modeling hand-off). Build interpretations AD-B1–B4 below |
@@ -134,15 +168,19 @@ Added in Q1:
 | W6 | Wire prototype tickets into wayfinder | S12 | ~25K | done | Replaced WD-B3: a prototype ticket now calls the `prototype` skill, the user gives the verdict, and the Resolution links the prototype (`SKILL.md` prototype bullet, "What wayfinder writes", Resolve step 2; `MAP-FORMAT.md` Resolution; runbook Step D 8; README). Validated. Headless Step D 8 hand-over passed on a toy map: `prototype` loaded, three UI variants in one HTML file, said what it noticed without picking, ticket left `in progress`, no Resolution, no Decisions line. The verdict half of Step D 8 needs a second turn (Rich). Build interpretations WD-B14–B15 |
 | W7 | Wayfinder tells `prototype` to put a pending prototype under `.scratch/prototypes/<map>/`, not the map folder (WD-B16) | Q1 | ~15K | done | Rich's choice after S12's headless run put it in `.scratch/wayfinder/<map>/`. `SKILL.md` prototype bullet and "What wayfinder writes", runbook Step D 8. Validated. Headless Resolve on a toy map (UI question, no app): prototype landed at `.scratch/prototypes/queue-page/01-queue-layout.prototype.html`; in the map folder only the ticket's `in progress` changed; handed over without picking. Toy map and prototype deleted. `plugins/prototype` unchanged |
 | Q1 | Walk Rich through his queue, one item at a time | Q1 | ~30–50K | done | Rich's order (2026-10-08): Q1, then S13 (W8), then the PR to main (W9). Records rulings and defects; fixes nothing. Covered three items (WD-B14–B15 confirmed; grilling Step D 4, 6 passed; domain-modeling Step D 3–7, which found W8.1–W8.4), then stopped at Rich's call near ~150K context, with adr step 3 handed over but not reported. The rest moves to Q2 |
-| Q2 | Finish the queue walk: adr Step D 3–5, wayfinder Step D 8 verdict, prototype Step D 6, Elsewhere | Q2 | ~40–60K | todo | Same rules as Q1. Before S13, so S13 fixes everything the walk finds |
-| W8 | Fix what Q1 and Q2 turn up | S13 | ~20–30K | todo | Q1 added W8.1–W8.4; Q2 may add more |
+| Q2 | Finish the queue walk: adr Step D 3–5, wayfinder Step D 8 verdict, prototype Step D 6, Elsewhere | Q2 | ~40–60K | done | adr Step D 3–5 passed (3 after a sound repo-fit refusal, W8.5; 5's offer too long, W8.6); wayfinder Step D 8 verdict half passed (WD-B16 holds); prototype Step D 6 passed in `~/Code/scratch/site-dash`, a toy Flask app Q2 built (W8.7: runbook still says deferred); G3 confirmed done. W-SQ traced in squadra and moved to Q3 at Rich's call |
+| Q3 | Ask Juval (`/ask-juval`, Rich types it) whether squadra's positive claim scope becomes mandatory; Rich rules, and the ruling sets W-SQ's remaining scope (WSQ1) | Q3 | ~20–30K | todo | Rich's call in Q2. Before S13 (both edit this ledger). Changes nothing in squadra |
+| W8 | Fix what Q1 and Q2 turn up | S13 | ~25–35K | todo | Q1 added W8.1–W8.4; Q2 added W8.5–W8.7 |
 | W8.1 | domain-modeling runbook Step D 2: expect the objection from Claude's own challenge or from Eric, not only Eric | S13 | ~2K | todo | Q1: Rich's colliding term was caught by the skill's challenge steps (`SKILL.md` 37–47) before Eric was called; behaviour is per the skill, the runbook wording is too narrow. Docs only |
 | W8.2 | domain-modeling: any change to an Eric-reviewed wording goes to the user as a question, and the announcement says who approved each wording | S13 | ~8K | todo | Q1 step 6 (billet bootstrap) broke MD-B2 three times: Claude moved Eric's authorized-keys rule to Host admin user against his verdict (noted in the draft, never asked); after the final pass it wrote Eric's sharper First start and Claude Locker wording into `GLOSSARY.md` without asking; its summary then said every wording was one "you accepted". Tighten `SKILL.md` ("Eric reviews every write") and `BOOTSTRAP.md` step 4 |
 | W8.3 | domain-modeling `BOOTSTRAP.md` step 1: batch per top-level module, or per subsystem when the top-level directories are layers | S13 | ~2K | todo | Q1 step 6: billet's top-level dirs are layers (`access`, `workspace`, `contracts`); Claude batched by subsystem, which was right but outside the written rule |
 | W8.4 | domain-modeling no-Eric refusal: don't offer "paste it by hand" as a way around Eric's review | S13 | ~2K | todo | Q1 step 7: the refusal itself was correct (MD7), then it offered the snippets for a manual write that "skips Eric's review". Rich: log it |
+| W8.5 | adr runbook Step D 3: use a decision that fits the target repo, or expect the skill to ask which repo owns it | S13 | ~2K | todo | Q2 step 3: in billet the step 1 Postgres/DynamoDB decision was refused because billet has no event store ("it would describe a system billet doesn't have") and the skill asked which repo owns it. A sound judgement; it wrote the ADR once Rich said it was a test. Docs only |
+| W8.6 | adr: when another skill hands a decision over, keep the offer to the one line `SKILL.md` asks for | S13 | ~2K | todo | Q2 step 5: the offer was correct (nothing written before Rich's yes) but ran ~8 lines: a glossary recap, a bulleted list of the three gates, the path, then the question. `SKILL.md` 35 says one line (the decision, and why it clears the gates). Minor |
+| W8.7 | prototype runbook: drop step 6's "(Deferred: no repo with a web UI yet)" note and the Status line's "Step 6 is deferred"; name `~/Code/scratch/site-dash` (or any Flask/Jinja app with an `APP_ENV` switch) as the step 6 repo | S13 | ~1K | todo | Q2: step 6 passed there. Docs only |
 | W9 | PR `feat/wayfinder-domain-modeling` → main, then install the port's plugins from the marketplace | after S13 | ~10K | todo | No PR yet; 30 commits ahead of main at S12 |
 | T1 | `design-to-board` (WD14) | later, not this port | n/a | todo | Blocked by W-SQ and W3; build against `DESIGN-FORMAT.md` and Juval's validation list |
-| W-SQ | squadra: rename its unit "slice" → "increment" (WD11) | Rich, in squadra | n/a | in progress | Rename merged (squadra PR #41, 2026-10-07; `Increment` settled in squadra's glossary: Vertical / Foundation, rejects infrastructure increment). Remaining: WD18's squadra requirements (positive-scope claims, `squadra tick --dry-run` contract test) |
+| W-SQ | squadra: rename its unit "slice" → "increment" (WD11) | Rich, in squadra | n/a | in progress | Rename merged (squadra PR #41, 2026-10-07; `Increment` settled in squadra's glossary: Vertical / Foundation, rejects infrastructure increment). Remaining: WD18's squadra requirements (positive-scope claims, `squadra tick --dry-run` contract test). Q2 (2026-10-08, squadra `main` `d9d2afa`): positive scope exists as `[board].parent_scope_ids` (`config.py:192`, `test_supervisor_claim.py:324`) but is opt-in; `[]`, the default and the scaffold, claims every unblocked queued item. Dry run: `test_supervisor_dry_run.py` (tick mutates nothing, reports every would-be action) and `test_cli.py:178` (`tick --dry-run` passes through); no end-to-end CLI test asserts the claim set. Mandatory or not goes to Juval in Q3 |
 
 ## Decisions
 
@@ -581,3 +619,4 @@ S6 dispositions:
 | S10 | 2026-10-07 | W4 · Wayfinder smoke | Five headless runs plus one re-run: Begin with answers (map written), Begin without answers (asked first, wrote nothing), Resolve (one research ticket closed), Publish fail (checks named, nothing written), Publish pass (refused on check 4, fixed as WD-B11, re-run wrote a cleared document). Toy maps and `docs/design/` output deleted. Fixed `TEMPLATE.md`'s retired `grill-me` example | `handoffs/S12-prototype-wiring.md` |
 | S12 | 2026-10-08 | W6 · Prototype wiring | Wayfinder's prototype tickets now call the `prototype` skill (WD-B3 → `replaced (W6)`; WD-B14–B15 unconfirmed). Updated `SKILL.md`, `MAP-FORMAT.md`, runbook (Step D 8), README. Validated; one headless Resolve on a toy map handed over without picking or closing. Toy map and prototype deleted. Port units done; afterwards Rich set the order Q1 (W7 + his queue) → S13 (W8) → PR to main (W9) | `handoffs/Q1-rich-queue.md` |
 | Q1 | 2026-10-08 | W7, Q1 · Prototype placement + queue walk (part 1) | W7: wayfinder tells `prototype` to put a pending prototype under `.scratch/prototypes/<map>/` (WD-B16, confirmed); validated; headless Resolve on a toy map landed it there with only the ticket's status changed in the map. Q1: WD-B14–B15 confirmed; grilling Step D 4, 6 passed; domain-modeling Step D 3–7 passed except MD-B2 in the bootstrap (W8.2); logged W8.1–W8.4. Stopped before adr at Rich's call (context ~150K) | `handoffs/Q2-rich-queue-2.md`, `handoffs/S13-queue-follow-ups.md` |
+| Q2 | 2026-10-08 | Q2 · Queue walk (part 2) | adr Step D 3–5 passed (billet, dm-smoke); wayfinder Step D 8 verdict half passed (toy map in `~/Code/scratch/wf-verdict`, prototype kept on `prototype/queue-layout`, WD-B16 holds); built `~/Code/scratch/site-dash` (toy Flask app) and prototype Step D 6 passed there; G3 confirmed done. Logged W8.5–W8.7 (two runbook fixes, adr offer length). Traced W-SQ in squadra; Rich moved the mandatory-scope question to Juval (Q3). Updated S13's handoff | `handoffs/Q3-wsq-juval.md` (S13's handoff updated) |

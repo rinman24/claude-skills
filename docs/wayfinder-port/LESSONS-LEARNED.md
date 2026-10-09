@@ -340,3 +340,31 @@ Newest at the bottom.
   bootstrap's summary said every wording was one Rich accepted; the
   transcript showed two writes he never approved (W8.2). Apply: verify a
   check against the files and the transcript, not the skill's own summary.
+
+## Q2 · 2026-10-08
+
+- **Asking for only the deciding reply kept a five-check walk near ~95K.**
+  Rich pasted the final reply of each check, and the session read the
+  written files and `git status` itself. Apply: keep doing this; it is the
+  main cost lever in a queue walk.
+- **A runbook prompt can fail a repo-fit judgement that is correct.** The adr
+  step 1 decision (an event store) was refused in billet, which has none.
+  Apply: when a runbook step reuses another step's prompt in a different
+  repo, check that the prompt fits that repo before handing it over (W8.5).
+- **Build the missing test bed instead of deferring the check.** prototype
+  Step D 6 had waited since S11 for "a repo with a web UI"; a ~60-line Flask
+  app with an `APP_ENV` switch, smoke-tested with Flask's test client, took
+  one short chunk. Apply: when a check is deferred for lack of a fixture,
+  price building a toy one before deferring again. With no Node on the Mac,
+  `uv` + Flask was the shortest path.
+- **Toy sample data gets audited by the skill under test.** prototype flagged
+  that site-dash's hourly export and cycle count contradict its daily totals.
+  Apply: make toy data internally consistent, or the check spends words on it.
+- **A user-invoked advisor skill can't be called by the session.**
+  `ask-juval` sets `disable-model-invocation`, so a consult has to be Rich
+  typing it, after the session has read the facts into context (the skill
+  passes conversation facts verbatim). Apply: write consult handoffs as "load
+  these facts, then Rich types this exact line".
+- **zsh trips on unquoted globs and `=word`.** `--include=*.md` and `echo
+  =====` both failed. Apply: quote globs, prefer `rg -g`, and don't lead a
+  word with `=`.
