@@ -1,0 +1,9 @@
+{
+  "name": "domain-modeling",
+  "version": "0.1.0",
+  "description": "Build and sharpen a repo's domain language: challenge and sharpen terms, write GLOSSARY.md inline with Eric Evans (board-eric) reviewing every write, and keep a settled-term record so closed naming debates stay closed.",
+  "author": {
+    "name": "rinman24"
+  },
+  "license": "MIT"
+}

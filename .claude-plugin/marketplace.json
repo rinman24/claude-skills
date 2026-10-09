@@ -12,6 +12,36 @@
       "source": "./plugins/local-backlog",
       "description": "Scaffold a personal, git-excluded local backlog (BACKLOG.local.md) in the current repo, and wire the maintenance convention into CLAUDE.local.md.",
       "category": "workflow"
+    },
+    {
+      "name": "grilling",
+      "source": "./plugins/grilling",
+      "description": "Stress-test a plan, decision, or idea with a round-based interview: numbered questions with a recommended answer each, facts looked up rather than asked, and a confirmation gate. Never writes code.",
+      "category": "productivity"
+    },
+    {
+      "name": "domain-modeling",
+      "source": "./plugins/domain-modeling",
+      "description": "Build and sharpen a repo's domain language: challenge and sharpen terms, write GLOSSARY.md inline with Eric Evans (board-eric) reviewing every write, and keep a settled-term record so closed naming debates stay closed.",
+      "category": "productivity"
+    },
+    {
+      "name": "adr",
+      "source": "./plugins/adr",
+      "description": "Record architecture decisions only when they clear three gates (hard to reverse, surprising without context, a real trade-off), in the repo's own ADR convention or a minimal docs/adr/ default.",
+      "category": "productivity"
+    },
+    {
+      "name": "prototype",
+      "source": "./plugins/prototype",
+      "description": "Build a throwaway prototype (a clickable logic demo or radically different UI variants) to settle one design question that talking can't. Hands it over and waits: the verdict is always the user's, and it never builds the real thing.",
+      "category": "productivity"
+    },
+    {
+      "name": "wayfinder",
+      "source": "./plugins/wayfinder",
+      "description": "Chart the way to one destination too big for a single session: a committed map of tickets resolved one per session with grilling and domain-modeling, published as a design document of increments. Writes only the map and the design document; never builds.",
+      "category": "productivity"
     }
   ]
 }
