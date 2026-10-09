@@ -70,10 +70,21 @@ handoff path and his queue.
 
 ## Rich's queue
 
-- [ ] Review and merge PR #11 (`plugins/handoff`, HD1–HD3).
-- [ ] After merging, start H2: fresh `claude` in this worktree; give it only
-      "Read `docs/handoff-skill/LEDGER.md` and start the next unit." (that is
-      Juval's ledger-only test; the session reads the H2 handoff afterwards).
+- [x] Review and merge PR #11 (merged 2026-10-09 as `b11a7aa`).
+- [x] Start H2 with the ledger-only prompt (done; the test passed).
+- [ ] Review and merge PR #12 (H2 close-out, docs only).
+- [ ] In an interactive session, check runbook Step C: `/handoff` appears in
+      slash completion with the hint "What will the next session be used
+      for?" (headless can only show `plugin list`: installed, enabled).
+- [ ] In an interactive session, repeat runbook Step D4 (stale ledger). In H2's
+      headless runs, two of three wrote the handoff *before* offering the
+      ledger fixes, contrary to SKILL.md step 3; none touched the ledger
+      unasked. If it also writes first interactively, open a fix unit
+      (tighten step 3 to "stop and wait for the answer"); if it waits, close
+      this as a headless artifact.
+- [ ] After PR #12 merges, remove the worktree: `git worktree remove
+      .claude/worktrees/handoff-skill` from the main checkout (its
+      `handoffs/` are local and go with it, HD1).
 - [ ] Follow-up, not this effort's work: `feat/design-to-board` commits its
       handoffs under `docs/design-to-board/handoffs/`. Once that branch merges
       `main`, the new root `.gitignore` rule `docs/*/handoffs/` ignores new
@@ -85,7 +96,7 @@ handoff path and his queue.
 | ID | Item | Unit | Est. | Status | Notes |
 |---|---|---|---|---|---|
 | H1 | Rule HQ1–HQ3 (Juval on HQ1), then build `plugins/handoff`: SKILL.md, bundled template, manifest, marketplace entry, install runbook; validate, install, PR | H1 | ~70–90K | done | PR #11; installing from the marketplace waits for the merge (H2) |
-| H2 | After the H1 PR merges: run Juval's ledger-only test (the session states the unit and first action from the ledger alone, then reads the handoff and notes what it added); `claude plugin marketplace update claude-skills`, install `handoff@claude-skills`, runbook Steps C–D; record lessons; mark the effort done; tell Rich the worktree can go | H2 | ~30–40K | todo | Needs the PR merged |
+| H2 | After the H1 PR merges: run Juval's ledger-only test (the session states the unit and first action from the ledger alone, then reads the handoff and notes what it added); `claude plugin marketplace update claude-skills`, install `handoff@claude-skills`, runbook Steps C–D; record lessons; mark the effort done; tell Rich the worktree can go | H2 | ~30–40K | done | Ledger-only test passed. 0.1.0 installed (user scope); Step D 1–5 pass headless in scratch dirs; Step C hint and an interactive D4 are in Rich's queue |
 
 ## Open questions
 
@@ -105,3 +116,4 @@ None open. HQ1–HQ3 were ruled in H1 as HD1–HD3.
 |---|---|---|---|---|
 | H0 | 2026-10-09 | Setup | Branch `feat/handoff-skill` from `main` `205c5f2` (set up from design-to-board's S1); this ledger, lessons, template and H1 handoff | `handoffs/H1-build.md` |
 | H1 | 2026-10-09 | H1 | HQ1–HQ3 ruled as HD1–HD3 (Juval on HQ1); `plugins/handoff` built, validated, tried headless (no-ledger path) and on this ledger; PR #11 | `handoffs/H2-install-and-close.md` |
+| H2 | 2026-10-09 | H2 | PR #11 merged (`b11a7aa`); ledger-only test passed; `handoff@claude-skills` 0.1.0 installed; runbook A, B, D 1–5 pass headless; effort done, two interactive checks in Rich's queue | none (effort closed) |
