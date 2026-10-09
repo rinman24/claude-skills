@@ -153,3 +153,26 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
   (DB3, DB4) carry the change. A recording-only unit came in near ~30K.
   Apply: the same pattern when squadra's SQ5 or a later note reopens a DB-D
   ruling.
+
+## S3 · 2026-10-09
+
+- **Put the unruled structure to Rich and the name to Eric in the same
+  turn.** Eric ran in the background while Rich answered; both were back
+  before the first line of code, and the name cost no main context. Apply:
+  any build unit that opens with a carried recommendation and a name.
+- **A completeness test alone doesn't prove the code reads the table.** A
+  second test parametrized over every cell runs `reconcile` and checks the
+  row's outcome against `TRANSLATION_TABLE[cell]`. Apply: the same pair
+  when DB4 maps squadra's exit codes to report classes.
+- **One fixture covers a second map.** Juval's cross-map cases derive map
+  `portal` from `valid.md` with two `(old, new)` edits (the map name, one
+  `billing:I3` in `Depends on`). Apply: no new fixture document for DB4.
+- **A stub `squadra` with a `sys.executable` shebang on a monkeypatched PATH**
+  serves both the in-process Access and the subprocess CLI tests (T1, T3).
+  Apply: DB4 swaps it for SQ3's fake (`provider = "fake"`) through the real
+  CLI once SQ4 lands.
+- **S3 ran over budget** (~160K by the session counter, against ~100K and a
+  120K ceiling): the start-up reads (hook rules, a 43K ledger, squadra's
+  contract, the Juval and Eric files) took about a third. Apply: in S4 read
+  only the ledger rows the handoff names (DB4, DB-D6, DB-D7, DB-D10, DB-D11),
+  not the whole ledger.
