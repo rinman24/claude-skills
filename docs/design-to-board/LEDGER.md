@@ -120,7 +120,7 @@ Added S1 (2026-10-09), not design-to-board work:
       committed.
 
 Added S1c (2026-10-09):
-- [ ] Fill in `## Choice` in `~/Code/board-knowledge/sessions/2026-10-09-juval-failure-and-determinism.md`
+- [x] Fill in `## Choice` in `~/Code/board-knowledge/sessions/2026-10-09-juval-failure-and-determinism.md`
       (DB-D6, DB-D7: Juval's version in full) and `2026-10-09-eric-blank-kind-failure-name.md`
       (DB-D8: Eric's version, no cross-map foundations).
 - [ ] squadra SQ3 (fake provider), from DB-D7: besides seeding, a test must be
@@ -135,8 +135,13 @@ Added S1d (2026-10-09):
       without waiting on squadra; S4 can't start until squadra's SQ3 and
       SQ4 are merged (the squadra item above), so keep that effort moving.
 - [ ] Before S5: a GitHub board design-to-board can write to for the
-      integration test (a scratch repo, its project, and a `squadra.toml`
-      with a claim scope that includes the test parent), plus SQ5 merged.
+      integration test, plus SQ5 merged. Now (S1d follow-up): `project` scope
+      on `gh`, a private scratch repo, an in-scope and an out-of-scope parent
+      issue, a Projects v2 project linked to the repo; record their names and
+      numbers in Repo facts. After SQ5 settles how GitHub states and the board
+      are configured: the repo's `squadra.toml` (`provider = "github"`,
+      `claim_scope = "parents"` with the in-scope parent, `[board.states]`)
+      and `squadra init --check` green. Never `squadra start` there.
 - [ ] Merge each build unit's PR (DB2–DB5) when you've reviewed it.
 
 ## Work items
