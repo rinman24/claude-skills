@@ -29,3 +29,6 @@ Rich, and an advisor consultation costs ~25–30K of a session.
 - **The advisor relay plus three rulings fit comfortably.** Juval's
   consultation cost ~28K inside the agent and little here; HQ2 and HQ3 took
   one question each because Juval's answer had already framed them.
+- **The skill's ledger check earns its keep.** Writing H2 by following
+  SKILL.md, step 3 caught that the ledger said "PR opened" without the PR
+  number. Apply: run `/handoff` after the PR exists, so the ledger can name it.
