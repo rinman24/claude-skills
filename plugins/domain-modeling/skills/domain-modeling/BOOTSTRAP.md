@@ -6,7 +6,7 @@ If `board-eric` is not available, say so and stop: every step below leads to a w
 
 ## 1. Batch the repo
 
-List the top-level modules (one batch per top-level source directory or package; fold tiny ones together). Show the list to the user and let them drop or merge batches before you start. Work the batches one at a time, in the order the user prefers.
+List the top-level modules (one batch per top-level source directory or package; fold tiny ones together). When the top-level directories are layers rather than modules (e.g. `access`, `contracts`, `workspace`), batch per subsystem instead, across the layers. Show the list to the user and let them drop or merge batches before you start. Work the batches one at a time, in the order the user prefers.
 
 ## 2. Extract candidate terms (read-only subagents)
 
@@ -23,9 +23,9 @@ Send Eric (`subagent_type: board-eric`) that batch's term list, never the raw co
 
 ## 4. The user reviews the batch draft
 
-Draft the batch's glossary entries in the [GLOSSARY-FORMAT.md](./GLOSSARY-FORMAT.md) format, applying Eric's verdicts, and show it with his notes beside the terms he changed or dropped. Put the remaining choices (which name wins, whether two terms are distinct) to the user as questions. Nothing is written until the user approves the batch.
+Draft the batch's glossary entries in the [GLOSSARY-FORMAT.md](./GLOSSARY-FORMAT.md) format, applying Eric's verdicts, and show it with his notes beside the terms he changed or dropped. Put the remaining choices (which name wins, whether two terms are distinct) to the user as questions. Where the draft departs from Eric's verdict, that is a question too, not a note. Nothing is written until the user approves the batch.
 
-Once approved, add the batch's entries to the root `GLOSSARY.md` and announce the write. Hold the `GLOSSARY-SETTLED.md` rows until step 6: a row's `Context` can never change after it is written, and the contexts aren't fixed until step 5.
+Once approved, add the batch's entries to the root `GLOSSARY.md` exactly as approved, and announce the write saying who approved each wording ([SKILL.md](./SKILL.md), "Writing a term" step 5). A wording that changes after the user's approval, including Eric's sharpening in step 5, goes back to the user as a question before it is written. Hold the `GLOSSARY-SETTLED.md` rows until step 6: a row's `Context` can never change after it is written, and the contexts aren't fixed until step 5.
 
 ## 5. Final pass: context boundaries
 

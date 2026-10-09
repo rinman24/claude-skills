@@ -132,10 +132,14 @@ interactively.
    line plus one `settled` row with `session:<date>`), and opens its reply with
    a `📝 Written since last round:` list that includes Eric's verdict.
 2. Ask it to settle a term that collides with something else in your domain.
-   Expected: if Eric sharpens or objects, nothing is written and his point
-   comes back to you as a question.
+   Expected: nothing is written, and the collision comes back to you as a
+   question. Claude's own challenge against the glossary may catch it before
+   Eric is called; if it reaches Eric and he sharpens or objects, his point is
+   the question.
 3. Answer that question. Expected: the next reply opens with the
-   `📝 Written since last round:` announcement of what it wrote.
+   `📝 Written since last round:` announcement of what it wrote, and its
+   wording line says `you approved` (with Eric's wording beside it if his
+   differed), not `Eric approved`.
 4. Say "we pass the baton to the next session". Expected: a drift note
    ("settled as Handoff …") and no question about it; the word "reopen" does
    not appear.
@@ -143,11 +147,17 @@ interactively.
    naming question is put to you. Settle it again; expect a new `settled` row
    and the old row's status `superseded` (no row deleted).
 6. In a repo with code but no glossary, ask it to bootstrap one. Expected: a
-   batch list for you to confirm, read-only extractor sub-agents, Eric's review
-   of each batch's term list, and a draft you approve before anything is
-   written; settled rows only after the final context pass.
+   batch list for you to confirm (per subsystem if the top-level directories
+   are layers), read-only extractor sub-agents, Eric's review of each batch's
+   term list, and a draft you approve before anything is written; settled rows
+   only after the final context pass. Where the draft departs from Eric, it
+   asks rather than notes it. If Eric sharpens a wording in the final pass,
+   the change comes to you as a question before `GLOSSARY.md` changes. Each
+   announcement names who approved each wording; check it against what you
+   actually approved.
 7. In an environment without `board-eric`, run step 1 again. Expected: it says
-   plainly that it won't write the glossary files, and writes nothing.
+   plainly that it won't write the glossary files, writes nothing, and doesn't
+   offer the entry for you to paste in by hand.
 
 ---
 

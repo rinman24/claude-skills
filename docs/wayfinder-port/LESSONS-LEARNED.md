@@ -388,3 +388,24 @@ Newest at the bottom.
   whether anything outside squadra sets `FLEET_EPIC_IDS`; one grep of
   `~/Code` settled it. Apply: same as S6/S7, and put the answer under
   "Blocking questions".
+
+## S13 · 2026-10-08
+
+- **Tightening a rule can break a runbook step that relied on the old slack.**
+  W8.2's first draft ("approved after seeing Eric's verdict") would have
+  turned Step D 1's one-turn write, which accepts Eric's sharpening in
+  advance, into two turns. Apply: after tightening a skill rule, re-read
+  every runbook step for that skill against it, and re-run the one-turn steps
+  headless (here Step D 1 still passed, now announcing `you approved in
+  advance`). Record the reading as a build interpretation (MD-B6).
+- **Three headless checks in parallel kept a seven-item fix unit near ~40K.**
+  The two that needed Eric ran side by side in separate scratch repos under
+  the job temp dir; the no-Eric one ran after them, with `board-eric.md`
+  moved aside under a `trap` that put it back. Apply: run independent
+  headless checks concurrently, and isolate the agent-absence check so it
+  can't overlap a run that needs the agent.
+- **A concrete example in the skill fixes a length problem better than an
+  adjective.** "One line" was already in adr's `SKILL.md`; Q2 still got ~8
+  lines. Spelling out what the line holds, what it leaves out, and a sample
+  gave a one-line offer on the first headless run. Apply: when output
+  overruns a stated limit, show the target shape, not a stronger word.

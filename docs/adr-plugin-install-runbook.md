@@ -124,10 +124,14 @@ repo, so run them interactively.
    Expected: no file written, and a reply naming each failed gate (here all
    three) with a one-line reason.
 3. In a repo that already has ADRs elsewhere (e.g. `docs/decisions/ADR-007-foo.md`
-   with `Status` / `Context` / `Decision` / `Consequences` headings), repeat
-   step 1. Expected: `docs/decisions/ADR-008-<slug>.md` in the house template,
-   each section short; no `docs/adr/` created. If an index file lists the
-   ADRs, it gains a line.
+   with `Status` / `Context` / `Decision` / `Consequences` headings), record a
+   decision that fits that repo, in step 1's shape (the choice, what it was
+   weighed against, why it's hard to reverse). Expected:
+   `docs/decisions/ADR-008-<slug>.md` in the house template, each section
+   short; no `docs/adr/` created. If an index file lists the ADRs, it gains a
+   line. If you reuse step 1's Postgres/DynamoDB decision in a repo with no
+   event store, expect it to ask which repo owns the decision before writing;
+   that is a correct refusal, not a failure.
 4. Give a decision with no word on alternatives (e.g. "Record that we deploy
    to Fly.io"). Expected: one question about whether there was a real
    alternative, not a guess either way.

@@ -23,10 +23,12 @@ Every write to `GLOSSARY.md` or `GLOSSARY-MAP.md`, every `Settle`, and every pru
 
 Give Eric the proposed entry (term, definition, `_Avoid_` forms, context, one-line ruling), the existing entries it sits next to, and any `Lookup` hits. Never send him raw code. Ask for a short verdict: approve, approve with a sharper wording, or object, with one line of reason.
 
-- Approve: write it.
-- Sharper wording or objection: don't write yet. Put Eric's point to the user as a question in the next round. The user decides; Eric advises.
+- Approve: write it, exactly as Eric saw it.
+- Sharper wording or objection: don't write yet (unless the user accepted a sharper wording in advance; see below). Put Eric's point to the user as a question in the next round. The user decides; Eric advises.
 
-If `board-eric` is not an available agent type, or the call fails, say so plainly at the start: "`board-eric` isn't available here, so I'll challenge and sharpen terms but won't write `GLOSSARY.md`, `GLOSSARY-MAP.md` or `GLOSSARY-SETTLED.md`." Everything read-only (challenging, `Lookup`, drift reports) still runs. `Reopen` adds no language and records only the user's instruction, so it does not need Eric.
+Only two wordings can be written: one Eric approved unchanged, or one the user approved after Eric's verdict (or in advance, in so many words: "if Eric only sharpens it, I accept"). Any other change after Eric has seen it (taking his sharper wording, departing from his verdict, or your own edit) goes to the user as a question first. A note in a draft is not a question.
+
+If `board-eric` is not an available agent type, or the call fails, say so plainly at the start: "`board-eric` isn't available here, so I'll challenge and sharpen terms but won't write `GLOSSARY.md`, `GLOSSARY-MAP.md` or `GLOSSARY-SETTLED.md`." Don't offer the drafted entries for the user to paste in by hand, or any other route around Eric's review. Everything read-only (challenging, `Lookup`, drift reports) still runs. `Reopen` adds no language and records only the user's instruction, so it does not need Eric.
 
 ## During the session
 
@@ -68,8 +70,10 @@ When the user settles a term, write it right then. Don't batch.
    📝 Written since last round:
    - GLOSSARY.md: **Order** (Sales), avoid Purchase, Transaction
    - GLOSSARY-SETTLED.md: Order settled in Sales, rejects Purchase, Transaction (session:2026-10-06)
-   - Eric: approved
+   - Wording: Eric approved
    ```
+
+   Say who approved each wording: `Eric approved`, or `you approved` (or `you approved in advance`) plus what Eric said when it differs (e.g. `you approved; Eric had sharpened it to "…"`). Never say the user accepted a wording they weren't asked about.
 
    A correction to something just written is a reopen by the user followed by a new `Settle`; rows are never edited or deleted.
 

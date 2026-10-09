@@ -32,7 +32,11 @@ If the conversation doesn't tell you whether a gate holds (for example, you can'
 ## Write or offer
 
 - **The user asked for this ADR**: check the gates, then write it.
-- **Another skill handed it over, or you spotted it yourself**: offer it in one line (the decision, and why it clears the gates) and write it only on the user's yes. A calling skill's request is not the user's permission.
+- **Another skill handed it over, or you spotted it yourself**: offer it in one line and write it only on the user's yes. A calling skill's request is not the user's permission. The line is the decision, why it clears the gates in a clause, and the question; no recap of the conversation, no list of the gates, no path:
+
+  ```
+  ADR? Handoffs are committed Markdown files: hard to undo once sessions depend on them, and picked over a hook-based handoff. Write it?
+  ```
 
 Either way, the gates are this skill's call. A caller saying a decision "looks ADR-worthy" doesn't pass them.
 

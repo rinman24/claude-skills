@@ -128,8 +128,8 @@ Inside a Claude Code session:
 
 Status: steps 1–3 were checked headless on the build branch (S11), via
 `--plugin-dir` and `/prototype:prototype`. Rich then ran steps 1–5 and 7
-interactively in `~/Code/squadra`, and all passed. Step 6 is deferred until
-there is a repo with a web UI to test it in.
+interactively in `~/Code/squadra`, and all passed. Step 6 passed later (Q2,
+2026-10-08) in `~/Code/scratch/site-dash`, a toy Flask app built for it.
 
 ### Setup: a branch you'll throw away
 
@@ -164,7 +164,7 @@ after one reply).
 | 1 | No web app, on `scratch/prototype-test` | Step 1 → step 4 → step 5. Then check `git status` (clean) and `git branch` (`prototype/<name>` exists) in a normal terminal. |
 | 2 | Same | Step 1 again → step 7. It has to be a new session, because step 4 already settled session 1's question. |
 | 3 | Same | Steps 2 and 3, each on its own (optional; both passed headless). |
-| 4 | A repo with a web app, on a throwaway branch | Step 6 on its own (deferred). |
+| 4 | `~/Code/scratch/site-dash` (or any Flask/Jinja app with an `APP_ENV` switch), on a throwaway branch | Step 6 on its own. |
 
 1. In a repo with no web app, run:
    `/prototype I can't decide what the battery dispatch summary should look like for a site with solar, a 2 MWh battery and a CHP unit. Show me options.`
@@ -185,8 +185,10 @@ after one reply).
    prototype file.
 5. Say yes to keeping it. Expected: a `prototype/<name>` branch holding the
    prototype, and the current branch with no prototype files left.
-6. *(Deferred: no repo with a web UI yet.)* In a repo with a web app and an
-   existing page that fits, repeat step 1.
+6. In `~/Code/scratch/site-dash` (`/sites/riverside` has a battery dispatch
+   summary; see its README to run it, and `APP_ENV=production` for the
+   production check), or any web app with an existing page that fits, repeat
+   step 1.
    Expected: sub-shape A, with variants on the existing route behind
    `?variant=`, the bar hidden in production builds, and the only change to
    the page being the switcher mount.
@@ -198,7 +200,6 @@ after one reply).
 ## Definition of done
 
 - `/plugin` shows `prototype` enabled.
-- Step D 1–5 and 7 behave as above. Step 6 is deferred until there is a repo
-  with a web UI; run it then.
+- Step D 1–7 behave as above.
 - `git status` on the current branch shows nothing from the prototype after
   step 5; the prototype lives only on `prototype/<name>`.
