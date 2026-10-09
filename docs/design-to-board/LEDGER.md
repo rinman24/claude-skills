@@ -153,7 +153,7 @@ Added S1d (2026-10-09):
       repo and parent issues #1 (in scope) and #2 (out of scope); see Repo
       facts. Still to do now: `gh` has no `project` scope yet (the refresh
       didn't take; the API reports `gist, read:org, repo`), so re-run
-      `gh auth refresh -s project`, then create a Projects v2 project, link
+      `gh auth refresh -h github.com -s project,read:project` (a second attempt also failed: `project create` reports the token missing `project read:project`), then create a Projects v2 project, link
       it to the repo, check its Status field and record its number in Repo
       facts. After SQ5 settles how GitHub states and the board
       are configured: the repo's `squadra.toml` (`provider = "github"`,
