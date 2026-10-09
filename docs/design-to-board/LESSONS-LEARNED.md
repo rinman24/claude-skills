@@ -139,3 +139,17 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
 - **A consultation-only session with both advisors in parallel came in near
   the estimate** (~75K with the writes). Apply: keep naming disputes to
   their own short session, as S2b did.
+
+## S2c · 2026-10-09
+
+- **The sibling effort can move between the brief and the session.** The
+  brief said "SQ2c is PR #48; SQ3 next"; by boot #48 had merged and SQ3 was
+  done in PR #49. Apply: check the sibling PR's state (`gh pr view`) and
+  ledger rows at boot, record what is true, and read sources from `main`
+  once their PR has merged.
+- **A ruling made in the other effort is recorded here as a new row that
+  amends, not as an edit.** DB-D1 and DB-D4 keep their text and gain
+  "amended by DB-D10" in their status cells; the rows that build on them
+  (DB3, DB4) carry the change. A recording-only unit came in near ~30K.
+  Apply: the same pattern when squadra's SQ5 or a later note reopens a DB-D
+  ruling.
