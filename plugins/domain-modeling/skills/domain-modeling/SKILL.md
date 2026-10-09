@@ -87,6 +87,8 @@ When the user settles a term, write it right then. Don't batch.
 
    List every file the write changed, including `GLOSSARY-MAP.md`, pointer lines and other docs. Say who approved each wording. `Eric approved` is only for text Eric approved unchanged that the user wasn't asked about. Whenever the user accepted a wording, say `you approved` (or `you approved in advance`), even when the text is Eric's: `you approved Eric's wording for First start: "…"`, or `you approved; Eric had sharpened it to "…"`. Never write `Eric approved` for a wording Eric proposed and the user accepted, and never say the user accepted a wording they weren't asked about.
 
+   Credit Eric only with the lines he changed, checked line by line against his verdict, and quote his text beside every one of them, however long, rather than describing it. A line he approved unchanged, or left as the user wrote it, is not his wording; say so: `Wording: you approved all four; Eric's text for the _Avoid_ line ("…") and the map relationship ("…"); the definition and the pointer line Eric approved unchanged`. Never sum up several writes as "Eric's wording" when he changed only some of them. Keep the `Wording:` label; when there is a lot to attribute, put sub-bullets under it.
+
    A correction to something just written is a reopen by the user followed by a new `Settle`; rows are never edited or deleted.
 
 When grilling runs alongside this skill, grilling writes nothing; this skill owns every doc write, and its announcement goes at the top of grilling's next round.
