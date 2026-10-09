@@ -47,6 +47,10 @@ an ACTIVE item, and a withdrawn row whose increment is DONE), then DBQ7
 (Eric's blocking Q1: QUEUED vs held decides whether the verb stays
 `queue_increment`), then DBQ2, DBQ4 (confirm what DB-D1 already answers),
 DBQ5, DBQ6, DBQ8. One question at a time, each with your recommendation.
+DBQ3, DBQ7, DBQ2 and DBQ4 unblock squadra's SQ2 (the verb contract), which
+runs in parallel in squadra (`~/Code/squadra` `docs/board-writes/LEDGER.md`,
+read-only from here): as soon as those four are recorded, commit and push,
+and tell Rich SQ2 can start.
 No advisor consultation is planned; if one becomes necessary, Rich types
 the command, and budget ~30K for it (S1 lesson).
 

@@ -81,18 +81,17 @@ Added at setup (2026-10-09):
       worktree. S1 reads squadra; it will use whichever is current.
 
 Added S1 (2026-10-09), from DB-D1 (squadra work, Rich's repo; this effort never writes there):
-- [ ] Fill in `## Choice` in `~/Code/board-knowledge/sessions/2026-10-09-juval-design-to-board-write-path.md`
+- [x] Fill in `## Choice` in `~/Code/board-knowledge/sessions/2026-10-09-juval-design-to-board-write-path.md`
       and `2026-10-09-eric-design-to-board-vocabulary.md` ((c) as amended; Eric's vocabulary in full).
-- [ ] squadra A: contract for `queue_increment` / `withdraw_increment` /
-      `increments_by_origin`, `Lifecycle.WITHDRAWN` (terminal, never from DONE,
-      ACTIVE per DBQ3), unmapped states fail `validate_config`, second blocked
-      reason, CLI surface; glossary rows **Origin** and **Withdrawn** (Eric's
-      drafts in his session file). Check the cross-map Origin lookup before freezing.
-- [ ] squadra B: fake provider implementing the verbs, registered in `PROVIDERS`; contract tests.
-- [ ] squadra C: CLI subcommands + orchestration rules (claim scope, withdraw-while-active).
-      design-to-board's F needs C.
-- [ ] squadra D: GitHub adapter, reads and writes (already P1; now includes the write half).
-      Order A → B → C → (design-to-board E, F) → D → G.
+- [ ] squadra A–D runs in parallel in squadra, with its own ledger
+      (`~/Code/squadra` `docs/board-writes/LEDGER.md`, branch
+      `feat/board-writes`, items SQ1–SQ5). Start it now: give a fresh
+      session in `~/Code/squadra` the handoff
+      `docs/design-to-board/handoffs/SQ1-squadra-withdrawn.md` (SQ1: the
+      withdrawn state, settled by DB-D1). SQ2 (the verb contract) is blocked
+      until S1b rules DBQ2, DBQ3, DBQ4 and DBQ7. design-to-board's F needs
+      SQ4; G needs SQ5. That ledger is squadra's source of truth; this one
+      records decisions and points to it.
 
 Added S1 (2026-10-09), not design-to-board work:
 - [ ] Add a `handoff` skill to this marketplace, capturing the essence of
@@ -110,6 +109,11 @@ Added S1 (2026-10-09), not design-to-board work:
       from `TEMPLATE.md`), so either save there when a ledger/template exists
       or keep `$TMPDIR` as the default. Follow the house pattern for a new
       plugin (`plugins/local-backlog/`), validate, install.
+      Before building: `/ask-juval` where the handoff file goes. Rich's view
+      (2026-10-09): either the temp folder or `handoffs/` is fine, keep the
+      `TEMPLATE.md` structure and the ledger, but handoff files probably
+      don't belong in version control (noise in the repo). The ledger stays
+      committed.
 
 ## Work items
 
