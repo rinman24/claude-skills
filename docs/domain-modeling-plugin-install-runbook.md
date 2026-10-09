@@ -145,7 +145,9 @@ interactively.
    "Approve … as drafted?", and nothing written. After your yes, the next
    reply opens with the `📝 Written since last round:` announcement of every
    file it wrote, and its wording line says `you approved` (with Eric's
-   wording beside it if his differed), not `Eric approved`.
+   wording beside it if his differed), not `Eric approved`. It credits Eric
+   only with the lines he changed, quoting his text, and names any line he
+   approved unchanged as such; check it against his verdict.
 4. Say "we pass the baton to the next session". Expected: a drift note
    ("settled as Handoff …") and no question about it; the word "reopen" does
    not appear.

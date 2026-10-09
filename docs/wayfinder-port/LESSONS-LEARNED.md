@@ -498,3 +498,20 @@ Newest at the bottom.
   final pass and Settle." arrived as a non-yes to a shown draft, and was
   held (MD-B7). Apply: expect that order in the runbook's step 6; the check
   still holds.
+
+## S15 · 2026-10-09
+
+- **A scratch repo's git history is input.** The first headless run read
+  `git log`, found my setup commit "drop dispatch row" and rightly flagged a
+  deleted settled row instead of settling. Apply: build each headless
+  scratch repo as one clean commit of the state the step assumes; never
+  commit setup edits the skill could read as tampering.
+- **"Quote his text" needs "however long".** With only "quote his text
+  beside them", the run quoted short lines but wrote "Eric wrote it" for
+  the long map relationship line, and swapped the `Wording:` label for its
+  own heading. Apply: when a rule asks for verbatim text, say it applies to
+  every item regardless of length, and name the label that must survive
+  reformatting.
+- **Eric's changes vary run to run.** The same prompt got four sharpenings
+  in one run and a different four in the next. Apply: check attribution
+  against that run's draft and verdict, not against an expected list.
