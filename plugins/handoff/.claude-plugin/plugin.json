@@ -1,0 +1,8 @@
+{
+  "name": "handoff",
+  "version": "0.1.0",
+  "description": "Compact the current session into a handoff a fresh agent session can pick up: structured by a template (bundled, or the effort's own), pointing at the ledger and other artifacts instead of copying them, secrets redacted, and written to a git-ignored handoffs/ beside the ledger.",
+  "author": {
+    "name": "rinman24"
+  }
+}
