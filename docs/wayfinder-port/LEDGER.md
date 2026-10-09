@@ -154,8 +154,8 @@ Added in Q3:
       name `tag_prefix` derives from, before any second fleet VM
 
 Added in S13:
-- [ ] Confirm or overrule MD-B6 ([table](#decisions), after MD-B5): advance
-      acceptance of Eric's sharpening counts as your approval
+- [x] Confirm or overrule MD-B6 ([table](#decisions), after MD-B5): advance
+      acceptance of Eric's sharpening counts as your approval (confirmed 2026-10-08)
 - [ ] domain-modeling Step D 3 and 6 again (W8.2, second-turn): step 3's
       announcement should say `you approved`; in a bootstrap, any change
       after your batch approval (incl. Eric's final-pass sharpening) should
@@ -299,7 +299,7 @@ plugin if Rich disagrees). Status: `unconfirmed`, `confirmed <date>`,
 | MD-B3 | Lookup ignores history | confirmed 2026-10-08 | Lookup matches only `settled` and `reopened` rows; a form whose only rows are `withdrawn` or `superseded` is `unsettled`. `Settle` never overrides a `settled` row (Reopen first) |
 | MD-B4 | Bootstrap settles last | confirmed 2026-10-08 | A row's `Context` can't change, so the bootstrap writes `GLOSSARY.md` per approved batch but holds every `Settle` until after Eric's final context pass |
 | MD-B5 | Reopen's reason and ref live in the announcement and git history | confirmed 2026-10-08 | Rows are immutable apart from `Status`, so they keep their original `Settled` and `Ref`. If that loses too much, the fix is a `Reopened` column or an event-log format (Eric's Domain Events note) |
-| MD-B6 | Advance acceptance counts as the user's approval (S13, W8.2) | unconfirmed | The user saying "if Eric only sharpens it, I accept" before the call lets the sharpened wording be written in the same turn (runbook Step D 1 depends on it); the announcement says `you approved in advance` and shows Eric's change. Anything else Eric changes, or any departure from his verdict, is still a question. Overrule → drop the parenthesis in `SKILL.md` and Step D 1 becomes two turns |
+| MD-B6 | Advance acceptance counts as the user's approval (S13, W8.2) | confirmed 2026-10-08 | The user saying "if Eric only sharpens it, I accept" before the call lets the sharpened wording be written in the same turn (runbook Step D 1 depends on it); the announcement says `you approved in advance` and shows Eric's change. Anything else Eric changes, or any departure from his verdict, is still a question. Overrule → drop the parenthesis in `SKILL.md` and Step D 1 becomes two turns |
 
 ADR build interpretations (S5, where MD3 left a detail open; change in the
 plugin if Rich disagrees). Status values as for MD-B.

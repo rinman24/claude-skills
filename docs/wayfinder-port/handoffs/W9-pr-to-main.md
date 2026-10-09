@@ -31,7 +31,7 @@ Goal: a ready-for-review PR from `feat/wayfinder-domain-modeling` to `main`
 with a body that lists the new plugins (grilling, domain-modeling, adr,
 wayfinder), the changes to `prototype` and the docs, what was verified
 (headless and Rich's interactive Step D runs, per the ledger), and what is
-still open (unconfirmed build interpretations such as MD-B6; Rich's optional
+still open (Rich's optional
 re-runs). Rich reviews and merges; the session does not merge. After he
 merges: `claude plugin marketplace update claude-skills`, install the four new
 plugins at user scope, update `prototype`, and check `/plugin` lists each
@@ -57,7 +57,7 @@ Steps:
 - Order Q1 → S13 → PR to main (Rich, 2026-10-08; ledger Q1 row).
 - `prototype` already shipped to main via PR #3; this PR carries only its
   later doc and wiring changes.
-- Rich's open queue items (MD-B6, the optional domain-modeling Step D 3 and 6
+- Rich's open queue items (the optional domain-modeling Step D 3 and 6
   re-run, Q2 scratch cleanup, W-SQ, the squadra GitHub adapter) don't block
   the PR; list them in its body as follow-ups.
 
