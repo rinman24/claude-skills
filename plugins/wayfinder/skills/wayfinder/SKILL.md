@@ -80,7 +80,7 @@ Only when the user explicitly says a closed decision changed. Never revise on yo
 ### Publish
 
 1. Run every check in [DESIGN-FORMAT.md](./DESIGN-FORMAT.md). If any fails, name each failure and write nothing.
-2. Write `docs/design/<map>.md`: the record and the contract built from the map, never a copy of `map.md`. Published rows already in the document keep their IDs; a changed row is withdrawn (`r1, withdrawn r2`) and replaced by a new ID.
+2. Write `docs/design/<map>.md`: the record and the contract built from the map, never a copy of `map.md`. Published rows already in the document keep their IDs; a changed row is withdrawn (`r1, withdrawn r2`) and replaced by a new ID. Withdrawing a row also withdraws every live row that depends on it (the withdrawal cascade in DESIGN-FORMAT's Increment identity).
 3. Fill `Published` for every row new in this revision (`r<N>`), in the document and in the map.
 4. Set `status: cleared`, set `revision` (1, or one more than before) and `changed` (the sections that changed; empty on revision 1).
 5. Tell the user the document is cleared for `design-to-board`. Don't run it: it is a separate step the user starts.

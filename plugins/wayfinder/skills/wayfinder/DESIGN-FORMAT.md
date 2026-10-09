@@ -59,12 +59,16 @@ changed: []
 - **Destination**: copied from the map's Destination, without the out-of-scope lines. Behaviours `B1`, `B2`… keep their map numbers.
 - **Decisions**: one line per current decision, each with its ticket's `scratch:` ref. A revised ticket appears only through its replacement. Errands never appear.
 - **Services**: only the services this map creates or changes. `Introduced in` names the one increment that creates a new service and is blank for an existing one; it is the only place a service is called new. `Encapsulates` is required for a new service.
-- **Increments**: the map's Increments table, with `Decided by` as `scratch:` refs. Kind is `vertical (B<n>)`, `foundation → I<n>, …`, or blank, as squadra's glossary defines them. `Touches` holds service names only, each declared in Services. `Depends on` holds increment IDs, or `<map>:<ID>` for an increment in another map. `Order` puts the critical path first.
+- **Increments**: the map's Increments table, with `Decided by` as `scratch:` refs. Kind is `vertical (B<n>)`, `foundation → I<n>, …`, or blank (an increment with neither attribute), as squadra's glossary defines them. A foundation names rows in this table only; a map enables another map's increment through that increment's `Depends on: <map>:<ID>`. `Touches` holds service names only, each declared in Services. `Depends on` holds increment IDs, or `<map>:<ID>` for an increment in another map. `Order` puts the critical path first.
 - **Rules and planning assumptions**: rule lines (the integration rule above) apart from resource lines. A line belongs here only if changing it would make Rich revise the map.
 
 ## Increment identity
 
 IDs `I1`, `I2`… are never renumbered or reused. A published row changes only its `Published` cell (`r1`, then `r1, withdrawn r2`); any other change to it is a withdrawal plus a new row with a new ID. Withdrawn rows stay in the table. The translator only ever creates and withdraws.
+
+A live row never depends on a withdrawn row. When Publish withdraws a row, it also withdraws every live row that depends on it, directly or through other rows (the withdrawal cascade).
+
+A published foundation's `Kind` cell is frozen: withdrawing an increment it names doesn't change it.
 
 ## Checks before `cleared`
 
@@ -88,3 +92,5 @@ The translator's validation list (it fails loudly back to wayfinder if any of th
 11. Each increment's `Touches` count is within the rule (at most 2 changed services).
 12. Each foundation increment's named increments depend on it.
 13. Order is consistent with the edges.
+14. A live row never depends on a withdrawn row.
+15. Each Kind is blank, `vertical (B<n>)` naming a behaviour in Destination, or `foundation → I<n>, …` naming rows in the table, live or withdrawn. A failure is reported as malformed Kind, quoting the cell and naming the failed part (form, unknown behaviour or unknown row).

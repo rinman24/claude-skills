@@ -1,6 +1,6 @@
 {
   "name": "wayfinder",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Chart the way to one destination too big for a single session: a committed map of decision tickets under .scratch/wayfinder/, resolved one per session with grilling and domain-modeling, then published as a design document of increments. Writes only the map and the design document; never builds.",
   "author": {
     "name": "rinman24"

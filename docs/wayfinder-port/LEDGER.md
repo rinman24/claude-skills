@@ -490,9 +490,8 @@ Advisor sessions in `board-knowledge/sessions/`:
 - **WD14 · Translator `design-to-board`: not in this port (Q4, Q13).** A later
   item after W-SQ. Requirements: it is ResourceAccess (transcribes, makes no
   decisions, AFK); publishes only cleared increments; validates and fails
-  loudly back to wayfinder (missing kind, undeclared service, two increments
-  touching one service with no edge, order contradicting edges, > 2 new
-  services); never patches the document; honours the declared claim scope (restated by WSQ1, Q3; was "honours `[board].parent_scope_ids`").
+  loudly back to wayfinder on any of DESIGN-FORMAT's translator checks
+  (6–15), reported by name (reworded by DB-D8, design-to-board ledger); never patches the document; honours the declared claim scope (restated by WSQ1, Q3; was "honours `[board].parent_scope_ids`").
   Name chosen by Rich; Eric approved it (fallback `design-to-squadra` only if
   "design-to-board" gets heard as advisor review). Description verb:
   "transcribes a cleared design document into increments on squadra's board;
