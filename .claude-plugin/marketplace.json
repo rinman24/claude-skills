@@ -42,6 +42,12 @@
       "source": "./plugins/wayfinder",
       "description": "Chart the way to one destination too big for a single session: a committed map of tickets resolved one per session with grilling and domain-modeling, published as a design document of increments. Writes only the map and the design document; never builds.",
       "category": "productivity"
+    },
+    {
+      "name": "handoff",
+      "source": "./plugins/handoff",
+      "description": "Compact the current session into a handoff a fresh agent session can pick up: structured by a template (bundled, or the effort's own), pointing at the ledger and other artifacts instead of copying them, secrets redacted, and written to a git-ignored handoffs/ beside the ledger.",
+      "category": "productivity"
     }
   ]
 }

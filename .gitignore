@@ -1,1 +1,4 @@
 .DS_Store
+
+# Handoffs are session-to-session messages, local to the worktree (handoff-skill HD1)
+docs/*/handoffs/
