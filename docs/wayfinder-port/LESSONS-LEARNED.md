@@ -409,3 +409,12 @@ Newest at the bottom.
   lines. Spelling out what the line holds, what it leaves out, and a sample
   gave a one-line offer on the first headless run. Apply: when output
   overruns a stated limit, show the target shape, not a stronger word.
+
+## W9 · 2026-10-08
+
+- **A handoff's "already on main" can be wrong.** W9's handoff said
+  `prototype` shipped to main via PR #3; `gh pr list` showed PRs #3 and #4
+  had base `feat/wayfinder-domain-modeling`. The diff against `origin/main`
+  was the first sign. Apply: before writing a PR body or install commands,
+  check `gh pr list --state all --json number,baseRefName` and
+  `claude plugin list`, not the handoff's history.
