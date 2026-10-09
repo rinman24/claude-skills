@@ -31,3 +31,25 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
 - **One ruling can settle several questions.** DB-D1 answered most of DBQ2
   and DBQ4 and half of DBQ3. Apply: after each ruling, re-annotate the open
   questions before asking the next one, so Rich rules only what is left.
+
+## S1b · 2026-10-09
+
+- **Two options that each depend on the other are one question.** Juval
+  showed that "where does the parent come from" and "how wide is the lookup"
+  forced each other ((c) needs a board-wide query; a per-parent query needs a
+  map → parent file). Apply: before putting two coupled questions to Rich as
+  separate rulings, check whether one answer forces the other, and ask them
+  as one.
+- **A read scope is not a write scope.** The first draft of the lookup
+  filtered by claim scope; Juval's A1 showed that turns "out of scope" into
+  "first run" and queues a map twice. Apply: when a query feeds a "does it
+  exist yet?" decision, it reads everything and reports the scope as a fact.
+- **Ask whether Rich wants an advisor before recommending the ruling.** Rich
+  sent DBQ4 and then DBQ5, DBQ6 and DBQ8 to advisors after seeing my
+  recommendation, which cost a round each time. Apply: for a question that
+  shapes a contract or a validation rule, offer the advisor up front as part
+  of the question.
+- **The background-isolation guard rejects writes to `~/Code/board-knowledge`.**
+  `/ask-*` session files there aren't in a worktree. Apply: with Rich's
+  OK, write the session file with a quoted shell heredoc (uncommitted, as
+  the ask skill says).
