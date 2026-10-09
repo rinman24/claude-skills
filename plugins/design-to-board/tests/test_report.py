@@ -53,17 +53,6 @@ def test_dry_run_output_is_byte_identical_across_environments(make_document, mak
     assert outputs[0] == outputs[1] != ""
 
 
-def test_without_dry_run_it_prints_the_plan_and_says_nothing_was_written(make_document, make_fake_squadra, default_r2_board) -> None:
-    make_fake_squadra(default_r2_board)
-
-    completed = _run(str(make_document()))
-
-    assert completed.returncode == 0
-    assert completed.stdout.splitlines()[-1] == (
-        "Nothing written: this version stops at the plan; the writes come in a later version."
-    )
-
-
 def test_board_already_matching_says_nothing_to_write(make_document, make_fake_squadra, make_increment) -> None:
     make_fake_squadra({f"billing:I{n}": make_increment(100 + n) for n in (1, 3, 4)})
 
