@@ -48,6 +48,12 @@
       "source": "./plugins/handoff",
       "description": "Compact the current session into a handoff a fresh agent session can pick up: structured by a template (bundled, or the effort's own), pointing at the ledger and other artifacts instead of copying them, secrets redacted, and written to a git-ignored handoffs/ beside the ledger.",
       "category": "productivity"
+    },
+    {
+      "name": "design-to-board",
+      "source": "./plugins/design-to-board",
+      "description": "Transcribe a cleared wayfinder design document into increments on squadra's board; it never designs. Reads the document strictly and runs DESIGN-FORMAT's translator checks 6–15; board writes come later.",
+      "category": "productivity"
     }
   ]
 }
