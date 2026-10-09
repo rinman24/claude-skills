@@ -33,6 +33,13 @@ by ID; don't copy them here.
   an item's parent and Predecessor links, its state and its title
   (branch `feat/increment-<id>-<slug>`). `squadra tick --dry-run` shows what
   a tick would claim without writing.
+- DB5's GitHub test board (set up 2026-10-09, S1d follow-up):
+  `rinman24/squadra-sandbox`, private, default branch `main` (squadra's
+  target repo; its `squadra.toml` goes there after SQ5). Parent issues: #1
+  "design-to-board test parent (in scope)", the `parent_scope_ids` entry;
+  #2 "design-to-board test parent (out of scope)", never in scope. Projects
+  v2 project: not created yet (needs the `project` scope on `gh`). Never
+  `squadra start` there; the acceptance test uses `squadra tick --dry-run`.
 - design-to-board's tests (DB2, S2): `uvx pytest -p no:cacheprovider plugins/design-to-board/tests`
   from the repo root. No Python env in the repo: `uvx` runs pytest from its
   own cache, and the code under test is stdlib-only Python 3 (3.14 here).
@@ -142,10 +149,13 @@ Added S1d (2026-10-09):
       without waiting on squadra; S4 can't start until squadra's SQ3 and
       SQ4 are merged (the squadra item above), so keep that effort moving.
 - [ ] Before S5: a GitHub board design-to-board can write to for the
-      integration test, plus SQ5 merged. Now (S1d follow-up): `project` scope
-      on `gh`, a private scratch repo, an in-scope and an out-of-scope parent
-      issue, a Projects v2 project linked to the repo; record their names and
-      numbers in Repo facts. After SQ5 settles how GitHub states and the board
+      integration test, plus SQ5 merged. Done (S1d follow-up): the scratch
+      repo and parent issues #1 (in scope) and #2 (out of scope); see Repo
+      facts. Still to do now: `gh` has no `project` scope yet (the refresh
+      didn't take; the API reports `gist, read:org, repo`), so re-run
+      `gh auth refresh -s project`, then create a Projects v2 project, link
+      it to the repo, check its Status field and record its number in Repo
+      facts. After SQ5 settles how GitHub states and the board
       are configured: the repo's `squadra.toml` (`provider = "github"`,
       `claim_scope = "parents"` with the in-scope parent, `[board.states]`)
       and `squadra init --check` green. Never `squadra start` there.
