@@ -1,0 +1,16 @@
+design-to-board: dry run for map billing, revision 2, under parent 1: 1 withdrawal, 2 queues. Nothing written.
+withdraw billing:I2
+queue billing:I4 · Raise on delivery: a delivery raises an invoice · predecessors: billing:I1
+    Origin: billing:I4
+    Increment: Raise on delivery: a delivery raises an invoice
+    Kind: vertical (B1)
+    Touches: InvoiceManager, OrderAccess
+    Depends on: I1
+    Decided by: scratch:wayfinder/billing/03-invoice-trigger.md
+queue billing:I3 · Invoice list: customers list their invoices · predecessors: billing:I1
+    Origin: billing:I3
+    Increment: Invoice list: customers list their invoices
+    Kind: vertical (B2)
+    Touches: InvoiceAccess, PortalClient
+    Depends on: I1
+    Decided by: scratch:wayfinder/billing/04-portal.md

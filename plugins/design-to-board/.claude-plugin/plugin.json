@@ -1,7 +1,7 @@
 {
   "name": "design-to-board",
-  "version": "0.1.0",
-  "description": "Transcribe a cleared wayfinder design document into increments on squadra's board; it never designs. This version reads and validates the document (DESIGN-FORMAT checks 6–15) and writes nothing.",
+  "version": "0.2.0",
+  "description": "Transcribe a cleared wayfinder design document into increments on squadra's board; it never designs. This version validates the document (DESIGN-FORMAT checks 6–15), reads squadra's board and prints the plan; it writes nothing.",
   "author": {
     "name": "rinman24"
   }
