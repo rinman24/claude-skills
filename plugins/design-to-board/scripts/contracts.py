@@ -17,6 +17,8 @@ LAYERS = ("Manager", "Engine", "ResourceAccess", "Client", "Utility")
 
 EXIT_VALID = 0
 EXIT_FAILED_NOTHING_WRITTEN = 1
+# 2 is usage (argparse). Any stop once writing began: some writes may have landed, a re-run completes the rest.
+EXIT_STOPPED_PARTWAY = 3
 
 # squadra's Lifecycle buckets as `squadra board origins` spells them; ABSENT is an Origin no Increment carries.
 ABSENT = "absent"
@@ -151,8 +153,36 @@ class ReconcileResult:
     failures: tuple[Failure, ...]
 
 
+@dataclass(frozen=True, slots=True)
+class Write:
+    """One plan step squadra carried out: the item it wrote and, for a queue, the predecessors' item IDs."""
+
+    step: WithdrawStep | QueueStep
+    item_id: int
+    predecessor_ids: tuple[int, ...] = ()
+
+
+@dataclass(frozen=True, slots=True)
+class TranscribeResult:
+    """The reconcile, then the writes done; `stop` is the refusal that ended the walk, `remaining` the steps not done."""
+
+    reconcile: ReconcileResult
+    done: tuple[Write, ...] = ()
+    stop: Failure | None = None
+    remaining: tuple[WithdrawStep | QueueStep, ...] = ()
+
+
 class BoardReadError(Exception):
     """`squadra board origins` didn't give a snapshot: not found (exit_code None), or squadra's exit code and stderr."""
+
+    def __init__(self, exit_code: int | None, message: str) -> None:
+        super().__init__(message)
+        self.exit_code = exit_code
+        self.message = message
+
+
+class BoardWriteError(Exception):
+    """`squadra board queue` or `withdraw` didn't write: not found (exit_code None), or squadra's exit code and stderr."""
 
     def __init__(self, exit_code: int | None, message: str) -> None:
         super().__init__(message)
