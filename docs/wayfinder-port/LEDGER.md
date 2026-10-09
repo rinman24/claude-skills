@@ -225,17 +225,19 @@ Added in Q5:
 - [x] W8.12 (low): fixed in S15 (`domain-modeling` 0.1.2)
 
 Added in S15:
-- [ ] Review and merge S15's PR (https://github.com/rinman24/claude-skills/pull/9)
-- [ ] After it merges: `claude plugin marketplace update claude-skills`, then
+- [x] Review and merge S15's PR (https://github.com/rinman24/claude-skills/pull/9): merged (`cb0d4bf`)
+- [x] After it merges: `claude plugin marketplace update claude-skills`, then
       `claude plugin update domain-modeling@claude-skills`; `claude plugin
-      list` should show 0.1.2
-- [ ] Optional: runbook Step D 3 spot-check in `~/Code/scratch/dm-smoke`
+      list` should show 0.1.2 (done 2026-10-09: 0.1.2, user scope, enabled)
+- [x] Optional: runbook Step D 3 spot-check (skipped 2026-10-09) in `~/Code/scratch/dm-smoke`
       (reset it to one context first, Q5 lesson). Expect the `Wording:` line
       to quote each line Eric changed and name the ones he approved unchanged
-- [ ] Once that passes (or you skip it): say whether `~/Code/scratch/dm-smoke`
+- [x] Once that passes (or you skip it): say whether `~/Code/scratch/dm-smoke`
       (and `~/Code/scratch/.dm-smoke-q4-state/`) and this worktree can go.
       `~/Code/scratch/site-dash` stays (W8.7). With W8.12 done, every port
-      work item is done; T1 is later, not this port
+      work item is done; T1 is later, not this port. Rich said yes
+      2026-10-09: `dm-smoke` deleted (the Q4 state copy was already gone),
+      this worktree removed after this ledger commit; `site-dash` kept
 
 ## Work items
 
