@@ -1,6 +1,6 @@
-# Handoff: S<N> · <unit title>
+# Handoff: H<N> · <unit title>
 
-Copy to `S<N>-<slug>.md` and fill in. Rich starts a fresh `claude` session in
+Copy to `H<N>-<slug>.md` and fill in. Rich starts a fresh `claude` session in
 the worktree and gives it this file (paste it, or send its path).
 
 ## Context
