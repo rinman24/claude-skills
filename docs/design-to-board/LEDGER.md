@@ -162,9 +162,10 @@ Added S1d (2026-10-09):
 - [ ] Merge each build unit's PR (DB2–DB5) when you've reviewed it.
 
 Added S2 (2026-10-09):
-- [ ] Approve or change DB-W's `GLOSSARY-MAP.md` lines (Eric reviewed them
-      in S2; text in the S2 session summary and `handoffs/S3-plan.md`). On a
-      yes, S3 writes them first, as their own commit in this branch's PR.
+- [ ] Start S2b: `handoffs/S2b-glossary.md`. You type `/ask-juval` and
+      `/ask-eric` on "transcribes" (WD14) vs Eric's "reconciles", rule it
+      (DB-D9), and S2b writes DB-W's `GLOSSARY-MAP.md` lines. Then merge
+      PR #13 and start S3.
 - [ ] Review DB2's readings of checks 6–15 (DB2 row) and the PR.
 
 ## Work items
