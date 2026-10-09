@@ -75,7 +75,8 @@ URL and the next handoff path; he updates claude-skills' queue.
 Branch: `feat/board-writes`
 Goal: squadra owns every board write design-to-board needs (claude-skills
 DB-D1): `Lifecycle.WITHDRAWN`, then `queue_increment(origin, parent,
-predecessors, title, body) -> item_id`, `withdraw_increment(item_id)`,
+predecessors, title, body) -> item_id`, `withdraw_increment(item_id)` (by
+Origin since DB-D10),
 `increments_by_origin(parent) -> {origin: (item_id, Lifecycle)}`, behind
 CLI subcommands, with a registered fake provider, then the GitHub adapter.
 
