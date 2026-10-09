@@ -55,11 +55,14 @@ advisor consultation costs ~25–30K (answer relayed and recorded verbatim).
 
 ## Session protocol
 
-Start: read the handoff; fetch and merge `origin/main` if it moved; read
-this ledger and `LESSONS-LEARNED.md`; mark the unit `in progress`.
+Start: fetch and merge `origin/main` if it moved; read this ledger and
+`LESSONS-LEARNED.md`; read the handoff the session log names if it is
+present (it is local to the worktree, HD1), else proceed from the ledger;
+mark the unit `in progress`.
 End: update statuses, decisions, Rich's queue and the session log; append
-lessons; write the next handoff from `handoffs/TEMPLATE.md` if work
-remains; commit and push; tell Rich the handoff path and his queue.
+lessons; commit and push; if work remains, run `/handoff` (template
+`HANDOFF-TEMPLATE.md`, file under the ignored `handoffs/`); tell Rich the
+handoff path and his queue.
 
 ## Status legend
 
@@ -67,31 +70,38 @@ remains; commit and push; tell Rich the handoff path and his queue.
 
 ## Rich's queue
 
-- [ ] Start H1: fresh `claude` in this worktree, give it
-      `docs/handoff-skill/handoffs/H1-build.md`. It will ask you to type
-      `/ask-juval` with a prepared question.
+- [ ] Review and merge the H1 PR (`plugins/handoff`, HD1–HD3).
+- [ ] After merging, start H2: fresh `claude` in this worktree; give it only
+      "Read `docs/handoff-skill/LEDGER.md` and start the next unit." (that is
+      Juval's ledger-only test; the session reads the H2 handoff afterwards).
+- [ ] Follow-up, not this effort's work: `feat/design-to-board` commits its
+      handoffs under `docs/design-to-board/handoffs/`. Once that branch merges
+      `main`, the new root `.gitignore` rule `docs/*/handoffs/` ignores new
+      handoffs there. Decide on that branch: adopt HD1 (untrack its handoffs,
+      move `handoffs/TEMPLATE.md` to `HANDOFF-TEMPLATE.md`) or `git add -f`.
 
 ## Work items
 
 | ID | Item | Unit | Est. | Status | Notes |
 |---|---|---|---|---|---|
-| H1 | Rule HQ1–HQ3 (Juval on HQ1), then build `plugins/handoff`: SKILL.md, bundled template, manifest, marketplace entry, install runbook; validate, install, PR | H1 | ~70–90K | todo | Handoff `handoffs/H1-build.md` |
+| H1 | Rule HQ1–HQ3 (Juval on HQ1), then build `plugins/handoff`: SKILL.md, bundled template, manifest, marketplace entry, install runbook; validate, install, PR | H1 | ~70–90K | done | PR opened; installing from the marketplace waits for the merge (H2) |
+| H2 | After the H1 PR merges: run Juval's ledger-only test (the session states the unit and first action from the ledger alone, then reads the handoff and notes what it added); `claude plugin marketplace update claude-skills`, install `handoff@claude-skills`, runbook Steps C–D; record lessons; mark the effort done; tell Rich the worktree can go | H2 | ~30–40K | todo | Needs the PR merged |
 
 ## Open questions
 
-| ID | Question | Notes |
-|---|---|---|
-| HQ1 | Where does the handoff file go: OS temp dir, a git-ignored `handoffs/` in the repo, or committed `handoffs/`? | Juval. Rich leans away from version control. A temp file is lost on reboot and invisible to a teammate; a git-ignored dir survives locally; committed handoffs are what design-to-board does today |
-| HQ2 | Template: bundle a default `TEMPLATE.md` in the skill, use the project's `handoffs/TEMPLATE.md` when one exists, or both? | Rich wants the template structure kept |
-| HQ3 | Ledger: does the skill only reference a ledger it finds (upstream "don't duplicate"), or also update it (session log, next handoff path)? | design-to-board's protocol has the session update the ledger before handing off |
+None open. HQ1–HQ3 were ruled in H1 as HD1–HD3.
 
 ## Decisions
 
 | ID | Decision | Status | Detail |
 |---|---|---|---|
+| HD1 | Handoffs live in a git-ignored `handoffs/` next to the effort's ledger, inside its worktree; `$TMPDIR` only when no ledger exists. The ledger names the handoff but never depends on it: a fresh session must be able to start the next unit from the ledger alone | done (H1) | HQ1. Juval: `~/Code/board-knowledge/sessions/2026-10-09-juval-handoff-file-location.md`. Rich: efforts resume on another machine never or occasionally, so the handoff need not travel with the branch. Root `.gitignore` ignores `docs/*/handoffs/`; templates live outside `handoffs/` |
+| HD2 | Template: the skill bundles a default `TEMPLATE.md`; an effort overrides it with `HANDOFF-TEMPLATE.md` next to its ledger | done (H1) | HQ2. One resolution rule in the SKILL.md, beside HD1's location rule |
+| HD3 | Ledger: the skill checks that the ledger alone could start the next unit, reports gaps and offers to fix them before writing; its only unasked edit is recording the handoff path in the session log. Other upkeep stays in the effort's End protocol | done (H1) | HQ3 |
 
 ## Session log
 
-| Session | Date | Unit | Outcome | Handoff written |
+| Session | Date | Unit | Outcome | Handoff written (local, HD1) |
 |---|---|---|---|---|
 | H0 | 2026-10-09 | Setup | Branch `feat/handoff-skill` from `main` `205c5f2` (set up from design-to-board's S1); this ledger, lessons, template and H1 handoff | `handoffs/H1-build.md` |
+| H1 | 2026-10-09 | H1 | HQ1–HQ3 ruled as HD1–HD3 (Juval on HQ1); `plugins/handoff` built, validated, tried headless (no-ledger path) and on this ledger; PR opened | |

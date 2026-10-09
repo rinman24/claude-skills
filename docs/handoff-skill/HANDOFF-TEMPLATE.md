@@ -1,7 +1,7 @@
 # Handoff: H<N> · <unit title>
 
-Copy to `H<N>-<slug>.md` and fill in. Rich starts a fresh `claude` session in
-the worktree and gives it this file (paste it, or send its path).
+`/handoff` fills this in as `handoffs/H<N>-<slug>.md` (git-ignored, HD1).
+Rich starts a fresh `claude` session in the worktree and gives it that path.
 
 ## Context
 
@@ -19,7 +19,13 @@ Read first, in order:
 
 Ledger items: <IDs>
 Goal: <what "done" looks like>
+First action: <the concrete first step>
 Estimated work: ~<N>K tokens (budget: under 100K total, hard stop at 120K)
+
+## Where this session left off
+
+<What the ledger can't hold: current hypothesis, work in flight, approaches
+tried and dropped and why, gotchas. Or "nothing beyond the ledger".>
 
 ## Decisions already made
 
@@ -36,4 +42,4 @@ Estimated work: ~<N>K tokens (budget: under 100K total, hard stop at 120K)
 ## Wrap-up
 
 Follow the "End" steps of the session protocol in the ledger, including
-writing the next handoff and telling Rich its path.
+running `/handoff` for the next session and telling Rich its path.
