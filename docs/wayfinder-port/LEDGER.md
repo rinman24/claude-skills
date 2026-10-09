@@ -165,12 +165,15 @@ Added in S13:
 - [x] Start W9: paste `handoffs/W9-pr-to-main.md` into a fresh session
 
 Added in W9:
-- [ ] Review and merge PR #5 (https://github.com/rinman24/claude-skills/pull/5)
-- [ ] After the merge: `claude plugin marketplace update claude-skills`, then
+- [x] Review and merge PR #5 (https://github.com/rinman24/claude-skills/pull/5):
+      merged 2026-10-09 as `084df9f`
+- [x] After the merge: `claude plugin marketplace update claude-skills`, then
       `claude plugin install <p>@claude-skills --scope user` for `grilling`,
       `domain-modeling`, `adr`, `prototype` and `wayfinder` (all five are fresh
-      installs), and check `/plugin` lists each enabled. Then
-      `git pull --ff-only` in `~/Code/claude-skills` from a normal terminal
+      installs), and check `/plugin` lists each enabled: done; `claude plugin
+      list` shows all five 0.1.0, user scope, enabled (checked 2026-10-09)
+- [ ] `git -C ~/Code/claude-skills pull --ff-only` from a normal terminal
+      (main checkout was at `6352b48`, pre-port)
 
 ## Work items
 
