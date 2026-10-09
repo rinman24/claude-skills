@@ -97,3 +97,26 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
   must precede checks 14 and 15, and a session of its own would be mostly
   boot. Apply: pair it with the unit that consumes it, as its own commit,
   when the two together stay under ~70K of planned work.
+
+## S2 · 2026-10-09
+
+- **A glossary write can't close inside a build session without Rich.**
+  domain-modeling sends every `GLOSSARY-MAP.md` write to Eric and then needs
+  Rich's yes on the exact text; Eric sharpened three lines and asked for a
+  fourth, so DB-W's map edit missed the session. Apply: launch Eric in the
+  background at the very start, put the question to Rich as soon as it
+  returns, and commit the rest of the unit without waiting.
+- **An advisor's review can drift from an earlier ruling.** Eric proposed
+  "reconciles" where WD14 (approved by him) says "transcribes", and "checks
+  6–14" where DB-D8 since added 15. Apply: before relaying a sharper wording,
+  diff it against the settled wording and the latest decisions, and show
+  Rich each conflict next to the line.
+- **`uvx pytest` runs a stdlib plugin's tests with no env in the repo.** Add
+  `-p no:cacheprovider` and gitignore `__pycache__/`. Apply: the same command
+  for DB3–DB5 (Repo facts).
+- **An exactly-once assert in the fixture factory paid for itself.** Ten
+  test failures were wrong edit strings, not wrong code, and the assert
+  named each one. Apply: keep fixture edits as `(old, new)` pairs on one
+  valid document, each asserted to match once.
+- **Rich commits to the branch during a session.** A ledger commit landed
+  mid-session. Apply: `git log -3` before editing the ledger at the end.
