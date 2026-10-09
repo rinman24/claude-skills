@@ -177,8 +177,9 @@ Added in W9:
 - [ ] Start Q4: paste `handoffs/Q4-dm-rerun-cleanup.md` into a fresh session
       in this worktree (Q2 cleanup, then domain-modeling Step D 3 and 6)
 - [ ] Start SQ1: paste `handoffs/SQ1-mandatory-claim-scope.md` into a fresh
-      session in `~/Code/squadra` (W-SQ). Independent of Q4, but clear the
-      squadra `*.prototype.html` leftovers in Q4 first
+      session in `~/Code/squadra` (W-SQ). Independent of Q4; run in either
+      order or in parallel (SQ1 works in its own worktree, so the untracked
+      `*.prototype.html` files in the main checkout don't reach it)
 
 ## Work items
 

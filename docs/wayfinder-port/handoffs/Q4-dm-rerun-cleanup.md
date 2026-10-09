@@ -54,7 +54,8 @@ Steps:
      git repo with no commits) and two untracked files at squadra's root,
      `battery-dispatch-summary.prototype.html` and
      `microgrid-site-state.prototype.html` (Oct 7, likely prototype Step D in
-     S11). Ask Rich. Clear the squadra pair before SQ1 starts there.
+     S11). Ask Rich. SQ1 runs in its own squadra worktree, so this doesn't
+     block it.
    Put the deletions and git commands in one block for Rich to run in a
    normal terminal. Then verify by reading `.git/HEAD` and listing directories
    (absolute paths, no `cd`).

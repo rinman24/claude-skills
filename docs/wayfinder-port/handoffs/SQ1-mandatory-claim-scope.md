@@ -15,8 +15,8 @@ vertical slice, testing conventions). If they conflict with this file, they
 win, and you tell Rich.
 
 The squadra checkout may have two untracked `*.prototype.html` files at its
-root, left over from prototype checks. The Q4 session clears them with Rich.
-Leave them alone and keep them out of your commits.
+root, left over from prototype checks. They don't carry into your worktree;
+the Q4 session clears them with Rich. Leave them alone.
 
 Read first, in order:
 1. squadra's `CLAUDE.md`, `GLOSSARY.md` and `README.md`
