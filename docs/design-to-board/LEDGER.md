@@ -94,6 +94,23 @@ Added S1 (2026-10-09), from DB-D1 (squadra work, Rich's repo; this effort never 
 - [ ] squadra D: GitHub adapter, reads and writes (already P1; now includes the write half).
       Order A → B → C → (design-to-board E, F) → D → G.
 
+Added S1 (2026-10-09), not design-to-board work:
+- [ ] Add a `handoff` skill to this marketplace, capturing the essence of
+      https://github.com/mattpocock/skills/tree/main/skills/productivity/handoff
+      (read at `0f5e033`; no attribution or upstream tracking needed). Essence:
+      user-invoked only (`disable-model-invocation: true`), takes an optional
+      argument "what will the next session be used for?" and tailors the
+      document to it; compacts the current conversation into a handoff a fresh
+      agent can continue from; includes a "Suggested skills" section naming
+      skills the next agent should invoke; references existing artifacts
+      (specs, plans, ADRs, issues, commits, diffs, ledgers) by path or URL
+      instead of duplicating them; redacts secrets and PII. Decide one
+      difference: upstream saves to `$TMPDIR`, outside the workspace; this
+      repo's handoffs are committed prompt files (`handoffs/S<N>-<slug>.md`
+      from `TEMPLATE.md`), so either save there when a ledger/template exists
+      or keep `$TMPDIR` as the default. Follow the house pattern for a new
+      plugin (`plugins/local-backlog/`), validate, install.
+
 ## Work items
 
 | ID | Item | Unit | Est. | Status | Notes |
