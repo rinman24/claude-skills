@@ -473,3 +473,28 @@ Newest at the bottom.
   is cached under `…/domain-modeling/0.1.0`; 0.1.1 makes `claude plugin
   update` pick the change up. Apply: bump `plugin.json`'s version in any PR
   that changes an installed plugin's files.
+
+## Q5 · 2026-10-09
+
+- **Naming a context in a collision prompt removes the collision.** Settled
+  rows match per context, so Step D 2's "Settle Handoff in the Dispatch
+  Control context" was rightly treated as a new context, not a clash. It
+  still exercised Step D 3 (the split needs the user's answer). Apply: to
+  test a collision, settle the colliding sense without naming a context, or
+  in the context that already holds the term.
+- **Reset a scratch repo to the state the step assumes.** dm-smoke still
+  held Q4's split; without resetting it to one context, Step D 3 had no
+  pointer or map to propose. Apply: before a re-run, check the scratch
+  repo's state against the step's precondition, and copy the old state
+  aside if resetting it.
+- **Wide terminal pastes garble; check the disk, and ask for the one line
+  that decides.** The paste interleaved diff render with file text (it looked
+  as if `CONTEXT-MAP.md` kept its old paragraph) and cut Rich's batch reply
+  to "Lead the code with Eric…". `git diff` settled the first; one question
+  settled the second. Apply: verify writes with `git diff` and a cross-check
+  script, and ask Rich for any reply whose truncation decides pass or fail.
+- **A single-batch bootstrap drafts the final pass unprompted.** After batch
+  1 it went straight to Eric with the final pass, so the scripted "Run the
+  final pass and Settle." arrived as a non-yes to a shown draft, and was
+  held (MD-B7). Apply: expect that order in the runbook's step 6; the check
+  still holds.
