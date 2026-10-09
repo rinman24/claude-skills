@@ -12,3 +12,5 @@ Rulings domain-modeling must not reopen on its own initiative. Match Term or Rej
 | Decision ticket | Work item | Wayfinder | Use Decision ticket for every ticket except an errand, research included | settled | 2026-10-07 | session:2026-10-07 |
 | Design document | Spec, Plan, Deliverable | Wayfinder | Use Design document for what publish writes; it is never a copy of the map | settled | 2026-10-07 | session:2026-10-07 |
 | Cleared | Done, Ready, Final, Approved | Wayfinder | Use Cleared only for the design document's readable state, never for the map or a ticket | settled | 2026-10-07 | session:2026-10-07 |
+| Transcribe | Publish, Sync | design-to-board | Use Transcribe for design-to-board's whole act, cleared design document to squadra's board; it never designs. Its comparison step is the reconcile | settled | 2026-10-09 | session:2026-10-09-eric-transcribe-vs-reconcile |
+| Reconcile | Diff | design-to-board | Use Reconcile only for the step that compares a design document with `increments_by_origin()` through the translation table and yields the Plan; never for the whole act | settled | 2026-10-09 | session:2026-10-09-eric-transcribe-vs-reconcile |
