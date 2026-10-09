@@ -1,7 +1,8 @@
 # Handoff: S15 · domain-modeling `Wording:` attribution (W8.12)
 
 Rich starts a fresh `claude` session in the worktree and pastes this whole file
-as the first message. Start only after the Q5 ledger PR has merged.
+as the first message. The Q5 ledger PR (#8) has merged (`4151c74`) and the
+branch is level with `origin/main`.
 
 ## Context
 
@@ -9,8 +10,8 @@ You are continuing the wayfinder + domain-modeling port on branch
 `feat/wayfinder-domain-modeling` in `rinman24/claude-skills`. Work in the
 worktree for that branch at `.claude/worktrees/wayfinder-domain-modeling`
 (EnterWorktree with `path` if you aren't in it). Never commit to main. Fetch
-first; if the Q5 PR merged, merge `origin/main` into the branch (don't rebase
-a pushed branch).
+first; if `origin/main` has moved, merge it into the branch (don't rebase a
+pushed branch).
 
 Read first, in order:
 1. `docs/wayfinder-port/LEDGER.md`: W8.9, W8.12, Q5, MD-B6–B8
@@ -46,6 +47,17 @@ Estimated work: ~15–25K tokens (budget: under 100K total, hard stop at 120K)
 ## Suggested skills
 
 None.
+
+## After this unit
+
+W8.12 is the port's last open item (T1 is later, not this port). If S15
+closes it, the End steps also: mark the port's work items done in the
+ledger, note in Rich's queue that the plugin update (`claude plugin
+marketplace update claude-skills`, then `claude plugin update
+domain-modeling@claude-skills`) and an optional Step D 3 spot-check in
+`~/Code/scratch/dm-smoke` are his, and ask whether `dm-smoke` and the
+worktree can go once that passes (keep `~/Code/scratch/site-dash`, W8.7). No
+further handoff is needed unless something new turns up.
 
 ## Wrap-up
 

@@ -221,7 +221,7 @@ Added in S14:
       the entry, so Step D 1 stays one turn
 
 Added in Q5:
-- [ ] Review and merge the Q5 ledger PR (https://github.com/rinman24/claude-skills/pull/8)
+- [x] Review and merge the Q5 ledger PR (https://github.com/rinman24/claude-skills/pull/8): merged (`4151c74`)
 - [ ] W8.12 (low): fix it, by pasting `handoffs/S15-dm-wording-attribution.md`
       into a fresh session in this worktree, or drop it. Then update
       domain-modeling as after S14
