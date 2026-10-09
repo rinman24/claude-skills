@@ -53,3 +53,30 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
   `/ask-*` session files there aren't in a worktree. Apply: with Rich's
   OK, write the session file with a quoted shell heredoc (uncommitted, as
   the ask skill says).
+
+## S1c · 2026-10-09
+
+- **Two independent consultations can run in parallel in one turn.** Rich
+  typed both prompts in one `/ask-juval`; Juval and Eric ran as two blind
+  background agents at once and both answers arrived before the first
+  ruling. Apply: when the questions don't feed each other, launch both
+  advisors together; the wall-clock cost is one consultation.
+- **Write a long answer's session file from the agent transcript, not by
+  retyping it.** Extracting the final text from the agent's output file into
+  the session file keeps it verbatim and puts it in context once (the
+  relay), not twice. Apply: relay in chat, then `cat` the extracted text
+  into the heredoc. Eric's answer was retyped and cost ~5K more.
+- **Read the other ledger before answering an advisor's blocking question.**
+  Juval's blocker (does the fake keep state across processes?) was already
+  SQ3's first design question in squadra's ledger; one grep turned it into
+  a requirement instead of a question to Rich. Apply: grep the sibling
+  effort's ledger and handoffs before putting a blocker to Rich.
+- **Two consultations plus three rulings filled the session.** ~110K at the
+  last ruling, so the split went to S1d as the handoff allowed. Apply: the
+  S1 estimate (two consultations ≈ 60K) holds; budget the boot (~25K here,
+  merge included) on top, and plan the next unit as split only.
+- **Handoffs are no longer committed.** The `origin/main` merge brought
+  handoff-skill's HD1: `docs/*/handoffs/` is gitignored, so `S1d-split.md`
+  lives only in this worktree. Earlier handoffs stay tracked. Apply: don't
+  `git add -f` a handoff; the ledger's session log names it, and the
+  worktree must not be removed before the next session starts.
