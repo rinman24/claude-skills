@@ -72,6 +72,7 @@ handoff path and his queue.
 
 - [x] Review and merge PR #11 (merged 2026-10-09 as `b11a7aa`).
 - [x] Start H2 with the ledger-only prompt (done; the test passed).
+- [ ] Review and merge PR #12 (H2 close-out, docs only).
 - [ ] In an interactive session, check runbook Step C: `/handoff` appears in
       slash completion with the hint "What will the next session be used
       for?" (headless can only show `plugin list`: installed, enabled).
@@ -81,7 +82,7 @@ handoff path and his queue.
       unasked. If it also writes first interactively, open a fix unit
       (tighten step 3 to "stop and wait for the answer"); if it waits, close
       this as a headless artifact.
-- [ ] Remove the worktree when done: `git worktree remove
+- [ ] After PR #12 merges, remove the worktree: `git worktree remove
       .claude/worktrees/handoff-skill` from the main checkout (its
       `handoffs/` are local and go with it, HD1).
 - [ ] Follow-up, not this effort's work: `feat/design-to-board` commits its
