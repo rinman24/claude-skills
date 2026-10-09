@@ -94,7 +94,10 @@ Added S1 (2026-10-09), from DB-D1 (squadra work, Rich's repo; this effort never 
       records decisions and points to it.
 
 Added S1 (2026-10-09), not design-to-board work:
-- [ ] Add a `handoff` skill to this marketplace, capturing the essence of
+- [ ] Moved to its own effort (2026-10-09): branch `feat/handoff-skill`, worktree
+      `.claude/worktrees/handoff-skill`, ledger `docs/handoff-skill/LEDGER.md`; start
+      with `docs/handoff-skill/handoffs/H1-build.md`. Original item:
+      Add a `handoff` skill to this marketplace, capturing the essence of
       https://github.com/mattpocock/skills/tree/main/skills/productivity/handoff
       (read at `0f5e033`; no attribution or upstream tracking needed). Essence:
       user-invoked only (`disable-model-invocation: true`), takes an optional
