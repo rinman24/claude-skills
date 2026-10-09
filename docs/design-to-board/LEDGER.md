@@ -38,7 +38,11 @@ by ID; don't copy them here.
   target repo; its `squadra.toml` goes there after SQ5). Parent issues: #1
   "design-to-board test parent (in scope)", the `parent_scope_ids` entry;
   #2 "design-to-board test parent (out of scope)", never in scope. Projects
-  v2 project: not created yet (needs the `project` scope on `gh`). Never
+  v2 project: `rinman24` project 1, "squadra sandbox" (private,
+  https://github.com/users/rinman24/projects/1), linked to the repo; its
+  Status field is single-select Todo / In Progress / Done, left as created
+  until SQ5 says which native states it needs. #1 and #2 are not on the
+  project. `gh` has the `project` scope. Never
   `squadra start` there; the acceptance test uses `squadra tick --dry-run`.
 - design-to-board's tests (DB2, S2): `uvx pytest -p no:cacheprovider plugins/design-to-board/tests`
   from the repo root. No Python env in the repo: `uvx` runs pytest from its
@@ -150,12 +154,8 @@ Added S1d (2026-10-09):
       SQ4 are merged (the squadra item above), so keep that effort moving.
 - [ ] Before S5: a GitHub board design-to-board can write to for the
       integration test, plus SQ5 merged. Done (S1d follow-up): the scratch
-      repo and parent issues #1 (in scope) and #2 (out of scope); see Repo
-      facts. Still to do now: `gh` has no `project` scope yet (the refresh
-      didn't take; the API reports `gist, read:org, repo`), so re-run
-      `gh auth refresh -h github.com -s project,read:project` (a second attempt also failed: `project create` reports the token missing `project read:project`), then create a Projects v2 project, link
-      it to the repo, check its Status field and record its number in Repo
-      facts. After SQ5 settles how GitHub states and the board
+      repo, parent issues #1 (in scope) and #2 (out of scope), and project 1
+      linked to it; see Repo facts. After SQ5 settles how GitHub states and the board
       are configured: the repo's `squadra.toml` (`provider = "github"`,
       `claim_scope = "parents"` with the in-scope parent, `[board.states]`)
       and `squadra init --check` green. Never `squadra start` there.
