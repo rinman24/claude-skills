@@ -28,6 +28,18 @@ Give Eric the proposed entry (term, definition, `_Avoid_` forms, context, one-li
 
 Only two wordings can be written: one Eric approved unchanged, or one the user approved after Eric's verdict (or in advance, in so many words: "if Eric only sharpens it, I accept"). Any other change after Eric has seen it (taking his sharper wording, departing from his verdict, or your own edit) goes to the user as a question first. A note in a draft is not a question.
 
+Only an explicit yes to the draft you showed approves it: "yes", "approve", "write it", or picking one of the wordings your question showed. Any other reply (a scope trim such as "only the Host batch", a change elsewhere, a procedural "next batch" or "run the final pass and Settle") is not a yes: apply it, then ask one line, `Approve <what> as drafted?`, and write nothing until the answer is yes. A term the user states in full and tells you to settle is their own draft and needs no further yes; with advance acceptance of Eric's sharpening it is written in the same turn.
+
+When you ask for a yes, show the exact text of every line the yes will write, not a description of it. That includes structural lines (a pointer to `GLOSSARY-MAP.md`, a map entry, a new context's heading and description line) and lines in other docs (a `CONTEXT-MAP.md` row that points to the glossary). A yes to a change in principle ("add a pointer") does not approve text you haven't shown. For example:
+
+```
+Eric suggests a pointer at the top of the root GLOSSARY.md. The line would be:
+> One of several contexts in this repo; see [GLOSSARY-MAP.md](./GLOSSARY-MAP.md).
+Add it as written?
+```
+
+One exception keeps a first settle to one turn: in a repo with no glossary yet, the new root `GLOSSARY.md`'s heading and description line (and `GLOSSARY-SETTLED.md`'s fixed header) come with the first entry. Eric reviews them with it, the user's instruction to settle (and any advance acceptance) covers them, and the announcement quotes the heading and description line word for word. Every other structural line (a new context, a map, a pointer, a line in another doc) is shown and asked first.
+
 If `board-eric` is not an available agent type, or the call fails, say so plainly at the start: "`board-eric` isn't available here, so I'll challenge and sharpen terms but won't write `GLOSSARY.md`, `GLOSSARY-MAP.md` or `GLOSSARY-SETTLED.md`." Don't offer the drafted entries for the user to paste in by hand, or any other route around Eric's review. Everything read-only (challenging, `Lookup`, drift reports) still runs. `Reopen` adds no language and records only the user's instruction, so it does not need Eric.
 
 ## During the session
@@ -73,7 +85,7 @@ When the user settles a term, write it right then. Don't batch.
    - Wording: Eric approved
    ```
 
-   Say who approved each wording: `Eric approved`, or `you approved` (or `you approved in advance`) plus what Eric said when it differs (e.g. `you approved; Eric had sharpened it to "…"`). Never say the user accepted a wording they weren't asked about.
+   List every file the write changed, including `GLOSSARY-MAP.md`, pointer lines and other docs. Say who approved each wording. `Eric approved` is only for text Eric approved unchanged that the user wasn't asked about. Whenever the user accepted a wording, say `you approved` (or `you approved in advance`), even when the text is Eric's: `you approved Eric's wording for First start: "…"`, or `you approved; Eric had sharpened it to "…"`. Never write `Eric approved` for a wording Eric proposed and the user accepted, and never say the user accepted a wording they weren't asked about.
 
    A correction to something just written is a reopen by the user followed by a new `Settle`; rows are never edited or deleted.
 

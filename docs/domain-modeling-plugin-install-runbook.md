@@ -126,7 +126,10 @@ headless on the build branch (S4); steps 3–7 need a second turn, so run them
 interactively.
 
 1. Start `claude` in the repo and run:
-   `/domain-modeling The term is Handoff: the prompt file one session writes so the next can start cold. Rejected: baton, continuation prompt. If Eric only sharpens the wording, I accept it. Settle it.`
+   `/domain-modeling The term is Handoff, in the Sessions context: the prompt file one session writes so the next can start cold. Rejected: baton, continuation prompt. If Eric only sharpens the wording, I accept it. Settle it.`
+   (Naming the context matters in an empty repo: without it, the
+   `GLOSSARY.md` heading is Claude's guess, and a guess Eric questions is
+   rightly asked first.)
    Expected: Claude calls `board-eric`, then writes `GLOSSARY.md` (a
    `**Handoff**` entry with `_Avoid_`) and `GLOSSARY-SETTLED.md` (the header
    line plus one `settled` row with `session:<date>`), and opens its reply with
@@ -136,25 +139,37 @@ interactively.
    question. Claude's own challenge against the glossary may catch it before
    Eric is called; if it reaches Eric and he sharpens or objects, his point is
    the question.
-3. Answer that question. Expected: the next reply opens with the
-   `📝 Written since last round:` announcement of what it wrote, and its
-   wording line says `you approved` (with Eric's wording beside it if his
-   differed), not `Eric approved`.
+3. Answer that question. Expected: any line it proposes to add (e.g. a
+   pointer to `GLOSSARY-MAP.md`) is shown word for word before it asks for
+   your yes; a reply that isn't a yes to what it showed gets one line,
+   "Approve … as drafted?", and nothing written. After your yes, the next
+   reply opens with the `📝 Written since last round:` announcement of every
+   file it wrote, and its wording line says `you approved` (with Eric's
+   wording beside it if his differed), not `Eric approved`.
 4. Say "we pass the baton to the next session". Expected: a drift note
    ("settled as Handoff …") and no question about it; the word "reopen" does
    not appear.
 5. Say "reopen Handoff". Expected: the row's status becomes `reopened` and the
    naming question is put to you. Settle it again; expect a new `settled` row
    and the old row's status `superseded` (no row deleted).
-6. In a repo with code but no glossary, ask it to bootstrap one. Expected: a
-   batch list for you to confirm (per subsystem if the top-level directories
-   are layers), read-only extractor sub-agents, Eric's review of each batch's
-   term list, and a draft you approve before anything is written; settled rows
+6. In a repo with code but no glossary, ask it to bootstrap one. When the
+   batch list is shown, trim it then (e.g. "Only the Host batch"); if the list
+   comes as a multiple-choice question, pick "Other" and type the trim there.
+   Expected: a batch list for you to confirm (per subsystem if the top-level
+   directories are layers), read-only extractor sub-agents, Eric's review of
+   each batch's term list, and a draft you approve before anything is written; settled rows
    only after the final context pass. Where the draft departs from Eric, it
-   asks rather than notes it. If Eric sharpens a wording in the final pass,
-   the change comes to you as a question before `GLOSSARY.md` changes. Each
-   announcement names who approved each wording; check it against what you
-   actually approved.
+   asks rather than notes it. Only an explicit yes writes: answer a batch
+   draft with anything else (e.g. "next batch") and expect "Approve batch 1 as
+   drafted?" and nothing written. Ask it to "run the final pass and Settle":
+   expect a draft of the final edits and rows (exact text of any map, pointer
+   or reworded line, including lines in other docs) and "Approve the final
+   pass and these N rows as drafted?", not a write; if Eric sharpens a wording
+   there, it is a question. After your yes, expect one `📝 Written since last
+   round:` list of every file and row, ending with a `Wording:` line. Each
+   announcement names who approved each wording: a wording you accepted from
+   Eric reads `you approved` plus his text, never `Eric approved`; check it
+   against what you actually approved.
 7. In an environment without `board-eric`, run step 1 again. Expected: it says
    plainly that it won't write the glossary files, writes nothing, and doesn't
    offer the entry for you to paste in by hand.
