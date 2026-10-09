@@ -368,3 +368,23 @@ Newest at the bottom.
 - **zsh trips on unquoted globs and `=word`.** `--include=*.md` and `echo
   =====` both failed. Apply: quote globs, prefer `rg -g`, and don't lead a
   word with `=`.
+
+## Q3 · 2026-10-08
+
+- **A pasted slash command is plain text.** Rich's first `/ask-juval` arrived
+  as pasted content, so the skill didn't load; he then typed it and it ran.
+  Apply: when a consult line arrives as a paste, say so in one line and ask
+  him to type it; don't run the skill's steps by hand.
+- **The user's factual answer can reframe the advisor question.** The handoff's
+  `/ask-juval` line predated Rich's answer (never run, several GitHub boards,
+  ADO dropped, a possible second VM), and those facts drove Juval's "now".
+  Apply: after the pre-consult question, add the answer to the consult line
+  as facts only, with no opinion.
+- **Read the consumer, not only the config.** The scope config looked like a
+  claim filter, but `supervisor.py:486` folds it into `_predecessors_done`
+  as `BLOCKED`. Quoting that code gave Juval his item 4. Apply: when tracing a
+  setting for a consult, grep where it is read and quote that too.
+- **Answer the advisor's caveat in the session file.** Juval couldn't see
+  whether anything outside squadra sets `FLEET_EPIC_IDS`; one grep of
+  `~/Code` settled it. Apply: same as S6/S7, and put the answer under
+  "Blocking questions".
