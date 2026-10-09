@@ -441,3 +441,35 @@ Newest at the bottom.
   W8.11, which the two parts would have hidden. Apply: for a multi-stage
   check, the full transcript is worth its cost once; keep single-reply pastes
   for single-turn checks.
+
+## S14 · 2026-10-08/09
+
+- **Headless scratch repos under `~/.claude/` can't be written.** The job
+  temp dir sits in `~/.claude/jobs/…`, which Claude Code treats as sensitive:
+  the nested run's `GLOSSARY-SETTLED.md` edit was refused under
+  `acceptEdits`, and without `--add-dir` it couldn't read the plugin's format
+  files either. Apply: put headless scratch repos in a unique
+  `mktemp -d "$TMPDIR/<slug>.XXXX"` folder, pass `--add-dir <plugin dir>`, and
+  once the plugin is installed, add `--settings
+  '{"enabledPlugins":{"<plugin>@claude-skills":false}}'` so only the branch
+  copy loads.
+- **The S13 lesson held: a tightened rule broke Step D 1 again.** The
+  exact-text rule (W8.8) made the one-turn settle stop over the new file's
+  heading; the carve-out (MD-B8) then exposed a second, legitimate stop
+  (Eric questioning a guessed context name in an empty repo). Apply: re-run
+  the one-turn step after every rule change, and when the step stops for a
+  sound reason, fix the runbook's prompt instead of loosening the skill.
+- **`claude -p --resume <session_id>` turns a multi-turn check headless.**
+  `--output-format json` gives the `session_id`; each resumed turn ran from
+  the same cwd with the same flags, and four turns checked W8.8 and W8.11 at
+  ~1–2K of this session's context each. Apply: for second-turn behaviour,
+  resume headless before handing the check to Rich; keep only what needs a
+  human (a full bootstrap) for his queue.
+- **A reply that could answer either of two questions is held.** "Yes." after
+  a turn that ended with a draft approval and a yes/no domain question was
+  asked again under MD-B7. Apply: in scripted checks, make the approval reply
+  name what it approves ("Approve all three as drafted").
+- **Bump the plugin version when an installed plugin changes.** The install
+  is cached under `…/domain-modeling/0.1.0`; 0.1.1 makes `claude plugin
+  update` pick the change up. Apply: bump `plugin.json`'s version in any PR
+  that changes an installed plugin's files.
