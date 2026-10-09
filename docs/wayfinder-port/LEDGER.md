@@ -189,8 +189,8 @@ Added in Q4:
 - [x] Start S14: paste `handoffs/S14-dm-approval-announce.md` into a fresh
       session in this worktree (fix W8.8–W8.11)
 - [ ] After S14's PR merges: `claude plugin marketplace update claude-skills`
-      and `claude plugin update domain-modeling@claude-skills` (check
-      `claude plugin list` shows 0.1.1), then re-run domain-modeling Step D 3
+      and `claude plugin update domain-modeling@claude-skills` (done
+      2026-10-09: 0.1.1, enabled), then re-run domain-modeling Step D 3
       and 6 interactively: start Q5 by pasting `handoffs/Q5-dm-rerun-2.md`
 - [ ] billet (yours, not this port; found by the Step D 6 bootstrap, branch
       dropped): `AzureVmProvider.create` (`azure_vm_provider.py:117`) runs
@@ -202,8 +202,8 @@ Added in Q4:
       only cold provision installs the Host baseline
 
 Added in S14:
-- [ ] Review and merge S14's PR (https://github.com/rinman24/claude-skills/pull/7)
-- [ ] Confirm or overrule MD-B8 ([table](#decisions), after MD-B7): a first
+- [x] Review and merge S14's PR (https://github.com/rinman24/claude-skills/pull/7): merged (`20a3600`)
+- [x] Confirm or overrule MD-B8 ([table](#decisions), after MD-B7): confirmed 2026-10-09: a first
       settle in an empty repo writes its heading and description line with
       the entry, so Step D 1 stays one turn
 
@@ -351,7 +351,7 @@ plugin if Rich disagrees). Status: `unconfirmed`, `confirmed <date>`,
 | MD-B5 | Reopen's reason and ref live in the announcement and git history | confirmed 2026-10-08 | Rows are immutable apart from `Status`, so they keep their original `Settled` and `Ref`. If that loses too much, the fix is a `Reopened` column or an event-log format (Eric's Domain Events note) |
 | MD-B6 | Advance acceptance counts as the user's approval (S13, W8.2) | confirmed 2026-10-08 | The user saying "if Eric only sharpens it, I accept" before the call lets the sharpened wording be written in the same turn (runbook Step D 1 depends on it); the announcement says `you approved in advance` and shows Eric's change. Anything else Eric changes, or any departure from his verdict, is still a question. Overrule → drop the parenthesis in `SKILL.md` and Step D 1 becomes two turns |
 | MD-B7 | Only an explicit yes approves a draft (Q4, W8.11) | confirmed 2026-10-08 | A reply that doesn't say yes to the shown draft (a scope trim, a procedural "run the final pass") is not an approval; the skill asks one line, "Approve … as drafted?", before writing |
-| MD-B8 | A first settle in an empty repo writes its heading and description line with the entry (S14, W8.8) | unconfirmed | W8.8's exact-text rule made Step D 1 stop to ask about the new `GLOSSARY.md`'s heading and description line. In a repo with no glossary, those (and `GLOSSARY-SETTLED.md`'s fixed header) come with the first entry: Eric reviews them, the user's settle instruction covers them, the announcement quotes them. Every other structural line is asked first. Step D 1's prompt now names the context, since Eric rightly questions a guessed one. Overrule → drop the exception paragraph in `SKILL.md`; Step D 1 becomes two turns |
+| MD-B8 | A first settle in an empty repo writes its heading and description line with the entry (S14, W8.8) | confirmed 2026-10-09 | W8.8's exact-text rule made Step D 1 stop to ask about the new `GLOSSARY.md`'s heading and description line. In a repo with no glossary, those (and `GLOSSARY-SETTLED.md`'s fixed header) come with the first entry: Eric reviews them, the user's settle instruction covers them, the announcement quotes them. Every other structural line is asked first. Step D 1's prompt now names the context, since Eric rightly questions a guessed one. Overrule → drop the exception paragraph in `SKILL.md`; Step D 1 becomes two turns |
 
 ADR build interpretations (S5, where MD3 left a detail open; change in the
 plugin if Rich disagrees). Status values as for MD-B.
