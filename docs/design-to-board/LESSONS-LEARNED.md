@@ -197,3 +197,25 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
   applied): the ledger rows by line number, squadra's notes N16–N19 by grep.
   The fixed cost is the injected rules and the system prompt, ~60K before the
   first read here. Apply: S5 reads the DB5 row, Repo facts and SQ5's row only.
+
+## S5 · 2026-10-27
+
+- **An integration run can be a sibling effort's first live test.** SQ5b moved
+  the adapter's sandbox run to SQ5c, so DB5's transcription made the GitHub
+  adapter's first real writes. Apply: before an integration unit, read the
+  sibling's cut lines as well as its status, and report what the run verified
+  back to that effort (Rich's queue).
+- **Probe the case the acceptance test passes vacuously.** "Nothing out of
+  scope" held because nothing was under #2. A cheap probe (`--parent 2` on a
+  fresh map) showed the first-run gap and a looping fix line. Apply: for each
+  negative criterion, try one input that should trip it. And say which run in
+  a probe writes: the second call here was a real run, harmless only because
+  squadra refused it.
+- **A CLI flag's default can outrank the config it validates.** `squadra init
+  --check` without `--provider` checked an ADO board and failed with ADO's
+  state names. Apply: when a check fails naming states the board doesn't have,
+  suspect the provider before the map.
+- **Install another repo's tool from origin, not the local clone.** Rich's
+  squadra clone was 41 commits behind; `uv tool install git+…@<sha>` pins the
+  merged commit and leaves his checkout alone (S4's `git show` lesson, applied
+  to installs).
