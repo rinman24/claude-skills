@@ -333,6 +333,10 @@ Added S9b (2026-10-28):
       Done S10 follow-up (2026-10-28): merged (PR #25, `ae67155`); installed 0.3.2 → 0.3.3 (user); the installed copy
       has `ReconcileResult.draft`.
 
+Added S10 follow-up (2026-10-28), at Rich's request:
+- [ ] S11: land the docs commits on main (PR), help Rich decide whether T1 wraps up, and a live look on the sandbox
+      with 0.3.3. Start a session with `handoffs/S11-wrap-up-and-sandbox.md`.
+
 ## Work items
 
 | ID | Item | Unit | Est. | Status | Notes |
