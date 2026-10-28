@@ -264,3 +264,20 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
 - **Write the coverage table when you close a cell.** Listing every exit-3
   class against what the re-run sees showed which cells the translation
   table already covered and left exactly one gap (partial items, DB11).
+
+## S9 · 2026-10-27
+
+- **A fault-injection hook needs the state it patches to exist.** The first
+  probe "passed" without exercising the fault: the shim's `patch` hook writes
+  the fake's board file, which an empty board hasn't created, so the shim
+  crashed and design-to-board reported a `FileNotFoundError` as squadra's.
+  Apply: seed the board (`seed({})`) before arming a hook, and read the
+  probe's actual output before trusting its exit code.
+- **Count a create's steps per row, not per suite.** T5's `CREATE_WRITES = 4`
+  holds for a queue with one predecessor; `billing:I1` has none, so its create
+  is three steps and j = 3 commits it. Apply: derive the crash range from the
+  row under test, or the last case silently tests a complete item.
+- **When a sibling gives the verdict, quote it.** `partial-items` returns the
+  refusal byte for byte, so the failure line embeds it and design-to-board
+  owns no wording of squadra's rule. A check that only routes on `queue` and
+  quotes `refusal` can't drift from squadra's refusal.

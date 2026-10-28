@@ -1,4 +1,5 @@
-"""ResourceAccess for squadra's board: runs `squadra board {origins,scope,queue,withdraw}` in the current directory.
+"""ResourceAccess for squadra's board: runs `squadra board {origins,scope,partial-items,queue,withdraw}` in the current
+directory.
 
 squadra resolves its own `squadra.toml`; design-to-board never reads it (DB-D5).
 """
@@ -9,7 +10,9 @@ import json
 import subprocess
 from collections.abc import Sequence
 
-from contracts import ABSENT, LIFECYCLES, BoardReadError, BoardWriteError, Increment, Snapshot
+from contracts import (
+    ABSENT, FINISHES, LIFECYCLES, REFUSES, BoardReadError, BoardWriteError, Increment, PartialItem, QueueStep, Snapshot,
+)
 
 
 class SquadraBoardAccess:
@@ -35,6 +38,26 @@ class SquadraBoardAccess:
         if not isinstance(answer, bool):
             raise BoardReadError(0, "`squadra board scope` printed no in_claim_scope")
         return answer
+
+    def partial_items(self, parent: int, steps: Sequence[QueueStep]) -> tuple[PartialItem, ...]:
+        """`squadra board partial-items`: every partial item on the board, each with squadra's verdict on the queue step
+        naming its Origin (requests on stdin, one per step under `parent`); raises BoardReadError if squadra gives none."""
+        requests = [
+            {"origin": step.origin, "parent": parent, "predecessor_origins": list(step.predecessors),
+             "title": step.title, "body": step.body}
+            for step in steps
+        ]
+        entries = _run(["partial-items", "--requests-file", "-"], BoardReadError, json.dumps(requests)).get("partial_items")
+        try:
+            reports = tuple(
+                PartialItem(entry["item_id"], entry["origin"], entry["queue"], entry["refusal"]) for entry in entries
+            )
+        except (KeyError, TypeError) as error:
+            raise BoardReadError(0, f"`squadra board partial-items` printed something other than its JSON ({error})") from None
+        for report in reports:
+            if report.queue not in (REFUSES, FINISHES, None) or (report.queue == REFUSES) != isinstance(report.refusal, str):
+                raise BoardReadError(0, f"partial item {report.item_id} has verdict `{report.queue}`, which design-to-board doesn't know")
+        return reports
 
     def queue_increment(self, origin: str, parent: int, predecessors: Sequence[int], title: str, body: str) -> int:
         """`queue_increment` through the CLI, the body on stdin; returns the item ID or raises BoardWriteError."""

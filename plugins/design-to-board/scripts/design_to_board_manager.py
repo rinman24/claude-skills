@@ -124,7 +124,15 @@ class DesignToBoardManager:
         if not validation.valid:
             _, parent_failures = self._reconcile.check_parent(front_matter.map, snapshot, parent_arg, parent_in_scope)
             return ReconcileResult(None, validation.failures + tuple(parent_failures)), snapshot
-        return self._reconcile.reconcile(validation.document, snapshot, parent_arg, parent_in_scope), snapshot
+        result = self._reconcile.reconcile(validation.document, snapshot, parent_arg, parent_in_scope)
+        if result.plan is None:
+            return result, snapshot
+        # Asked only once every other check passes, with the Plan's queues as the requests (DB-D13, DB-D6).
+        try:
+            reports = self._board.partial_items(result.plan.parent, result.plan.queues)
+        except BoardReadError as error:
+            return ReconcileResult(None, (board_read_failure("partial-items", error),)), snapshot
+        return self._reconcile.check_partial_items(result.plan, reports), snapshot
 
 
 def board_read_failure(verb: str, error: BoardReadError) -> Failure:
