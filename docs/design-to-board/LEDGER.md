@@ -355,13 +355,19 @@ Added S12 (2026-10-28):
 - [x] S13 (DB14): build DB-D16, opening with `/ask-eric` on the four strings. No gate (design-to-board and
       wayfinder's format only; squadra unchanged). Start a session with `handoffs/S13-third-outcome-build.md`.
       Done S13 (2026-10-28): Eric's strings, ACTIVE fix corrected (DB-D16); plugin 0.3.4, wayfinder 0.2.1.
-- [ ] After S13: decide T1's wrap-up again (DB-D15). If you want a session for it: `handoffs/S14-t1-wrap-up.md`.
+- [ ] After S13: decide T1's wrap-up again (DB-D15), after the sandbox run (S14). If you want a session for it:
+      `handoffs/S15-t1-wrap-up.md`.
 
 Added S13 (2026-10-28):
-- [ ] Merge S13's build PR (DB14; plugin 0.3.4, wayfinder 0.2.1). Then reinstall design-to-board and wayfinder.
-- [ ] Optional, before wrap-up: a sandbox run of DB-D16 on `rinman24/squadra-sandbox` (a map whose r2 withdraws a
-      delivered row and adds its replacement: expect exit 0, the queue, one `note ·` line; then a cosmetic r3 with no
-      note). The fake already runs Juval's acceptance case through the real `squadra`.
+- [x] Merge S13's build PR (DB14; plugin 0.3.4, wayfinder 0.2.1). Then reinstall design-to-board and wayfinder.
+      Done S13 follow-up: merged (PR #28, `7de5d55`); `claude plugin marketplace update claude-skills`, then
+      `claude plugin update` for both: design-to-board 0.3.3 → 0.3.4, wayfinder 0.1.0 → 0.2.1 (user; wayfinder had
+      never been updated past 0.1.0, so DB-W's 0.2.0 lands too). The installed copies carry `NEVER_UNDOES_DELIVERED`
+      and DESIGN-FORMAT's sentence. Restart Claude Code to load them.
+- [ ] S14: a sandbox run of DB-D16 on `rinman24/squadra-sandbox` before wrap-up (Rich asked, S13 follow-up). A map's
+      r1 queued, I1 and I2 closed as completed by hand, r2 withdraws I2 (cascade: I3) and adds I4: expect exit 0,
+      1 withdrawal, 1 queue, one `note · I2`; re-run: the note again; cosmetic r3: no note. Start a session with
+      `handoffs/S14-sandbox-db-d16.md`.
 
 ## Work items
 
@@ -499,3 +505,4 @@ seen by the re-run's read or checks, before any write. An empty cell is a gap.
 | S11 follow-up | 2026-10-28 | bookkeeping | PR #26 merged (`76127ab`); branch fast-forwarded to it. Rich chose delete for r3's sandbox issues: #9–#12 deleted with `gh issue delete`. After: issues #1, #2, #8; `origins` only `SQ5c-live:claim` (#8, withdrawn), no partial-item stderr line; tick `claimable=[] states={}`. Project 1 keeps two content-less items from the deleted issues; `gh project item-delete` refused (permissions), squadra's reads unaffected. Next: S12 (DB13) | `handoffs/S12-third-outcome.md` (S11) |
 | S12 | 2026-10-28 | DB13 (done); DB14 (added) | Fetched; branch level with `origin/main` (`76127ab`) plus S11's follow-up `b70b323`; PR #26 already merged, so a new docs PR. Read the named rows, the engine, DESIGN-FORMAT and the 2026-10-09 sessions. Recommended a per-run note at exit 0; Rich asked `/ask-juval` first (board-juval briefed blind: the question, DB-D2/D6/D9/D15, DB13, the exit-3 table, the engine and report paths, Increment identity, the 2026-10-09 sessions). Juval: a `Note` cell, exit 0, only on the withdrawing revision; ACTIVE fix, DESIGN-FORMAT sentence and `GLOSSARY-MAP.md:12` change; Publish and squadra don't. Checked his facts (`IncrementRow.withdrawn_in`, wayfinder `SKILL.md:75`, `GLOSSARY-MAP.md:12`). Rich adopted it in full (DB-D16); Eric words the four strings in the build. New row DB14; DB3's reading points to DB-D16. No code | `handoffs/S13-third-outcome-build.md` (S12) |
 | S13 | 2026-10-28 | DB14 (done) | Fetched; PR #27 merged, so fast-forwarded to `origin/main` (`27f296c`). Ran Eric blind in the background (the skill's steps by hand, as the port's lesson says when the handoff asks) on the four strings with DB-D16, Juval's drafts and the source text quoted; built the wording-independent code meanwhile on Juval's drafts (137 → 144 passing). Answered Eric's blocking question from squadra's `GLOSSARY.md` (Relinquish): no single-item stop verb. Rich picked Eric's strings with the ACTIVE fix corrected, plus the phrase constant and its cross-file test. Built DB14 (see the row), found a third notes-dropping return in the Manager; 145 tests pass, none skipped; `claude plugin validate` passes for `.`, design-to-board and wayfinder. Build PR from this branch. No sandbox run (Rich's queue) | `handoffs/S14-t1-wrap-up.md` |
+| S13 follow-up | 2026-10-28 | bookkeeping | Rich merged PR #28 (`7de5d55`); branch fast-forwarded to it. Reinstalled: marketplace updated, design-to-board 0.3.3 → 0.3.4, wayfinder 0.1.0 → 0.2.1 (user); the cache copies have the change. Rich asked for a sandbox run before deciding T1's wrap-up: handoff `S14-sandbox-db-d16.md` (map `done4`, two issues closed as completed by hand, r2 withdraws a delivered row and adds its replacement); the wrap-up handoff is renamed `S15-t1-wrap-up.md` (handoffs are gitignored, local to this worktree) | `handoffs/S14-sandbox-db-d16.md` |
