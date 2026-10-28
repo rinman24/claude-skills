@@ -344,3 +344,22 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
   which keeps the run deterministic. Apply: when a report should fade, look
   for a field already in the inputs that marks "new this time" before
   reaching for memory.
+
+## S13 · 2026-10-28
+
+- **A fix's verb has to exist in the owner's glossary.** The ACTIVE fix said
+  "stop it in squadra" since DB-D2, and Eric's draft kept it; squadra has no
+  verb that stops one item (its Relinquish follows a withdrawal by hand on the
+  board). S12's lesson again, one cell over. Apply: for each fix that names an
+  act in another context, find that act in the owner's glossary or contract
+  before the string ships.
+- **When a result gains a field, grep every place that builds it.** Juval
+  named two returns that would drop the reconcile's notes; the Manager's
+  `partial-items` read-failure return was a third. Apply: before building,
+  list every constructor of the result type (`ReconcileResult(`) and check
+  each one passes the new field through.
+- **Run the wording advisor in the background and build on the drafts.** Eric
+  ran blind while the cell, the plumbing and the tests were built on Juval's
+  strings; after Rich picked, one pass changed the table and two literal
+  goldens. Apply: when only strings wait on an advisor, build on the drafts
+  with literal goldens, so a pick costs one edit.
