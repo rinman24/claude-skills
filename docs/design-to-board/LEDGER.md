@@ -326,7 +326,7 @@ Added S9 (2026-10-27):
 Added S9b (2026-10-28):
 - [x] S10 (DB12): no gate (design-to-board only, squadra unchanged). Start a session with
       `handoffs/S10-partial-item-collected.md`.
-      Done S10 (2026-10-28): built, plugin 0.3.3; PR from `feat/design-to-board`. No next handoff: DB12 was the
+      Done S10 (2026-10-28): built, plugin 0.3.3; PR #25. No next handoff: DB12 was the
       last open row.
 - [ ] After S10: merge DB12's PR (plugin 0.3.3), then update the installed plugin
       (`claude plugin update design-to-board@claude-skills`, or the runbook's reinstall).
