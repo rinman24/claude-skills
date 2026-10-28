@@ -64,7 +64,7 @@ changed: []
 
 ## Increment identity
 
-IDs `I1`, `I2`… are never renumbered or reused. A published row changes only its `Published` cell (`r1`, then `r1, withdrawn r2`); any other change to it is a withdrawal plus a new row with a new ID. Withdrawn rows stay in the table. The translator only ever creates and withdraws.
+IDs `I1`, `I2`… are never renumbered or reused. A published row changes only its `Published` cell (`r1`, then `r1, withdrawn r2`); any other change to it is a withdrawal plus a new row with a new ID. Withdrawn rows stay in the table. The translator only ever creates and withdraws. Withdrawing a row never undoes delivered work: if its increment is already delivered, the translator leaves it delivered, and changing or undoing that work takes a new row.
 
 A live row never depends on a withdrawn row. When Publish withdraws a row, it also withdraws every live row that depends on it, directly or through other rows (the withdrawal cascade).
 

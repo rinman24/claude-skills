@@ -132,7 +132,8 @@ class DesignToBoardManager:
         try:
             reports = self._board.partial_items(result.draft.parent, result.draft.queues)
         except BoardReadError as error:
-            return ReconcileResult(None, result.failures + (board_read_failure("partial-items", error),)), snapshot
+            failures = result.failures + (board_read_failure("partial-items", error),)
+            return ReconcileResult(None, failures, result.notes), snapshot
         return self._reconcile.check_partial_items(result, reports), snapshot
 
 

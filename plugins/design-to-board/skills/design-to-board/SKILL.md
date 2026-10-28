@@ -34,8 +34,9 @@ Relay the script's output to the user as it is, then stop.
   the suggestion to run `squadra tick --dry-run`; with `--dry-run`, the plan.
   Relay it, including the suggestion; don't run the tick yourself. A
   `note · row · reason · fix` line names a partial item no queue of the run
-  finishes (a withdrawn row's, or one whose Origin has no row); it blocks
-  nothing. Relay it as it is.
+  finishes (a withdrawn row's, or one whose Origin has no row), or, on the
+  revision that withdrew a row, its increment that was already delivered and
+  stays delivered; it blocks nothing. Relay it as it is.
 - Exit 1: failed, nothing written. Each line is `check · row · reason · fix`.
   Relay every line; the fix says what the user does next: for a document
   defect, revise the map in wayfinder and Publish again; for `--parent`,

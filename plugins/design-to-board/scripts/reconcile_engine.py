@@ -48,6 +48,7 @@ REPAIR_PARTIAL = "repair the partial item by hand in squadra, then re-run design
 NOTE = "note"
 UNREQUESTED_PARTIAL = "no queue of this run finishes it, so it stays in no bucket and nothing claims it"
 REMOVE_PARTIAL = "nothing for design-to-board to do; remove it by hand in squadra if it's unwanted"
+NEVER_UNDOES_DELIVERED = "withdrawing a row never undoes delivered work"  # DB-D16; word for word in DESIGN-FORMAT, GLOSSARY-MAP
 
 
 @dataclass(frozen=True, slots=True)
@@ -62,8 +63,23 @@ class Refusal:
         return Failure(BOARD, row.id, self.reason.format(**values), self.fix.format(**values))
 
 
+@dataclass(frozen=True, slots=True)
+class Note:
+    """A note cell (DB-D16): nothing is written, and its line, which blocks nothing, prints only on runs of the revision
+    that withdrew the row; `reason` and `fix` take {origin}, {item}, {row} and {revision}."""
+
+    reason: str
+    fix: str
+
+    def line(self, row: IncrementRow, origin: str, item: Increment, revision: int) -> str | None:
+        if row.withdrawn_in != revision:
+            return None
+        values = {"origin": origin, "item": item.item_id, "row": row.id, "revision": revision}
+        return Failure(NOTE, row.id, self.reason.format(**values), self.fix.format(**values)).line()
+
+
 # Row state × item Lifecycle → action. ABSENT includes an Origin only a partial item carries (DB-D10).
-TRANSLATION_TABLE: dict[tuple[str, str], str | Refusal] = {
+TRANSLATION_TABLE: dict[tuple[str, str], str | Refusal | Note] = {
     (ROW_LIVE, ABSENT): QUEUE,  # DB-D1; on a partial item the queue finishes it (DB-D10)
     (ROW_LIVE, QUEUED): NOTHING,  # DB-D1
     (ROW_LIVE, ACTIVE): NOTHING,  # DB-D1
@@ -74,13 +90,15 @@ TRANSLATION_TABLE: dict[tuple[str, str], str | Refusal] = {
     ),
     (ROW_WITHDRAWN, ABSENT): NOTHING,  # DB-D9
     (ROW_WITHDRAWN, QUEUED): WITHDRAW,  # DB-D1, DB-D2, DB-D10 (by Origin)
-    (ROW_WITHDRAWN, ACTIVE): Refusal(  # DB-D2
+    (ROW_WITHDRAWN, ACTIVE): Refusal(  # DB-D2; DB-D16's fix (squadra's Relinquish)
         "{origin} (item {item}) is active; squadra withdraws only a queued increment",
-        "wait for the run to finish or stop it in squadra, then re-run design-to-board",
+        "withdraw it by hand on the board and the fleet relinquishes it, or let it finish and it stays delivered, "
+        f"because {NEVER_UNDOES_DELIVERED}; either way, re-run design-to-board",
     ),
-    (ROW_WITHDRAWN, DONE): Refusal(  # DB-D2
-        "{origin} (item {item}) is delivered; change delivered work with a new increment, not a withdrawal",
-        "revise the map in wayfinder: a delivered increment can't be withdrawn",
+    (ROW_WITHDRAWN, DONE): Note(  # DB-D16: DONE is terminal (DB-D2); a changed published row is withdrawn and replaced
+        "{origin} (item {item}) is delivered and its row is withdrawn in r{revision}; " + NEVER_UNDOES_DELIVERED,
+        "nothing for design-to-board to do; check that any replacement builds on the delivered work, "
+        "and undo it with a new increment in wayfinder if it's unwanted",
     ),
     (ROW_WITHDRAWN, WITHDRAWN): NOTHING,  # DB-D2: a re-run is idempotent
 }
@@ -131,20 +149,26 @@ class ReconcileEngine:
     def reconcile(
         self, document: DesignDocument, snapshot: Snapshot, parent_arg: int | None, parent_in_scope: bool,
     ) -> ReconcileResult:
-        """The document against the snapshot: the Plan, or every failure (parent checks, then rows in ID order). The
-        draft is built whenever a parent holds, so the partial-item check is collected with the rest (DB-D14)."""
+        """The document against the snapshot: the Plan, or every failure (parent checks, then rows in ID order), and the
+        note cells' lines in row-ID order. The draft is built whenever a parent holds, so the partial-item check is
+        collected with the rest (DB-D14)."""
         map_name = document.front_matter.map
         parent, failures = self.check_parent(map_name, snapshot, parent_arg, parent_in_scope)
         failures += _check_scope(map_name, snapshot)
         rows = sorted(document.increments, key=lambda row: row.number)
         to_withdraw: list[IncrementRow] = []
         to_queue: list[IncrementRow] = []
+        notes: list[str] = []
         for row in rows:
             origin = _origin(map_name, row.id)
             item = snapshot.get(origin)
             cell = TRANSLATION_TABLE[(ROW_LIVE if row.live else ROW_WITHDRAWN, item.lifecycle if item else ABSENT)]
             if isinstance(cell, Refusal):
                 failures.append(cell.failure(row, origin, item))
+            elif isinstance(cell, Note):
+                line = cell.line(row, origin, item, document.front_matter.revision)
+                if line is not None:
+                    notes.append(line)
             elif cell == WITHDRAW:
                 to_withdraw.append(row)
             elif cell == QUEUE:
@@ -153,7 +177,7 @@ class ReconcileEngine:
                 failures += _check_predecessors(row, snapshot)
         failures += _check_unknown_origins(map_name, snapshot, {row.id for row in rows})
         if parent is None:
-            return ReconcileResult(None, tuple(failures))
+            return ReconcileResult(None, tuple(failures), tuple(notes))
         draft = Plan(
             map_name,
             document.front_matter.revision,
@@ -161,16 +185,16 @@ class ReconcileEngine:
             tuple(WithdrawStep(_origin(map_name, row.id)) for row in _kahn(to_withdraw)),
             tuple(_queue_step(map_name, row) for row in _kahn(to_queue)),
         )
-        return ReconcileResult(None if failures else draft, tuple(failures), draft=draft)
+        return ReconcileResult(None if failures else draft, tuple(failures), tuple(notes), draft)
 
     def check_partial_items(self, result: ReconcileResult, reports: tuple[PartialItem, ...]) -> ReconcileResult:
         """The draft against squadra's verdicts on its queues (DB-D13), the map's partial items only: one the queue would
         refuse fails before any write, quoting squadra; one it finishes passes (DB-D10); one no queue names, a withdrawn
-        row's or an Origin's with no row, gets a note. Merged with the reconcile's failures; the Plan only if none
-        stand (DB-D14)."""
+        row's or an Origin's with no row, gets a note. Merged with the reconcile's failures and notes, the reconcile's
+        first; the Plan only if no failure stands (DB-D14)."""
         prefix = f"{result.draft.map}:"
         failures = list(result.failures)
-        notes: list[str] = []
+        notes = list(result.notes)
         for report in reports:
             if not report.origin.startswith(prefix):
                 continue

@@ -5,13 +5,20 @@ from pathlib import Path
 
 import pytest
 
-from contracts import DONE, Failure
+from contracts import DONE, QUEUED, Failure
+from reconcile_engine import NOTE
 
 # make_document, make_increment, make_fake_squadra
 # are provided by tests/conftest.py
 
 SCRIPT = Path(__file__).resolve().parent.parent / "scripts" / "design_to_board.py"
 GOLDEN = Path(__file__).resolve().parent / "fixtures" / "billing-r2.plan"
+# DB-D16's note for the fixture's I2 (`r1, withdrawn r2`), delivered as item 102.
+NOTE_I2 = (
+    f"{NOTE} · I2 · billing:I2 (item 102) is delivered and its row is withdrawn in r2; withdrawing a row never undoes "
+    "delivered work · nothing for design-to-board to do; check that any replacement builds on the delivered work, "
+    "and undo it with a new increment in wayfinder if it's unwanted"
+)
 
 
 def _run(*args: str, env: dict[str, str] | None = None, cwd: Path | None = None) -> subprocess.CompletedProcess:
@@ -62,6 +69,35 @@ def test_board_already_matching_says_nothing_to_write(make_document, make_fake_s
         "design-to-board: dry run for map billing, revision 2, under parent 1: "
         "nothing to write; the board already matches the document.\n"
     )
+
+
+@pytest.fixture
+def delivered_i2_board(make_increment) -> dict:
+    """Billing after revision 2's run, with the withdrawn I2 delivered before it (DB-D16)."""
+    return {f"billing:I{n}": make_increment(100 + n, DONE if n == 2 else QUEUED) for n in (1, 2, 3, 4)}
+
+
+def test_dry_run_prints_the_note_after_the_plan_and_exits_0(make_document, make_fake_squadra, delivered_i2_board) -> None:
+    make_fake_squadra(delivered_i2_board)
+
+    completed = _run(str(make_document()), "--dry-run")
+
+    assert completed.returncode == 0
+    assert completed.stdout == (
+        "design-to-board: dry run for map billing, revision 2, under parent 1: "
+        f"nothing to write; the board already matches the document.\n{NOTE_I2}\n"
+    )
+
+
+def test_the_note_survives_a_failed_partial_items_read(make_document, make_fake_squadra, delivered_i2_board) -> None:
+    make_fake_squadra(delivered_i2_board, partial_exit=2)
+
+    completed = _run(str(make_document()), "--dry-run")
+
+    lines = completed.stdout.splitlines()
+    assert completed.returncode == 1
+    assert lines[1].startswith("board read · squadra board partial-items")
+    assert lines[2:] == [NOTE_I2]
 
 
 def test_failing_document_reports_document_and_parent_failures_and_exits_1(make_document, make_fake_squadra) -> None:

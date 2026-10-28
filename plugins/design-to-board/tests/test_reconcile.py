@@ -5,14 +5,17 @@ from pathlib import Path
 
 import pytest
 
-from contracts import ABSENT, ACTIVE, DONE, LIFECYCLES, QUEUED, WITHDRAWN, DesignDocument, Increment
+from contracts import ABSENT, ACTIVE, DONE, LIFECYCLES, QUEUED, WITHDRAWN, DesignDocument, Increment, PartialItem
 from reconcile_engine import (
+    NEVER_UNDOES_DELIVERED,
     NOTHING,
     QUEUE,
     ROW_LIVE,
     ROW_STATES,
+    ROW_WITHDRAWN,
     TRANSLATION_TABLE,
     WITHDRAW,
+    Note,
     ReconcileEngine,
     Refusal,
 )
@@ -42,8 +45,10 @@ def _transcribed(map_name: str, parent: int, make_increment, **lifecycles: str) 
 
 def test_translation_table_has_every_cell_and_only_known_actions() -> None:
     assert set(TRANSLATION_TABLE) == set(itertools.product(ROW_STATES, LIFECYCLES))
-    for cell in TRANSLATION_TABLE.values():
-        assert isinstance(cell, Refusal) or cell in (QUEUE, WITHDRAW, NOTHING)
+    for (row_state, _), cell in TRANSLATION_TABLE.items():
+        assert isinstance(cell, (Refusal, Note)) or cell in (QUEUE, WITHDRAW, NOTHING)
+        if isinstance(cell, Note):
+            assert row_state == ROW_WITHDRAWN  # only a withdrawn row has `withdrawn_in` (DB-D16)
 
 
 @pytest.mark.parametrize("cell", list(itertools.product(ROW_STATES, LIFECYCLES)))
@@ -60,6 +65,7 @@ def test_reconcile_acts_on_each_cell_as_the_table_says(cell, make_document, read
         assert [(f.check, f.row) for f in result.failures] == [("board", row)]
         return
     assert result.failures == ()
+    assert [line.split(" · ")[:2] for line in result.notes] == ([["note", row]] if isinstance(action, Note) else [])
     queued = {step.origin for step in result.plan.queues}
     withdrawn = {step.origin for step in result.plan.withdrawals}
     assert (f"billing:{row}" in queued, f"billing:{row}" in withdrawn) == (action == QUEUE, action == WITHDRAW)
@@ -197,6 +203,50 @@ def test_board_failures_are_all_collected(make_document, read_document, make_inc
     result = _reconcile(read_document(make_document()), snapshot, Q)
 
     assert [(f.check, f.row) for f in result.failures] == [("--parent", "map billing"), ("board", "I1"), ("board", "I2")]
+
+
+def test_a_delivered_withdrawn_row_gets_a_note_only_on_the_revision_that_withdrew_it(
+    make_document, read_document, make_increment,
+) -> None:
+    """DB-D16: nothing is written for the row either way; the fixture's I2 is `r1, withdrawn r2`."""
+    snapshot = _transcribed("billing", P, make_increment, I2=DONE)
+
+    withdrawing = _reconcile(read_document(make_document()), snapshot)
+    later = _reconcile(read_document(make_document(("revision: 2", "revision: 3"))), snapshot)
+
+    note = TRANSLATION_TABLE[(ROW_WITHDRAWN, DONE)]
+    assert withdrawing.failures == later.failures == ()
+    assert withdrawing.notes == (f"note · I2 · {note.reason.format(origin='billing:I2', item=102, revision=2)} · {note.fix}",)
+    assert later.notes == ()
+    assert withdrawing.plan.withdrawals == later.plan.withdrawals == ()
+
+
+def test_the_rule_is_stated_word_for_word_in_both_cells_and_the_contract() -> None:
+    """Eric (DB14): the engine, DESIGN-FORMAT's Increment identity and the glossary map share one phrase."""
+    assert NEVER_UNDOES_DELIVERED in TRANSLATION_TABLE[(ROW_WITHDRAWN, DONE)].reason
+    assert NEVER_UNDOES_DELIVERED in TRANSLATION_TABLE[(ROW_WITHDRAWN, ACTIVE)].fix
+    root = Path(__file__).resolve().parents[3]
+    for doc in ("plugins/wayfinder/skills/wayfinder/DESIGN-FORMAT.md", "GLOSSARY-MAP.md"):
+        assert NEVER_UNDOES_DELIVERED in (root / doc).read_text(encoding="utf-8").lower(), doc
+
+
+def test_the_note_stands_beside_failures_when_no_parent_holds(make_document, read_document, make_increment) -> None:
+    snapshot = _transcribed("billing", P, make_increment, I2=DONE)
+
+    result = _reconcile(read_document(make_document()), snapshot, Q)
+
+    assert (result.plan, result.draft) == (None, None)
+    assert [(f.check, f.row) for f in result.failures] == [("--parent", "map billing")]
+    assert [line.split(" · ")[:2] for line in result.notes] == [["note", "I2"]]
+
+
+def test_the_partial_item_check_keeps_the_reconciles_notes_first(make_document, read_document, make_increment) -> None:
+    result = _reconcile(read_document(make_document()), _transcribed("billing", P, make_increment, I2=DONE))
+
+    merged = ReconcileEngine().check_partial_items(result, (PartialItem(1009, "billing:I9", None, None),))
+
+    assert [line.split(" · ")[:2] for line in merged.notes] == [["note", "I2"], ["note", "I9"]]
+    assert merged.plan == result.plan
 
 
 def test_check_parent_reads_the_parent_off_the_map_items(make_increment) -> None:

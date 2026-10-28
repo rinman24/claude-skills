@@ -2,7 +2,7 @@ import pytest
 
 from contracts import DONE, QUEUED, BoardWriteError, QueueStep, WithdrawStep
 from design_document_access import DesignDocumentAccess
-from design_to_board import main
+from design_to_board import NEXT, main
 from design_to_board_manager import WRITE_FIX, WRITE_FIXES, DesignToBoardManager, build_manager
 from document_checks_engine import DocumentChecksEngine
 from document_reader_engine import DocumentReaderEngine
@@ -18,6 +18,17 @@ R1_ITEMS = {
     "101": {"title": "Invoice store", "body": "b", "state": "Done", "parent": 1, "origin": "billing:I1"},
     "102": {"title": "Raise on order", "body": "b", "state": "Backlog", "parent": 1, "origin": "billing:I2"},
 }
+DELIVERED_R1 = {
+    "101": {"title": "Invoice store", "body": "b", "state": "Done", "parent": 1, "origin": "billing:I1"},
+    "102": {"title": "Raise on order", "body": "b", "state": "Done", "parent": 1, "origin": "billing:I2"},
+    "103": {"title": "Invoice list", "body": "b", "state": "Done", "parent": 1, "origin": "billing:I3"},
+}
+# DB-D16's note for the fixture's I2 (`r1, withdrawn r2`), delivered as item 102.
+NOTE_I2 = (
+    "note · I2 · billing:I2 (item 102) is delivered and its row is withdrawn in r2; withdrawing a row never undoes "
+    "delivered work · nothing for design-to-board to do; check that any replacement builds on the delivered work, "
+    "and undo it with a new increment in wayfinder if it's unwanted"
+)
 WRITES = 3
 CREATE_WRITES = 4  # the fake's create: create, parent, one predecessor, commit (squadra N17)
 
@@ -119,6 +130,45 @@ def test_a_refused_withdrawal_stops_the_run_before_any_queue(make_document, fake
     assert lines[2:] == ["remaining: withdraw billing:I2", "remaining: queue billing:I4", "remaining: queue billing:I3"]
     assert set(fake_board.by_origin()) == {"billing:I1", "billing:I2"}
     assert rerun == 1 and rerun_lines[1].startswith("board · I2 · ")
+
+
+def test_a_withdrawal_target_delivered_after_the_read_converges_with_a_note(make_document, fake_board, capsys) -> None:
+    """T6's second half, inverted by DB-D16: the re-run writes no withdrawal and notes the delivered item."""
+    fake_board.seed(R1_ITEMS)
+    fake_board.before_write(1, patch={"items": {"102": {"state": "Done"}}})  # a tick claims I2 and delivers it
+    path = str(make_document())
+
+    stopped, _ = _run(capsys, path)
+    rerun, lines = _run(capsys, path)
+
+    assert (stopped, rerun) == (3, 0)
+    assert lines[0] == "design-to-board: transcribed map billing, revision 2, under parent 1: 0 withdrawals, 2 queues."
+    assert not [line for line in lines if line.startswith("withdrew ")]
+    assert lines[-2:] == [NOTE_I2, NEXT]
+    assert fake_board.by_origin()["billing:I2"]["state"] == "Done"
+
+
+def test_juval_db_d16_a_delivered_row_withdrawn_lets_its_replacement_queue(make_document, fake_board, capsys) -> None:
+    """DB-D16's acceptance case: r1's increments delivered; r2 withdraws I2 and adds I4 (`Depends on: I1`)."""
+    fake_board.seed(DELIVERED_R1)
+    path = str(make_document())
+
+    first, lines = _run(capsys, path)
+    i4 = fake_board.by_origin()["billing:I4"]["id"]
+    again, again_lines = _run(capsys, path)
+    cosmetic, cosmetic_lines = _run(capsys, str(make_document(("revision: 2", "revision: 3"))))
+
+    assert (first, again, cosmetic) == (0, 0, 0)
+    assert lines == [
+        "design-to-board: transcribed map billing, revision 2, under parent 1: 0 withdrawals, 1 queue.",
+        f"queued billing:I4 · item {i4} · predecessors: 101",
+        NOTE_I2,
+        NEXT,
+    ]
+    matches = "nothing to write; the board already matches the document."
+    assert again_lines == [f"design-to-board: map billing, revision 2, under parent 1: {matches}", NOTE_I2, NEXT]
+    assert cosmetic_lines == [f"design-to-board: map billing, revision 3, under parent 1: {matches}", NEXT]
+    assert fake_board.by_origin()["billing:I2"]["state"] == "Done"
 
 
 class _RefusingBoard(SquadraBoardAccess):
