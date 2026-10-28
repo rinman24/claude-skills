@@ -69,13 +69,15 @@ def make_increment() -> Callable[..., Increment]:
 @pytest.fixture
 def make_fake_squadra(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Callable[..., Path]:
     """Put a stub `squadra` first on PATH: `board origins` prints `snapshot` as squadra's JSON, or fails as told;
-    `board scope --parent N` answers `in_scope`.
+    `board scope --parent N` answers `in_scope`; `board partial-items --requests-file -` saves its stdin as
+    `requests.json` beside the stub and prints `partial_items` (none by default), or fails with `partial_exit`.
 
     Any other arguments exit 2, as squadra's argparse would. Returns the stub's directory.
     """
 
     def _factory(
         snapshot: Mapping[str, Increment] | None = None, exit_code: int = 0, stderr: str = "", in_scope: bool = True,
+        partial_items: object = (), partial_exit: int = 0,
     ) -> Path:
         stdout = json.dumps({origin: asdict(item) for origin, item in (snapshot or {}).items()}) if exit_code == 0 else ""
         bin_dir = tmp_path / "bin"
@@ -86,6 +88,13 @@ def make_fake_squadra(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Callab
             "import json, sys\n"
             "if sys.argv[1:3] == ['board', 'scope'] and sys.argv[3:4] == ['--parent'] and len(sys.argv) == 5:\n"
             f"    print(json.dumps({{'parent': int(sys.argv[4]), 'in_claim_scope': {in_scope!r}}}))\n"
+            "    sys.exit(0)\n"
+            "if sys.argv[1:] == ['board', 'partial-items', '--requests-file', '-']:\n"
+            f"    open({str(bin_dir / 'requests.json')!r}, 'w').write(sys.stdin.read())\n"
+            f"    if {partial_exit!r}:\n"
+            f"        sys.stderr.write('squadra board partial-items: failed\\n')\n"
+            f"        sys.exit({partial_exit!r})\n"
+            f"    sys.stdout.write({json.dumps({'partial_items': partial_items})!r})\n"
             "    sys.exit(0)\n"
             "if sys.argv[1:] != ['board', 'origins']:\n"
             "    sys.exit(2)\n"
@@ -131,12 +140,12 @@ os.execv(REAL, [REAL, *sys.argv[1:]])
 
 
 def real_squadra() -> str:
-    """The `squadra` on PATH, which must have `squadra board scope` (squadra SQ5e); the test is skipped otherwise."""
+    """The `squadra` on PATH, which must have `squadra board partial-items` (squadra SQ8); the test is skipped otherwise."""
     path = shutil.which("squadra")
     if path is None:
         pytest.skip("no `squadra` on PATH: install squadra (SQ4 or later) to run design-to-board against its fake board")
-    if subprocess.run([path, "board", "scope", "--help"], capture_output=True).returncode != 0:
-        pytest.skip(f"the `squadra` at {path} has no `squadra board scope` (squadra SQ5e)")
+    if subprocess.run([path, "board", "partial-items", "--help"], capture_output=True).returncode != 0:
+        pytest.skip(f"the `squadra` at {path} has no `squadra board partial-items` (squadra SQ8)")
     return path
 
 

@@ -24,14 +24,15 @@ NEXT = "Next: `squadra tick --dry-run` shows what squadra would claim."
 def report(path: str, result: ReconcileResult) -> str:
     """The dry run's report: the failures, or the plan."""
     if result.failures:
-        return "\n".join(failure_report(path, result))
-    return "\n".join(render_plan(result.plan))
+        return "\n".join([*failure_report(path, result), *result.notes])
+    return "\n".join([*render_plan(result.plan), *result.notes])
 
 
 def transcribe_report(path: str, result: TranscribeResult) -> tuple[str, int]:
     """The run's report and exit code: failures (nothing written), stopped partway, or the writes done."""
+    notes = list(result.reconcile.notes)
     if result.reconcile.failures:
-        return "\n".join(failure_report(path, result.reconcile)), EXIT_FAILED_NOTHING_WRITTEN
+        return "\n".join([*failure_report(path, result.reconcile), *notes]), EXIT_FAILED_NOTHING_WRITTEN
     plan = result.reconcile.plan
     where = f"map {plan.map}, revision {plan.revision}, under parent {plan.parent}"
     done = [render_write(write) for write in result.done]
@@ -40,15 +41,16 @@ def transcribe_report(path: str, result: TranscribeResult) -> tuple[str, int]:
         lines = [f"design-to-board: stopped partway, {len(result.done)} of {total} writes done ({where})", result.stop.line()]
         lines += [f"done: {line}" for line in done]
         lines += [f"remaining: {step_name(step)}" for step in result.remaining]
-        return "\n".join(lines), EXIT_STOPPED_PARTWAY
+        return "\n".join([*lines, *notes]), EXIT_STOPPED_PARTWAY
     if not done:
-        return "\n".join([f"design-to-board: {where}: nothing to write; the board already matches the document.", NEXT]), EXIT_VALID
+        header = f"design-to-board: {where}: nothing to write; the board already matches the document."
+        return "\n".join([header, *notes, NEXT]), EXIT_VALID
     withdrawals, queues = len(plan.withdrawals), len(plan.queues)
     header = (
         f"design-to-board: transcribed {where}: {withdrawals} withdrawal{'s' if withdrawals != 1 else ''}, "
         f"{queues} queue{'s' if queues != 1 else ''}."
     )
-    return "\n".join([header, *done, NEXT]), EXIT_VALID
+    return "\n".join([header, *done, *notes, NEXT]), EXIT_VALID
 
 
 def failure_report(path: str, result: ReconcileResult) -> list[str]:

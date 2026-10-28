@@ -128,6 +128,9 @@ class _RefusingBoard(SquadraBoardAccess):
     def increments_by_origin(self):
         return self._snapshot
 
+    def partial_items(self, parent, steps):
+        return ()
+
     def withdraw_increment(self, origin: str) -> int:
         raise BoardWriteError(self._exit_code, "squadra board withdraw: refused")
 

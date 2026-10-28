@@ -17,11 +17,13 @@ from contracts import (
     ACTIVE,
     DONE,
     QUEUED,
+    REFUSES,
     WITHDRAWN,
     DesignDocument,
     Failure,
     Increment,
     IncrementRow,
+    PartialItem,
     Plan,
     QueueStep,
     ReconcileResult,
@@ -42,6 +44,10 @@ PARENT = "--parent"
 REPAIR_BY_HAND = "repair the board by hand in squadra, then re-run design-to-board"
 RESTORE_SCOPE = "restore the parent to squadra's claim scope (`parent_scope_ids`), then re-run design-to-board"
 PARENT_OUT_OF_SCOPE = "re-run with a `--parent` inside squadra's claim scope, or widen `[board].claim_scope` in squadra"
+REPAIR_PARTIAL = "repair the partial item by hand in squadra, then re-run design-to-board"
+NOTE = "note"
+UNREQUESTED_PARTIAL = "no queue of this run finishes it, so it stays in no bucket and nothing claims it"
+REMOVE_PARTIAL = "nothing for design-to-board to do; remove it by hand in squadra if it's unwanted"
 
 
 @dataclass(frozen=True, slots=True)
@@ -155,6 +161,27 @@ class ReconcileEngine:
             tuple(_queue_step(map_name, row) for row in _kahn(to_queue)),
         )
         return ReconcileResult(plan, ())
+
+    def check_partial_items(self, plan: Plan, reports: tuple[PartialItem, ...]) -> ReconcileResult:
+        """The Plan against squadra's verdicts on its queues (DB-D13), the map's partial items only: one the queue would
+        refuse fails before any write, quoting squadra; one it finishes passes (DB-D10); one no queue names, a withdrawn
+        row's or an Origin's with no row, gets a note."""
+        prefix = f"{plan.map}:"
+        failures: list[Failure] = []
+        notes: list[str] = []
+        for report in reports:
+            if not report.origin.startswith(prefix):
+                continue
+            row = report.origin.partition(":")[2]
+            if report.queue == REFUSES:
+                reason = f"{report.origin} is on partial item {report.item_id}, and squadra would refuse its queue: {report.refusal}"
+                failures.append(Failure(BOARD, row, reason, REPAIR_PARTIAL))
+            elif report.queue is None:
+                reason = f"{report.origin} is on partial item {report.item_id}; {UNREQUESTED_PARTIAL}"
+                notes.append(Failure(NOTE, row, reason, REMOVE_PARTIAL).line())
+        if failures:
+            return ReconcileResult(None, tuple(failures), tuple(notes))
+        return ReconcileResult(plan, (), tuple(notes))
 
 
 def _origin(map_name: str, entry: str) -> str:

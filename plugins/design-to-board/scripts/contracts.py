@@ -120,6 +120,21 @@ class Increment:
 # `increments_by_origin()` as a value: every Origin an Increment carries on the board, partial items left out.
 Snapshot = Mapping[str, Increment]
 
+# `squadra board partial-items`' verdicts: the queue would refuse the request, or finish the item (DB-D10).
+REFUSES = "refuses"
+FINISHES = "finishes"
+
+
+@dataclass(frozen=True, slots=True)
+class PartialItem:
+    """One entry of `squadra board partial-items`: an item a crash left mid-create (DB-D10). `queue` is squadra's verdict
+    on the request naming its Origin, None when none does; `refusal` is the message squadra's queue would refuse with."""
+
+    item_id: int
+    origin: str
+    queue: str | None
+    refusal: str | None
+
 
 @dataclass(frozen=True, slots=True)
 class WithdrawStep:
@@ -149,8 +164,11 @@ class Plan:
 
 @dataclass(frozen=True, slots=True)
 class ReconcileResult:
+    """The Plan or every failure; `notes` are report lines that block nothing."""
+
     plan: Plan | None
     failures: tuple[Failure, ...]
+    notes: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -173,7 +191,7 @@ class TranscribeResult:
 
 
 class BoardReadError(Exception):
-    """`squadra board origins` didn't give a snapshot: not found (exit_code None), or squadra's exit code and stderr."""
+    """A `squadra board` read gave no answer: not found (exit_code None), or squadra's exit code and stderr."""
 
     def __init__(self, exit_code: int | None, message: str) -> None:
         super().__init__(message)

@@ -32,14 +32,18 @@ Relay the script's output to the user as it is, then stop.
 
 - Exit 0: what it withdrew and queued (or "nothing to write"), ending with
   the suggestion to run `squadra tick --dry-run`; with `--dry-run`, the plan.
-  Relay it, including the suggestion; don't run the tick yourself.
+  Relay it, including the suggestion; don't run the tick yourself. A
+  `note · row · reason · fix` line names a partial item no queue of the run
+  finishes (a withdrawn row's, or one whose Origin has no row); it blocks
+  nothing. Relay it as it is.
 - Exit 1: failed, nothing written. Each line is `check · row · reason · fix`.
   Relay every line; the fix says what the user does next: for a document
   defect, revise the map in wayfinder and Publish again; for `--parent`,
   re-run with the parent the line names, or with one inside squadra's claim
   scope (or widen that scope in squadra) when the line says it's outside;
   for the board, wait for or stop a
-  run, transcribe another map first, or repair the board in squadra.
+  run, transcribe another map first, or repair the board (or a partial item
+  squadra would refuse to finish) in squadra. Notes may follow; relay them too.
 - Exit 2: the arguments were wrong (usage). Relay the usage message.
 - Exit 3: stopped partway. squadra refused or failed one write; the report
   names it (`write · step · reason · fix`), the writes done and the writes
