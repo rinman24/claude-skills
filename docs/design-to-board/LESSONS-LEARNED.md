@@ -305,3 +305,24 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
   hand-typed `"QUEUED"` made two fence cases fail on the board read
   (Lifecycle values are lower-case) instead of on the parent check. Apply:
   import `QUEUED` and friends from `contracts.py` when building snapshots.
+
+## S11 · 2026-10-28
+
+- **Check the line a stale note names before planning its edit.** The
+  handoff carried "change the map's '(not yet built) will read' to 'reads'",
+  but `GLOSSARY-MAP.md` already said "reads" (DB-G, S5); the stale wording
+  had moved to `README.md:202`. Apply: grep for the quoted words across the
+  repo, not only in the file the note names, before you put an edit in front
+  of Rich.
+- **Hand-make a partial item from a committed one.** Reading a committed
+  issue (`gh issue view … --json body,labels`) showed both halves of
+  squadra's GitHub encoding: the Origin as a body comment, the commit marker
+  as the `squadra:committed` label. Copying the body without the label gave
+  a partial item squadra recognised at once. Apply: when you need a board
+  state no tool makes, copy a real item and remove exactly the part the
+  contract says marks the difference.
+- **Ask the ruling before the run that could change it, and say so.** Rich
+  ruled on T1 before the sandbox look. The ruling held either way, but a
+  "wrap up if clean" option made the dependency visible. Apply: when a
+  decision and a test are in the same session, offer the option that waits
+  on the test.
