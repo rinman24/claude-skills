@@ -281,3 +281,14 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
   refusal byte for byte, so the failure line embeds it and design-to-board
   owns no wording of squadra's rule. A check that only routes on `queue` and
   quotes `refusal` can't drift from squadra's refusal.
+
+## S9b · 2026-10-28
+
+- **Gate a check on its own inputs, not on the Plan.** DB11 asked
+  `partial-items` only once a Plan existed, which hid a board-state failure
+  behind unrelated row failures and made two independent repairs
+  sequential. DB-D6 already said "suppress checks whose inputs have already
+  failed"; the reading skipped asking what the check's inputs were. Apply:
+  before gating a check, list its inputs and gate on exactly those; if one
+  is a value the Engine computes on the way to the Plan, hand it over as
+  its own value (a draft) rather than waiting for the Plan.
