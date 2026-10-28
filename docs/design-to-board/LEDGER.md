@@ -49,7 +49,7 @@ by ID; don't copy them here.
   state map: queued Todo, active In Progress, done `closed:completed`/Done,
   withdrawn `closed:not_planned`/`closed:duplicate`/`closed:`) is on its
   `main` (`8c33d79`). The board now holds map `sandbox`'s items #3–#7 (S5
-  session log). Its project workflows are as created (all six on). Since DB9 (S8b) #3–#7 are gone; S11 (r3, `acceptance/sandbox-r3-run.md`) left map `live3` as #9–#11 (queued, #9 claimable) and a hand-made partial item #12 (`partial3:I1`, no `squadra:committed` label, the adapter's commit marker), kept until Rich says (Rich's queue).
+  session log). Its project workflows are as created (all six on). Since DB9 (S8b) #3–#7 are gone; S11 (r3, `acceptance/sandbox-r3-run.md`) made map `live3` #9–#11 and a hand-made partial item #12 (`partial3:I1`, no `squadra:committed` label, the adapter's commit marker); Rich chose delete (S11 follow-up), so the board is back to issues #1, #2, #8. Project 1 still lists two items with no content (left by the deleted issues); `gh project item-delete` is refused (`DeleteProjectV2Item` permissions), and squadra's reads don't see them.
 - design-to-board's tests (DB2, S2): `uvx pytest -p no:cacheprovider plugins/design-to-board/tests`
   from the repo root. No Python env in the repo: `uvx` runs pytest from its
   own cache, and the code under test is stdlib-only Python 3 (3.14 here).
@@ -342,10 +342,11 @@ Added S10 follow-up (2026-10-28), at Rich's request:
       Done S11 (2026-10-28): PR #26; ruled DB-D15; sandbox r3 passed.
 
 Added S11 (2026-10-28):
-- [ ] Merge PR #26 (docs only: S10 follow-up, S11's handoff, run and end docs).
-- [ ] Sandbox: keep or delete what r3 left (`acceptance/sandbox-r3-run.md`, "Left on the board"): map `live3` #9–#11 and
+- [x] Merge PR #26 (docs only: S10 follow-up, S11's handoff, run and end docs). Done: merged (`76127ab`).
+- [x] Sandbox: keep or delete what r3 left (`acceptance/sandbox-r3-run.md`, "Left on the board"): map `live3` #9–#11 and
       partial item #12. While #12 stays, `origins` prints its partial-item stderr line on every read. A session can run
       `gh issue delete <n> -R rinman24/squadra-sandbox --yes` on your word.
+      Done S11 follow-up: Rich chose delete; #9–#12 deleted. Two empty project items remain (Repo facts).
 - [ ] S12 (DB13): rule DB-D2's third outcome. Start a session with `handoffs/S12-third-outcome.md`.
 
 ## Work items
@@ -479,3 +480,4 @@ seen by the re-run's read or checks, before any write. An empty cell is a gap.
 | S10 | 2026-10-28 | DB12 (done) | Fetched; branch level with origin, `origin/main` (`05f2f2b`) behind it, nothing to merge. Installed `squadra` answered `partial-items --help`; baseline 129 passed. Probed the flip on the unchanged code (exit 1, only the missing-predecessor line), then built DB12 as the handoff and DB-D14 specify; no departures from Juval's shape. 137 tests pass, none skipped; both `claude plugin validate` pass; plugin 0.3.3. No next handoff: nothing is `todo`. Rich's queue: merge DB12's PR, update the installed plugin, decide whether T1 wraps up |
 | S10 follow-up | 2026-10-28 | bookkeeping | PR #25 merged (`ae67155`); branch fast-forwarded to it. Marketplace refreshed, `claude plugin update design-to-board@claude-skills` 0.3.2 → 0.3.3 (user); the cached 0.3.3 has `draft` in the engine and Manager. Left in Rich's queue: decide whether T1 wraps up; the optional sandbox run |
 | S11 | 2026-10-28 | bookkeeping; T1 ruling (DB-D15); sandbox r3 | Fetched; `origin/main` (`ae67155`) not moved. PR #26 opened for the docs-only commits. Rich ruled: T1 stays open, DB-D2's third outcome is ruled first (DB-D15; new row DB13). squadra's stderr drop is its N31 "later" note, not a row; design-to-board doesn't depend on it. Wording check: `GLOSSARY-MAP.md:10` already "reads"; `README.md:202` still "(not yet built)". Sandbox r3 with installed 0.3.3 (`acceptance/sandbox-r3-run.md`): `partial-items` answers on GitHub; map `live3` queued #9–#11, re-runs nothing to write, tick `claimable=[9] states={9: 'claimable', 10: 'blocked', 11: 'blocked'}`; DB10 probe `outscope3 --parent 2` exit 1, nothing written; DB12 on hand-made partial item #12 (Rich agreed): revised title plus missing `ghost:I1` → both lines, exit 1, nothing written. No defect. Board left with #9–#12 (Rich's call) | `handoffs/S12-third-outcome.md` (DB13) |
+| S11 follow-up | 2026-10-28 | bookkeeping | PR #26 merged (`76127ab`); branch fast-forwarded to it. Rich chose delete for r3's sandbox issues: #9–#12 deleted with `gh issue delete`. After: issues #1, #2, #8; `origins` only `SQ5c-live:claim` (#8, withdrawn), no partial-item stderr line; tick `claimable=[] states={}`. Project 1 keeps two content-less items from the deleted issues; `gh project item-delete` refused (permissions), squadra's reads unaffected. Next: S12 (DB13) | `handoffs/S12-third-outcome.md` (S11) |
