@@ -326,3 +326,21 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
   "wrap up if clean" option made the dependency visible. Apply: when a
   decision and a test are in the same session, offer the option that waits
   on the test.
+
+## S12 · 2026-10-28
+
+- **Test a refusal's fix against the producer's own grammar.** The
+  `(withdrawn, DONE)` fix asked for "a new increment, not a withdrawal", but
+  wayfinder's Increment identity makes withdraw-plus-new-row the only way to
+  change a published row: the fix was unsatisfiable, so the map was stuck.
+  Apply: for every failure cell, check that the fix it names is an act the
+  owner of the input can actually perform; if not, it isn't a failure.
+- **Follow each fix to the state it leads to.** The ACTIVE cell's "wait for
+  the run to finish" led straight into the stuck DONE cell. Apply: when
+  ruling a cell, re-run the table on the board state its fix produces.
+- **"Once" has to be anchored in the inputs.** Every-run notes grow without
+  bound, and true once-only needs state the design forbids. Juval anchored
+  it to the document revision that caused it (`withdrawn_in == revision`),
+  which keeps the run deterministic. Apply: when a report should fade, look
+  for a field already in the inputs that marks "new this time" before
+  reaching for memory.
