@@ -306,8 +306,10 @@ Added S8 (2026-10-27):
       Done S9: the installed `squadra` already answered `squadra board partial-items --help`, so no reinstall.
 
 Added S9 (2026-10-27):
-- [ ] Merge DB11's PR (plugin 0.3.2), then update the installed plugin
+- [x] Merge DB11's PR (plugin 0.3.2), then update the installed plugin
       (`claude plugin update design-to-board@claude-skills`, or the runbook's reinstall).
+      Done S9 follow-up: merged (PR #24, `05f2f2b`); installed 0.3.1 → 0.3.2 (user); the installed copy has
+      `check_partial_items`.
 - [ ] Check DB11's reading (DB11 row): the partial-item check runs only once every other check passes and a Plan
       exists, so its failure shows on the run after the others are fixed. Overrule it if you want it collected with
       the rest (DB-D6's "all collected"); that would ask squadra with every absent live row whenever the parent is known.
