@@ -281,11 +281,12 @@ Added S6b (2026-10-27):
       judgment in squadra, as DB-D12 did for scope. The verb or shape is squadra's to settle (`/ask-juval`, `/ask-eric`
       there if wanted); DB-D12's reason against putting scope in `origins` (its `{origin: …}` shape) applies here too. Add
       it to `verb-contract.md`; the fake answers it too. Unblocks DB11 (S9).
-- [ ] (S6b: run `! python3 ~/.claude/jobs/b610b9c2/tmp/choice.py`, which writes the line below.) Write `## Choice` for "A second break in the same rule" in
+- [x] (S6b: run `! python3 ~/.claude/jobs/b610b9c2/tmp/choice.py`, which writes the line below.) Write `## Choice` for "A second break in the same rule" in
       `~/Code/board-knowledge/sessions/2026-10-27-juval-first-run-parent-scope.md` (Juval's way, DB-D13). S6b couldn't:
       board-knowledge is a shared checkout and this session's write guard refused it. Suggested line: "A second break:
       as Juval says. squadra reports partial items as data; the verb or shape is squadra's to settle, around SQ5f;
       design-to-board then adds the board check (DB11). (Rich, 2026-10-27, S6b; design-to-board DB-D13.)"
+      Done: the line is in the file (`## Choice`, second paragraph), confirmed S8b.
 - [x] DB9 (yours by hand): keep or reset the sandbox map `sandbox` (#3–#7); see the S5 item above.
       Reset 2026-10-27 at your word (S8 follow-up): #3–#7 deleted.
 
