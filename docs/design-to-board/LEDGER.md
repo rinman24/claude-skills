@@ -328,8 +328,10 @@ Added S9b (2026-10-28):
       `handoffs/S10-partial-item-collected.md`.
       Done S10 (2026-10-28): built, plugin 0.3.3; PR #25. No next handoff: DB12 was the
       last open row.
-- [ ] After S10: merge DB12's PR (plugin 0.3.3), then update the installed plugin
+- [x] After S10: merge DB12's PR (plugin 0.3.3), then update the installed plugin
       (`claude plugin update design-to-board@claude-skills`, or the runbook's reinstall).
+      Done S10 follow-up (2026-10-28): merged (PR #25, `ae67155`); installed 0.3.2 → 0.3.3 (user); the installed copy
+      has `ReconcileResult.draft`.
 
 ## Work items
 
@@ -458,3 +460,4 @@ seen by the re-run's read or checks, before any write. An empty cell is a gap.
 | S9 | 2026-10-27 | DB11 (done) | Fast-forwarded to `origin/main` (`616bad5`, PR #23). Gate checked: squadra `origin/main` `verb-contract.md` has `partial-items`; the installed `squadra` already answered `squadra board partial-items --help`, so no reinstall. Probe on the fake confirmed the loop (exit 3 twice, squadra's partial-item refusal, `WRITE_FIXES[3]`). Built DB11 as the handoff says: access verb (requests on stdin), pure `check_partial_items` after the reconcile yields a Plan, `refuses` → board failure quoting squadra, `null` → `note ·` line, `finishes` → nothing; plugin 0.3.2; 129 tests pass, none skipped; both `claude plugin validate` pass. Exit-3 coverage table has no empty cell now. DB-D6 reading: the check runs only once the others pass (recorded in the DB11 row, in Rich's queue to check). No sandbox run | none: DB11 was the last open row; T1's wrap-up is Rich's call (his queue) |
 | S9b | 2026-10-28 | DB11's reading (overruled); DB12 (added); bookkeeping | Branch level with origin, `origin/main` (`05f2f2b`) behind it, nothing to merge. Checked first whether Juval or Eric had ruled on the check's timing: neither had (Juval's DB-D6 "suppress checks whose inputs have already failed" left it open; Eric silent). Rich asked `/ask-juval` (board-juval briefed blind with DB-D6, DB11's done note, the queue item, the exit-3 partial-item row, `_reconcile_board` and `verb-contract.md`'s `partial_items` notes): collect it whenever a parent holds, the Engine handing its queue choice over as a draft. Rich ruled Juval's way (DB-D14); Choice written in the session file. DB11's reading sentence amended; DB12 added (S10, no gate). No code | `handoffs/S10-partial-item-collected.md` |
 | S10 | 2026-10-28 | DB12 (done) | Fetched; branch level with origin, `origin/main` (`05f2f2b`) behind it, nothing to merge. Installed `squadra` answered `partial-items --help`; baseline 129 passed. Probed the flip on the unchanged code (exit 1, only the missing-predecessor line), then built DB12 as the handoff and DB-D14 specify; no departures from Juval's shape. 137 tests pass, none skipped; both `claude plugin validate` pass; plugin 0.3.3. No next handoff: nothing is `todo`. Rich's queue: merge DB12's PR, update the installed plugin, decide whether T1 wraps up |
+| S10 follow-up | 2026-10-28 | bookkeeping | PR #25 merged (`ae67155`); branch fast-forwarded to it. Marketplace refreshed, `claude plugin update design-to-board@claude-skills` 0.3.2 → 0.3.3 (user); the cached 0.3.3 has `draft` in the engine and Manager. Left in Rich's queue: decide whether T1 wraps up; the optional sandbox run |
