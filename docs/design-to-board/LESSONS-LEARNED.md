@@ -236,3 +236,14 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
   Juval's verdict held either way but its price depended on whether squadra
   already shared one predicate; a two-line `git grep` on `origin/main` settled
   it and let Rich rule in the same round.
+
+## S6b · 2026-10-27
+
+- **Gate on a merge, not on a sibling ledger's status.** squadra's `main`
+  ledger said SQ5e `todo` while Rich had it in progress on a branch; the
+  status lags the work. Apply: write a gate as "<row> merged on `main`" and
+  check it with `git show origin/main:…`, which is true or false.
+- **A session's write guard covers sibling checkouts too.** board-knowledge
+  is a shared checkout, so the `## Choice` line was refused here. Apply: when
+  a ruling belongs in another repo's file, queue the exact line for Rich
+  instead of working around the guard.
