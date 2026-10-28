@@ -219,3 +219,31 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
   squadra clone was 41 commits behind; `uv tool install git+…@<sha>` pins the
   merged commit and leaves his checkout alone (S4's `git show` lesson, applied
   to installs).
+
+## S6 · 2026-10-27
+
+- **A fix that says "re-run, the checks will name it" is a coverage claim.**
+  DB4's exit-3 fix is only true if every exit 3 squadra can raise has a board
+  check that sees it; DB6 (and Juval's partial-item case, DB11) are the holes.
+  Apply: when a fix line defers to another check, list the cases it covers
+  next to the check that catches each one, and an empty cell is the next gap.
+- **Ask the other component the question, not for its config.** Exposing
+  `claim_scope` would move squadra's scope rule across the boundary; a
+  `scope --parent` verb keeps it inside, and an agreement test pins the verb
+  to the refusal it predicts. Apply: before asking a sibling for data, ask
+  which decision you'd make with it, and request that decision as a verb.
+- **Answer an advisor's blocking question from the source before the ruling.**
+  Juval's verdict held either way but its price depended on whether squadra
+  already shared one predicate; a two-line `git grep` on `origin/main` settled
+  it and let Rich rule in the same round.
+
+## S6b · 2026-10-27
+
+- **Gate on a merge, not on a sibling ledger's status.** squadra's `main`
+  ledger said SQ5e `todo` while Rich had it in progress on a branch; the
+  status lags the work. Apply: write a gate as "<row> merged on `main`" and
+  check it with `git show origin/main:…`, which is true or false.
+- **A session's write guard covers sibling checkouts too.** board-knowledge
+  is a shared checkout, so the `## Choice` line was refused here. Apply: when
+  a ruling belongs in another repo's file, queue the exact line for Rich
+  instead of working around the guard.
