@@ -292,3 +292,16 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
   before gating a check, list its inputs and gate on exactly those; if one
   is a value the Engine computes on the way to the Plan, hand it over as
   its own value (a draft) rather than waiting for the Plan.
+
+## S10 · 2026-10-28
+
+- **Mutate the gate to prove a fence test.** A test that asserts a read was
+  never made passes just as well if the code under test can't reach that
+  read for some unrelated reason. Making the Manager ask `partial-items`
+  without a parent turned all five fence cases red, which shows the tests
+  watch the gate and not an accident of setup. Apply: for every
+  "never called" assertion, break the gate once by hand and see it fail.
+- **Use the contract's constants in fixtures, not their spelling.** A
+  hand-typed `"QUEUED"` made two fence cases fail on the board read
+  (Lifecycle values are lower-case) instead of on the parent check. Apply:
+  import `QUEUED` and friends from `contracts.py` when building snapshots.

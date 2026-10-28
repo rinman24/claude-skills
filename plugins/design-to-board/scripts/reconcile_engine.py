@@ -131,7 +131,8 @@ class ReconcileEngine:
     def reconcile(
         self, document: DesignDocument, snapshot: Snapshot, parent_arg: int | None, parent_in_scope: bool,
     ) -> ReconcileResult:
-        """The document against the snapshot: the Plan, or every failure (parent checks, then rows in ID order)."""
+        """The document against the snapshot: the Plan, or every failure (parent checks, then rows in ID order). The
+        draft is built whenever a parent holds, so the partial-item check is collected with the rest (DB-D14)."""
         map_name = document.front_matter.map
         parent, failures = self.check_parent(map_name, snapshot, parent_arg, parent_in_scope)
         failures += _check_scope(map_name, snapshot)
@@ -151,23 +152,24 @@ class ReconcileEngine:
             if row.live:
                 failures += _check_predecessors(row, snapshot)
         failures += _check_unknown_origins(map_name, snapshot, {row.id for row in rows})
-        if failures or parent is None:
+        if parent is None:
             return ReconcileResult(None, tuple(failures))
-        plan = Plan(
+        draft = Plan(
             map_name,
             document.front_matter.revision,
             parent,
             tuple(WithdrawStep(_origin(map_name, row.id)) for row in _kahn(to_withdraw)),
             tuple(_queue_step(map_name, row) for row in _kahn(to_queue)),
         )
-        return ReconcileResult(plan, ())
+        return ReconcileResult(None if failures else draft, tuple(failures), draft=draft)
 
-    def check_partial_items(self, plan: Plan, reports: tuple[PartialItem, ...]) -> ReconcileResult:
-        """The Plan against squadra's verdicts on its queues (DB-D13), the map's partial items only: one the queue would
+    def check_partial_items(self, result: ReconcileResult, reports: tuple[PartialItem, ...]) -> ReconcileResult:
+        """The draft against squadra's verdicts on its queues (DB-D13), the map's partial items only: one the queue would
         refuse fails before any write, quoting squadra; one it finishes passes (DB-D10); one no queue names, a withdrawn
-        row's or an Origin's with no row, gets a note."""
-        prefix = f"{plan.map}:"
-        failures: list[Failure] = []
+        row's or an Origin's with no row, gets a note. Merged with the reconcile's failures; the Plan only if none
+        stand (DB-D14)."""
+        prefix = f"{result.draft.map}:"
+        failures = list(result.failures)
         notes: list[str] = []
         for report in reports:
             if not report.origin.startswith(prefix):
@@ -179,9 +181,7 @@ class ReconcileEngine:
             elif report.queue is None:
                 reason = f"{report.origin} is on partial item {report.item_id}; {UNREQUESTED_PARTIAL}"
                 notes.append(Failure(NOTE, row, reason, REMOVE_PARTIAL).line())
-        if failures:
-            return ReconcileResult(None, tuple(failures), tuple(notes))
-        return ReconcileResult(plan, (), tuple(notes))
+        return ReconcileResult(None if failures else result.draft, tuple(failures), tuple(notes), result.draft)
 
 
 def _origin(map_name: str, entry: str) -> str:
