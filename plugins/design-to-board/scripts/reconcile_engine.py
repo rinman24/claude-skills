@@ -41,6 +41,7 @@ BOARD = "board"
 PARENT = "--parent"
 REPAIR_BY_HAND = "repair the board by hand in squadra, then re-run design-to-board"
 RESTORE_SCOPE = "restore the parent to squadra's claim scope (`parent_scope_ids`), then re-run design-to-board"
+PARENT_OUT_OF_SCOPE = "re-run with a `--parent` inside squadra's claim scope, or widen `[board].claim_scope` in squadra"
 
 
 @dataclass(frozen=True, slots=True)
@@ -80,8 +81,16 @@ TRANSLATION_TABLE: dict[tuple[str, str], str | Refusal] = {
 
 
 class ReconcileEngine:
-    def check_parent(self, map_name: str, snapshot: Snapshot, parent_arg: int | None) -> tuple[int | None, list[Failure]]:
-        """DB-D5's `--parent` rules, which run even on an invalid document. Returns the map's parent, if one holds."""
+    def first_run_parent(self, map_name: str, snapshot: Snapshot, parent_arg: int | None) -> int | None:
+        """The parent whose claim scope squadra is asked about: `--parent` on the map's first run, else None
+        (a later run's items report their own scope, DB-D12)."""
+        return None if _map_items(map_name, snapshot) else parent_arg
+
+    def check_parent(
+        self, map_name: str, snapshot: Snapshot, parent_arg: int | None, parent_in_scope: bool,
+    ) -> tuple[int | None, list[Failure]]:
+        """DB-D5's `--parent` rules, which run even on an invalid document. `parent_in_scope` is squadra's answer for
+        `first_run_parent`, read only on a first run (DB-D12). Returns the map's parent, if one holds."""
         items = _map_items(map_name, snapshot)
         if not items:
             if parent_arg is None:
@@ -89,6 +98,10 @@ class ReconcileEngine:
                     PARENT, f"map {map_name}",
                     f"--parent is required on the map's first run (no `{map_name}:` Origin is on the board)",
                     "re-run with --parent <the parent item ID>",
+                )]
+            if not parent_in_scope:
+                return None, [Failure(
+                    PARENT, f"map {map_name}", f"--parent {parent_arg} is outside squadra's claim scope", PARENT_OUT_OF_SCOPE,
                 )]
             return parent_arg, []
         parents: dict[int | None, list[str]] = {}
@@ -109,10 +122,12 @@ class ReconcileEngine:
             )]
         return parent, []
 
-    def reconcile(self, document: DesignDocument, snapshot: Snapshot, parent_arg: int | None) -> ReconcileResult:
+    def reconcile(
+        self, document: DesignDocument, snapshot: Snapshot, parent_arg: int | None, parent_in_scope: bool,
+    ) -> ReconcileResult:
         """The document against the snapshot: the Plan, or every failure (parent checks, then rows in ID order)."""
         map_name = document.front_matter.map
-        parent, failures = self.check_parent(map_name, snapshot, parent_arg)
+        parent, failures = self.check_parent(map_name, snapshot, parent_arg, parent_in_scope)
         failures += _check_scope(map_name, snapshot)
         rows = sorted(document.increments, key=lambda row: row.number)
         to_withdraw: list[IncrementRow] = []

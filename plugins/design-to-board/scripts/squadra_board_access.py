@@ -1,4 +1,4 @@
-"""ResourceAccess for squadra's board: runs `squadra board {origins,queue,withdraw}` in the current directory.
+"""ResourceAccess for squadra's board: runs `squadra board {origins,scope,queue,withdraw}` in the current directory.
 
 squadra resolves its own `squadra.toml`; design-to-board never reads it (DB-D5).
 """
@@ -27,6 +27,14 @@ class SquadraBoardAccess:
             if item.lifecycle not in LIFECYCLES or item.lifecycle == ABSENT:
                 raise BoardReadError(0, f"{origin} has Lifecycle `{item.lifecycle}`, which design-to-board doesn't know")
         return snapshot
+
+    def parent_in_claim_scope(self, parent: int) -> bool:
+        """`squadra board scope`: whether an item under `parent` is inside squadra's claim scope (squadra's rule, never
+        read here, DB-D12); raises BoardReadError if squadra gives no answer."""
+        answer = _run(["scope", "--parent", str(parent)], BoardReadError).get("in_claim_scope")
+        if not isinstance(answer, bool):
+            raise BoardReadError(0, "`squadra board scope` printed no in_claim_scope")
+        return answer
 
     def queue_increment(self, origin: str, parent: int, predecessors: Sequence[int], title: str, body: str) -> int:
         """`queue_increment` through the CLI, the body on stdin; returns the item ID or raises BoardWriteError."""

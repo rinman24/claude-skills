@@ -247,3 +247,20 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
   is a shared checkout, so the `## Choice` line was refused here. Apply: when
   a ruling belongs in another repo's file, queue the exact line for Rich
   instead of working around the guard.
+
+## S8 · 2026-10-27
+
+- **Ask the sibling only on the path where its answer decides.** The scope
+  question matters only on a first run; a later run's items already carry
+  `in_claim_scope`. Putting "is this a first run" in the engine
+  (`first_run_parent`) kept the Manager free of prefix logic and kept the
+  extra subprocess off every later run. Apply: when a new read feeds a pure
+  check, let the engine name when it's needed and the Manager fetch it.
+- **A loop test needs the board to change between the read and the write.**
+  The flip test only proves something because the shim narrows
+  `squadra.toml` before write 1, so squadra's real refusal fires after
+  design-to-board's checks passed. Apply: for a "the re-run's checks name it"
+  claim, script the change inside the run and assert both runs' exit codes.
+- **Write the coverage table when you close a cell.** Listing every exit-3
+  class against what the re-run sees showed which cells the translation
+  table already covered and left exactly one gap (partial items, DB11).

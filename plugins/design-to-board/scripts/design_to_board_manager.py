@@ -112,13 +112,24 @@ class DesignToBoardManager:
         try:
             snapshot = self._board.increments_by_origin()
         except BoardReadError as error:
-            fix = BOARD_READ_FIXES.get(error.exit_code, BOARD_READ_FIX)
-            failure = Failure("board read", "squadra board origins", error.message, fix)
-            return ReconcileResult(None, validation.failures + (failure,)), {}
+            return ReconcileResult(None, validation.failures + (board_read_failure("origins", error),)), {}
+        # Only a first run's `--parent` is asked about; a later run's items report their scope (DB-D12).
+        first_run_parent = self._reconcile.first_run_parent(front_matter.map, snapshot, parent_arg)
+        parent_in_scope = True
+        if first_run_parent is not None:
+            try:
+                parent_in_scope = self._board.parent_in_claim_scope(first_run_parent)
+            except BoardReadError as error:
+                return ReconcileResult(None, validation.failures + (board_read_failure("scope", error),)), snapshot
         if not validation.valid:
-            _, parent_failures = self._reconcile.check_parent(front_matter.map, snapshot, parent_arg)
+            _, parent_failures = self._reconcile.check_parent(front_matter.map, snapshot, parent_arg, parent_in_scope)
             return ReconcileResult(None, validation.failures + tuple(parent_failures)), snapshot
-        return self._reconcile.reconcile(validation.document, snapshot, parent_arg), snapshot
+        return self._reconcile.reconcile(validation.document, snapshot, parent_arg, parent_in_scope), snapshot
+
+
+def board_read_failure(verb: str, error: BoardReadError) -> Failure:
+    fix = BOARD_READ_FIXES.get(error.exit_code, BOARD_READ_FIX)
+    return Failure("board read", f"squadra board {verb}", error.message, fix)
 
 
 def step_name(step: WithdrawStep | QueueStep) -> str:
