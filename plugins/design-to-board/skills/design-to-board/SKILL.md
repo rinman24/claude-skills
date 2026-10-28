@@ -36,7 +36,9 @@ Relay the script's output to the user as it is, then stop.
 - Exit 1: failed, nothing written. Each line is `check · row · reason · fix`.
   Relay every line; the fix says what the user does next: for a document
   defect, revise the map in wayfinder and Publish again; for `--parent`,
-  re-run with the parent the line names; for the board, wait for or stop a
+  re-run with the parent the line names, or with one inside squadra's claim
+  scope (or widen that scope in squadra) when the line says it's outside;
+  for the board, wait for or stop a
   run, transcribe another map first, or repair the board in squadra.
 - Exit 2: the arguments were wrong (usage). Relay the usage message.
 - Exit 3: stopped partway. squadra refused or failed one write; the report

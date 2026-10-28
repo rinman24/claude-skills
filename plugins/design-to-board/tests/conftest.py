@@ -68,19 +68,25 @@ def make_increment() -> Callable[..., Increment]:
 
 @pytest.fixture
 def make_fake_squadra(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Callable[..., Path]:
-    """Put a stub `squadra` first on PATH: `board origins` prints `snapshot` as squadra's JSON, or fails as told.
+    """Put a stub `squadra` first on PATH: `board origins` prints `snapshot` as squadra's JSON, or fails as told;
+    `board scope --parent N` answers `in_scope`.
 
     Any other arguments exit 2, as squadra's argparse would. Returns the stub's directory.
     """
 
-    def _factory(snapshot: Mapping[str, Increment] | None = None, exit_code: int = 0, stderr: str = "") -> Path:
+    def _factory(
+        snapshot: Mapping[str, Increment] | None = None, exit_code: int = 0, stderr: str = "", in_scope: bool = True,
+    ) -> Path:
         stdout = json.dumps({origin: asdict(item) for origin, item in (snapshot or {}).items()}) if exit_code == 0 else ""
         bin_dir = tmp_path / "bin"
         bin_dir.mkdir(exist_ok=True)
         stub = bin_dir / "squadra"
         stub.write_text(
             f"#!{sys.executable}\n"
-            "import sys\n"
+            "import json, sys\n"
+            "if sys.argv[1:3] == ['board', 'scope'] and sys.argv[3:4] == ['--parent'] and len(sys.argv) == 5:\n"
+            f"    print(json.dumps({{'parent': int(sys.argv[4]), 'in_claim_scope': {in_scope!r}}}))\n"
+            "    sys.exit(0)\n"
             "if sys.argv[1:] != ['board', 'origins']:\n"
             "    sys.exit(2)\n"
             f"sys.stderr.write({stderr!r})\n"
@@ -102,12 +108,14 @@ SQUADRA_TOML = (
 WRITE_SHIM = """#!{python}
 import json, os, sys
 from pathlib import Path
-REAL, CONFIG, BOARD = {real!r}, Path({config!r}), Path({board!r})
+REAL, CONFIG, BOARD, TOML = {real!r}, Path({config!r}), Path({board!r}), Path({toml!r})
 if sys.argv[1:3] in (["board", "queue"], ["board", "withdraw"]):
     config = json.loads(CONFIG.read_text()) if CONFIG.exists() else {{}}
     config["writes"] = write = config.get("writes", 0) + 1
     CONFIG.write_text(json.dumps(config))
     hook = config.get("before", {{}}).get(str(write), {{}})
+    if "toml" in hook:
+        TOML.write_text(hook["toml"])
     if "patch" in hook:
         board = json.loads(BOARD.read_text()) if BOARD.exists() else {{"version": 1}}
         for item_id, fields in hook["patch"].pop("items", {{}}).items():
@@ -123,18 +131,18 @@ os.execv(REAL, [REAL, *sys.argv[1:]])
 
 
 def real_squadra() -> str:
-    """The `squadra` on PATH, which must have `squadra board` (squadra SQ4); the test is skipped otherwise."""
+    """The `squadra` on PATH, which must have `squadra board scope` (squadra SQ5e); the test is skipped otherwise."""
     path = shutil.which("squadra")
     if path is None:
         pytest.skip("no `squadra` on PATH: install squadra (SQ4 or later) to run design-to-board against its fake board")
-    if subprocess.run([path, "board", "--help"], capture_output=True).returncode != 0:
-        pytest.skip(f"the `squadra` at {path} has no `squadra board` (squadra SQ4)")
+    if subprocess.run([path, "board", "scope", "--help"], capture_output=True).returncode != 0:
+        pytest.skip(f"the `squadra` at {path} has no `squadra board scope` (squadra SQ5e)")
     return path
 
 
 class FakeBoard:
     """squadra's fake provider in a temporary target repo, reached through a shim that counts writes and can act
-    before write `n` (one-based, across runs): fail it with an exit code, or patch the board file first."""
+    before write `n` (one-based, across runs): narrow the claim scope, patch the board file, or fail it with an exit code."""
 
     def __init__(self, home: Path) -> None:
         self.home = home
@@ -142,7 +150,7 @@ class FakeBoard:
         self.shim_config = home / "shim.json"
 
     def set_scope(self, *parents: int) -> None:
-        (self.home / "squadra.toml").write_text(SQUADRA_TOML.format(scope=", ".join(map(str, parents))), encoding="utf-8")
+        (self.home / "squadra.toml").write_text(_toml(parents), encoding="utf-8")
 
     def seed(self, items: Mapping[str, Mapping[str, object]]) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)
@@ -158,14 +166,23 @@ class FakeBoard:
     def bytes(self) -> bytes | None:
         return self.path.read_bytes() if self.path.exists() else None
 
-    def before_write(self, n: int, fail: tuple[int, str] | None = None, patch: Mapping[str, object] | None = None) -> None:
+    def before_write(
+        self, n: int, fail: tuple[int, str] | None = None, patch: Mapping[str, object] | None = None,
+        scope: tuple[int, ...] | None = None,
+    ) -> None:
         config = json.loads(self.shim_config.read_text()) if self.shim_config.exists() else {}
         hook = config.setdefault("before", {}).setdefault(str(n), {})
         if fail is not None:
             hook["fail"] = list(fail)
         if patch is not None:
             hook["patch"] = dict(patch)
+        if scope is not None:
+            hook["toml"] = _toml(scope)
         self.shim_config.write_text(json.dumps(config))
+
+
+def _toml(parents: tuple[int, ...]) -> str:
+    return SQUADRA_TOML.format(scope=", ".join(map(str, parents)))
 
 
 @pytest.fixture
@@ -183,7 +200,10 @@ def fake_board(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> FakeBoard:
     shim_dir.mkdir()
     shim = shim_dir / "squadra"
     shim.write_text(
-        WRITE_SHIM.format(python=sys.executable, real=real, config=str(board.shim_config), board=str(board.path)),
+        WRITE_SHIM.format(
+            python=sys.executable, real=real, config=str(board.shim_config), board=str(board.path),
+            toml=str(home / "squadra.toml"),
+        ),
         encoding="utf-8",
     )
     shim.chmod(0o755)

@@ -25,8 +25,8 @@ P, Q = 1, 2
 PORTAL = (("map: billing", "map: portal"), ("PortalClient | I1 | 3 |", "PortalClient | I1, billing:I3 | 3 |"))
 
 
-def _reconcile(document: DesignDocument, snapshot: dict[str, Increment], parent_arg: int | None = None):
-    return ReconcileEngine().reconcile(document, snapshot, parent_arg)
+def _reconcile(document: DesignDocument, snapshot: dict[str, Increment], parent_arg: int | None = None, parent_in_scope: bool = True):
+    return ReconcileEngine().reconcile(document, snapshot, parent_arg, parent_in_scope)
 
 
 def _transcribed(map_name: str, parent: int, make_increment, **lifecycles: str) -> dict[str, Increment]:
@@ -200,6 +200,6 @@ def test_board_failures_are_all_collected(make_document, read_document, make_inc
 
 
 def test_check_parent_reads_the_parent_off_the_map_items(make_increment) -> None:
-    parent, failures = ReconcileEngine().check_parent("billing", {"billing:I1": make_increment(101, parent=7)}, None)
+    parent, failures = ReconcileEngine().check_parent("billing", {"billing:I1": make_increment(101, parent=7)}, None, True)
 
     assert (parent, failures) == (7, [])
