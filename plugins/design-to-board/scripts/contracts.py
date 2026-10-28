@@ -164,11 +164,13 @@ class Plan:
 
 @dataclass(frozen=True, slots=True)
 class ReconcileResult:
-    """The Plan or every failure; `notes` are report lines that block nothing."""
+    """The Plan or every failure; `notes` are report lines that block nothing. `draft` is the Plan the reconcile would
+    write, set whenever a parent holds, failures or not (DB-D14); `plan` is set only with no failures."""
 
     plan: Plan | None
     failures: tuple[Failure, ...]
     notes: tuple[str, ...] = ()
+    draft: Plan | None = None
 
 
 @dataclass(frozen=True, slots=True)
