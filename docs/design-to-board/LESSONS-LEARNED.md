@@ -363,3 +363,30 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
   strings; after Rich picked, one pass changed the table and two literal
   goldens. Apply: when only strings wait on an advisor, build on the drafts
   with literal goldens, so a pick costs one edit.
+
+## S14 · 2026-10-28
+
+- **Shape a hand-written revision from the test fixture that already passes.**
+  Whether a replacement row may touch the withdrawn row's services with no
+  `Depends on` path between them (checks 9 and 10) wasn't stated anywhere in
+  the format. The fake's `valid.md` does exactly that and validates, so r2
+  copied its shape and passed on the first dry run. Apply: before writing a
+  live-run document by hand, find the fixture the unit test uses for the same
+  case and mirror it, rather than reasoning out each check.
+- **Explain a count that differs from the fake before you run.** The fake's
+  case reports 0 withdrawals; the handoff expected 1. The cause was the map,
+  not the code: the fake's I3 depends on I1, and r4's I3 depends on I2, so
+  the cascade withdraws it. Apply: when a live run's expected counts differ
+  from the unit test of the same case, find the input that differs first, so
+  a mismatch in the output can only mean a defect.
+
+## S15 · 2026-10-28
+
+- **Before wrapping up a client, run its tests against the dependency's
+  current `main`.** Every gate DB-D15 named was clear, and the tests passed
+  on the installed squadra; squadra had since merged SQ5g, whose required
+  `[fleet] name` failed 31 tests and every sandbox read. Nothing in this
+  ledger pointed there, because squadra moves on its own branch. Apply: when
+  asked for loose ends or about to close an effort, install the dependency's
+  `main` in a private tool dir, run the suite with it first on PATH, and
+  probe one read on the live target.

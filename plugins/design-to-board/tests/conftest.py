@@ -111,6 +111,7 @@ def make_fake_squadra(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Callab
 
 
 SQUADRA_TOML = (
+    '[fleet]\nname = "design-to-board-test"\n'
     '[board]\nprovider = "fake"\nclaim_scope = "parents"\nparent_scope_ids = [{scope}]\n'
     '[board.states]\nqueued = ["Backlog"]\nactive = ["Doing"]\ndone = ["Done"]\nwithdrawn = ["Dropped"]\n'
 )
