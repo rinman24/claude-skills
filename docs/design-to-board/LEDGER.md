@@ -389,16 +389,19 @@ Added S15 (2026-10-28):
       on the sandbox's `main`, then `uv tool install --force git+https://github.com/rinman24/squadra@<main sha>` and
       `squadra init --check --provider github` there. Without it every run fails (exit 1, nothing written) on squadra's `[fleet] name is required`, with the fix "fix squadra's configuration in the target repo".
 - [ ] After the PR merges: retire branch `feat/design-to-board` and worktree `.claude/worktrees/design-to-board` by hand.
-- [ ] Optional: commit the untracked consult files in `~/Code/board-knowledge/sessions/` (six, 2026-10-28; S12's and
+- [x] Optional: commit the untracked consult files in `~/Code/board-knowledge/sessions/` (six, 2026-10-28; S12's and
       S13's design-to-board consults among them).
 
 Added S16 (2026-10-28, rulings after T1):
-- [ ] Decide where DB-D18–DB-D21's build lives: a new effort (a T2 row in the port ledger) for wayfinder's DESIGN-FORMAT
+- [x] Decide where DB-D18–DB-D21's build lives: a new effort (a T2 row in the port ledger) for wayfinder's DESIGN-FORMAT
       and Publish (`Calls`, contract operations, the DB-D20 and DB-D21 Rules lines) and design-to-board's new checks.
       squadra's side is its N39.
+      Done S16 follow-up (2026-10-28): Rich chose T2, three units (T2a wayfinder, T2b design-to-board, T2c diff and
+      CI check); T2 row in `docs/wayfinder-port/LEDGER.md`.
 - [ ] `/ask-eric` on contract and Engine vocabulary (DB-D19): business verbs, not CRUD; gswa's `CreateUserSpec` and
       `user_query_engine` as test cases.
-- [ ] Commit the three DB-D18–DB-D21 consult files in `~/Code/board-knowledge/sessions/` (with the six above).
+- [x] Commit the three DB-D18–DB-D21 consult files in `~/Code/board-knowledge/sessions/` (with the six above).
+      Done S16 follow-up: board-knowledge PR #5 (all eight 2026-10-28 sessions), merged.
 
 ## Work items
 
