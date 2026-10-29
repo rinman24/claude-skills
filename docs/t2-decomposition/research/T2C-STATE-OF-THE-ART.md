@@ -21,7 +21,7 @@ yet; this report writes it as `<tool>`. The layer map keeps its working name.
 | 4 · Baseline | **Answered by T2c-J**, design-to-board DB-D22. No baseline is generated from the code graph. Each exemption names its reason in the layer map, and the composition root is the one standing exemption. This supersedes section 2's shrink-only baseline |
 | 5 · Required or advisory | **Answered by T2c-J**, DB-D22 and DB-D23. The drift check runs on every PR. In the sandbox, composition rules block from r5. The edge gate and the conformance check stay advisory until a run has zero check defects, then both block |
 | 6 · Protecting rule sources | **Ruled at T2 S0 as recommended** (T2-D1 in `docs/t2-decomposition/LEDGER.md`): Rich is CODEOWNER of the layer map, `docs/design/` and the generated config; a ruleset requires the import-direction check; no bypass actors |
-| 7–8 | Still open, for the Eric follow-up (`/ask-eric`). For question 7, Eric has two framings to weigh: Juval (DB-D22) restates "reads code only" as a difference of cadence and findings, and this report's section 1 offers the two-job split |
+| 7–8 | **Answered by T2-E**, T2-D2 and T2-D3 in `docs/t2-decomposition/LEDGER.md`. Each check is defined by when it runs and what it reports. The drift check is the **config check**. "Convergence" and "conforms" become **match**. `<tool>` is **plumb**, the layer map is the **service layout**, and one import-linter entry is an **import rule**. Section 1's two-job split stands as how plumb is built |
 
 ## 1. The state-of-the-art pattern
 
