@@ -17,7 +17,7 @@ Spike artifacts (configs, scripts, raw output) are in [`t2c-spike/`](t2c-spike/)
 | 1, 2 · Tool and home | Not ruled. A second research pass with subagents looks at state-of-the-art practice at GitHub scale: `docs/wayfinder-port/handoffs/T2c-R2-state-of-the-art.md` |
 | 3 · Service to code mapping | **A layer map in the target repo** (Juval, 2026-10-09) |
 | 4 · Classification (gswa) | **No changes to gswa-backend**; it was an example only. The spike's gswa findings are illustrations, not work items |
-| 5 · CI strictness; 7 · sandbox sequencing | One `/ask-juval` session: `docs/wayfinder-port/handoffs/T2c-J-juval-ci-strictness-sandbox.md` |
+| 5 · CI strictness; 7 · sandbox sequencing | Ruled after `/ask-juval` (T2c-J): design-to-board **DB-D22** (declared edges through a per-service allow-list from each service's latest `Calls`, not generated `forbidden` contracts and not the union of §4) and **DB-D23** (T2c builds the sandbox skeleton and proves the conformance check on seeded fixtures; a new sandbox r5 is the first squadra-built map; advisory until calibrated). Section 4 is superseded where they differ |
 | 8 · Names | Folded into Eric's vocabulary work. Eric's 2026-10-28 session landed after this report. Rich's Choice there renamed the diff to **conformance check**, with surplus and shortfall as its findings; this report now uses those names. "reconciler" is a rejected form (it collides with Reconcile) and stays a placeholder until Eric names the tool and the layer map. Eric's term table, which is still unruled, proposes that the import-direction check "reads code only, never the design document". That bears on question 5. Once Eric answers, settle the terms with the domain-modeling skill |
 
 ## 1. Recommendation
