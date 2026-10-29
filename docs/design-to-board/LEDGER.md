@@ -77,6 +77,10 @@ by ID; don't copy them here.
   `git -C ~/Code/squadra archive origin/main | tar -x -C <dir>/src`,
   `uv venv <dir>/venv`, `VIRTUAL_ENV=<dir>/venv uv pip install <dir>/src`,
   then `PATH=<dir>/venv/bin:$PATH uvx pytest -p no:cacheprovider plugins/design-to-board/tests`.
+  Since S15 (DB15) the fixture's `squadra.toml` carries `[fleet] name`: squadra SQ5g (PR #67) requires it and
+  every `squadra board` call exits 2 without it; squadra before SQ5g ignores the table. Checked both ways:
+  installed `e89d938` (SQ5f) and `main` `4a80ed5` from a private `uv tool install` (`UV_TOOL_DIR`, `UV_TOOL_BIN_DIR`
+  in the job dir, its `bin` first on PATH).
 
 This file is the single source of truth for what is done and what is next.
 Every session reads it first and updates it last.
@@ -127,7 +131,7 @@ Added at setup (2026-10-09):
 Added S1 (2026-10-09), from DB-D1 (squadra work, Rich's repo; this effort never writes there):
 - [x] Fill in `## Choice` in `~/Code/board-knowledge/sessions/2026-10-09-juval-design-to-board-write-path.md`
       and `2026-10-09-eric-design-to-board-vocabulary.md` ((c) as amended; Eric's vocabulary in full).
-- [ ] squadra A–D runs in parallel in squadra, with its own ledger
+- [x] squadra A–D runs in parallel in squadra, with its own ledger
       (`~/Code/squadra` `docs/board-writes/LEDGER.md`, branch
       `feat/board-writes`, items SQ1–SQ5). Start it now: give a fresh
       session in `~/Code/squadra` the handoff
@@ -143,7 +147,7 @@ Added S1 (2026-10-09), from DB-D1 (squadra work, Rich's repo; this effort never 
       session (this effort never writes there).
 
 Added S1 (2026-10-09), not design-to-board work:
-- [ ] Moved to its own effort (2026-10-09): branch `feat/handoff-skill`, worktree
+- [x] Moved to its own effort (2026-10-09): branch `feat/handoff-skill`, worktree
       `.claude/worktrees/handoff-skill`, ledger `docs/handoff-skill/LEDGER.md`; start
       with `docs/handoff-skill/handoffs/H1-build.md`. Original item:
       Add a `handoff` skill to this marketplace, capturing the essence of
@@ -171,7 +175,7 @@ Added S1c (2026-10-09):
 - [x] Fill in `## Choice` in `~/Code/board-knowledge/sessions/2026-10-09-juval-failure-and-determinism.md`
       (DB-D6, DB-D7: Juval's version in full) and `2026-10-09-eric-blank-kind-failure-name.md`
       (DB-D8: Eric's version, no cross-map foundations).
-- [ ] squadra SQ3 (fake provider), from DB-D7: besides seeding, a test must be
+- [x] squadra SQ3 (fake provider), from DB-D7: besides seeding, a test must be
       able to change the fake's state between two `squadra board` CLI calls
       (move an item QUEUED → ACTIVE → DONE; inject a second item with an
       existing Origin). design-to-board's F runs T4–T6 and Juval's seven
@@ -179,7 +183,7 @@ Added S1c (2026-10-09):
       effort: F then needs its own double plus a shared contract suite (~15K).
 
 Added S1d (2026-10-09):
-- [ ] Start S2: `handoffs/S2-validate.md` (DB-W, then DB2). S3 follows
+- [x] Start S2: `handoffs/S2-validate.md` (DB-W, then DB2). S3 follows
       without waiting on squadra; S4 can't start until squadra's SQ3 and
       SQ4 are merged (the squadra item above), so keep that effort moving.
 - [x] Before S5: a GitHub board design-to-board can write to for the
@@ -190,17 +194,17 @@ Added S1d (2026-10-09):
       `claim_scope = "parents"` with the in-scope parent, `[board.states]`)
       and `squadra init --check` green. Never `squadra start` there.
       Done S5 (`8c33d79` on the sandbox's `main`; check OK with `--provider github`).
-- [ ] Merge each build unit's PR (DB2–DB5) when you've reviewed it.
+- [x] Merge each build unit's PR (DB2–DB5) when you've reviewed it.
 
 Added S2 (2026-10-09):
 - [x] Start S2b: `handoffs/S2b-glossary.md`. You type `/ask-juval` and
       `/ask-eric` on "transcribes" (WD14) vs Eric's "reconciles", rule it
       (DB-D9), and S2b writes DB-W's `GLOSSARY-MAP.md` lines. Then merge
       PR #13 and start S3.
-- [ ] Review DB2's readings of checks 6–15 (DB2 row) and the PR.
+- [x] Review DB2's readings of checks 6–15 (DB2 row) and the PR.
 
 Added S2b (2026-10-09):
-- [ ] Merge PR #13 (DB-W + DB2, now ready for review), then start S3:
+- [x] Merge PR #13 (DB-W + DB2, now ready for review), then start S3:
       `handoffs/S3-plan.md` (DB3). PR #13 merged (`43928e9`). S3 reads
       DB-D10 (withdraw by Origin, partial items) with DB-D1–DB-D9. Early in S3, rule Juval's unruled
       recommendation (DB-D9): the reconcile in a third Engine, the
@@ -209,12 +213,12 @@ Added S2b (2026-10-09):
       `~/Code/board-knowledge/sessions/` (`2026-10-09-eric-transcribe-vs-reconcile.md`,
       `2026-10-09-juval-transcribe-or-reconcile.md`); `## Choice` is filled
       in from your rulings, so check it reads as you meant.
-- [ ] Optional: the map's older line "Wayfinder → squadra fleet" still says
+- [x] Optional: the map's older line "Wayfinder → squadra fleet" still says
       "`design-to-board` (not yet built)"; a later glossary pass can drop it.
 
 Added S3 (2026-10-09):
-- [ ] Review DB3's PR (from this branch; DB-D11 and the readings in the DB3 row) and merge it.
-- [ ] Start S4 (`handoffs/S4-execute.md`, DB4) once squadra's SQ4 (`squadra board` CLI) is merged; SQ3 is (PR #49).
+- [x] Review DB3's PR (from this branch; DB-D11 and the readings in the DB3 row) and merge it.
+- [x] Start S4 (`handoffs/S4-execute.md`, DB4) once squadra's SQ4 (`squadra board` CLI) is merged; SQ3 is (PR #49).
 - [x] Optional ruling, whenever a real document needs it: DB-D2's deferred third outcome. Today a withdrawn row whose item is DONE fails every run, and wayfinder can't un-withdraw a row, so such a map stays stuck until the cell is ruled.
       Superseded S11 (DB-D15): no longer optional; ruled before T1 closes (DB13, S12).
 
@@ -355,8 +359,9 @@ Added S12 (2026-10-28):
 - [x] S13 (DB14): build DB-D16, opening with `/ask-eric` on the four strings. No gate (design-to-board and
       wayfinder's format only; squadra unchanged). Start a session with `handoffs/S13-third-outcome-build.md`.
       Done S13 (2026-10-28): Eric's strings, ACTIVE fix corrected (DB-D16); plugin 0.3.4, wayfinder 0.2.1.
-- [ ] After S13: decide T1's wrap-up again (DB-D15), after the sandbox run (S14). If you want a session for it:
+- [x] After S13: decide T1's wrap-up again (DB-D15), after the sandbox run (S14). If you want a session for it:
       `handoffs/S15-t1-wrap-up.md`.
+      Done S15 (2026-10-28): T1 wraps up after DB15 (DB-D17).
 
 Added S13 (2026-10-28):
 - [x] Merge S13's build PR (DB14; plugin 0.3.4, wayfinder 0.2.1). Then reinstall design-to-board and wayfinder.
@@ -374,6 +379,17 @@ Added S14 (2026-10-28):
 - [x] Keep or delete r4's sandbox issues #13–#16 (map `done4`; #16 queued and claimable)? DB9's pattern:
       `gh issue delete <n> -R rinman24/squadra-sandbox --yes`. Until then `origins` lists the four `done4` Origins.
       Done S14 follow-up (2026-10-28): Rich chose delete; #13–#16 deleted.
+
+Added S15 (2026-10-28):
+- [ ] Review and merge S15's PR (DB15's fixture line; T1 `done`; `README.md:202`).
+- [ ] Before the next design-to-board run on the sandbox, with squadra SQ5g or later: add `[fleet] name` to
+      `~/Code/squadra-sandbox/squadra.toml` (S15 checked `name = "sandbox"` on a scratch copy: `origins` and
+      `scope --parent 1` read with squadra `main` `4a80ed5`; the SSH `origin` passes SQ5g's repository check), commit it
+      on the sandbox's `main`, then `uv tool install --force git+https://github.com/rinman24/squadra@<main sha>` and
+      `squadra init --check --provider github` there. Without it every run fails (exit 1, nothing written) on squadra's `[fleet] name is required`, with the fix "fix squadra's configuration in the target repo".
+- [ ] After the PR merges: retire branch `feat/design-to-board` and worktree `.claude/worktrees/design-to-board` by hand.
+- [ ] Optional: commit the untracked consult files in `~/Code/board-knowledge/sessions/` (six, 2026-10-28; S12's and
+      S13's design-to-board consults among them).
 
 ## Work items
 
@@ -395,6 +411,7 @@ Added S14 (2026-10-28):
 | DB12 | DB-D14: collect the partial-item check with the other board checks whenever a parent holds, not only once a Plan exists (overrules DB11's DB-D6 reading). `ReconcileResult` gains `draft: Plan \| None`, which `reconcile` builds whenever `check_parent` gives a parent, whatever the other failures, leaving `plan` `None` while any failure stands; `plan` keeps its meaning (present only with no failures; the executor and report read `plan is not None` as "go"). `check_partial_items(result, reports)` merges `result.failures` with the partial-item failures, keeps the notes, and sets `plan = draft` only when the merged failures are empty. The Manager asks `partial-items` with `draft.parent` and `draft.queues` whenever `draft` is set; a `partial-items` read failure appends to `result.failures`, as the `origins` and `scope` reads do. Not asked when `check_parent` gives no parent: invalid document, first run with no `--parent`, first-run `--parent` out of scope, `--parent` conflicting or the map under more than one parent. The Manager never derives "absent live rows" itself. Tests (Juval): (1) the flip, through the real CLI on the fake: a first run stopped inside queue 1's create (`fail_create_after_step` 2), I1's title revised, plus a second failure that leaves the parent intact (a missing cross-map predecessor on another row, or a withdrawn row's item ACTIVE): one run reports both lines, exit 1, no `queue` or `withdraw` call (before DB12 only the second line, and `partial-items` is never called); (2) the fence: the same partial item under each of the four no-parent cases, `partial-items` never called (shim record), only the blocking failure; (3) a `partial-items` read failure alongside another failure: both lines; (4) no regression: T1's golden byte-identical, T5 unchanged. Notes now print on failed runs whenever a parent holds. Plugin 0.3.3 | S10 | ~25–35K | done | Done S10 (plugin 0.3.3, 137 tests, none skipped). Probe first, on the unchanged code through the real `squadra`: a first run stopped inside queue 1's create (`fail_create_after_step` 2), I1's title revised and I3 given a missing cross-map predecessor (`ledger:I3`): the re-run exited 1 with only `board · I3 · depends on ledger:I3, which is missing from the board · …`, no partial-item line (DB11's gate held it back). Built: `ReconcileResult.draft` (default `None`); `reconcile` builds the draft once `check_parent` gives a parent, whatever the other failures, and returns `plan=None, draft=<it>` while failures stand, `plan=draft=<it>` when none do (the Manager reads `draft` on both paths, so it's set on both); `check_partial_items(result, reports)` merges `result.failures` with its own, keeps the notes and sets `plan = draft` only when none stand, the map prefix from `result.draft.map`, still pure; the Manager asks `partial-items` whenever `draft` is set, and a read failure now appends to `result.failures` (comment cites DB-D14). The report printer already printed `notes` alongside failures (`design_to_board.py`), and SKILL.md's exit-1 "Notes may follow; relay them too" still reads true: unchanged. Reading recorded, not reopened: a later run whose parent is out of claim scope (Juval's case 5, `_check_scope`) still has a parent from `check_parent`, so `partial-items` is asked there too; the verb doesn't check scope (`verb-contract.md`), so its verdicts hold; no scope gate added. Tests (`test_partial_items.py`): (1) the flip, dry run and run: both lines, exit 1, no write after the first run's, board bytes unchanged; (2) the fence over `make_fake_squadra` (its `requests.json` absent is the assertion; the stub's `refuses` report would add a line): first run with no `--parent`, first-run `--parent` out of scope, two parents, conflicting `--parent`, plus an invalid document; a mutation asking `partial-items` without a parent fails all five; (3) a `partial-items` read failure (exit 3) beside the missing predecessor: both lines; (4) the engine merge (other failure kept, notes kept, no Plan while one stands); the S9 engine test takes the `ReconcileResult`; T1's golden and T5's every-j convergence pass unchanged. Handoff `handoffs/S10-partial-item-collected.md`. Source: `~/Code/board-knowledge/sessions/2026-10-28-juval-partial-item-check-timing.md` ("Shape", "Tests that tell the two readings apart"). The exit-3 coverage row for `QueueRefusedError` (partial item) doesn't change |
 | DB13 | Rule DB-D2's deferred third outcome ("withdrawn row, delivered item: leave alone and report") before T1 closes (DB-D15). Today `(ROW_WITHDRAWN, DONE)` is a Refusal (`reconcile_engine.py:81`), so a map withdrawing a delivered row fails every run and stays stuck (wayfinder can't un-withdraw a row). `/ask-juval` (Eric if a name or report wording is at stake); Rich rules; records DB-D16. A build, if the ruling needs one, is its own row and session | S12 | ~30–40K | done | Handoff `handoffs/S12-third-outcome.md`. Rules only; no plugin code. DB-D9 already holds: the outcome stays a cell of the translation table, never a flag. Done S12: `/ask-juval` (`~/Code/board-knowledge/sessions/2026-10-28-juval-withdrawn-delivered-cell.md`); Rich adopted it in full as DB-D16; the build is DB14 |
 | DB14 | Build DB-D16. Opens with `/ask-eric` on four strings, Juval's drafts as the start: the `(ROW_WITHDRAWN, DONE)` note's reason and fix, the `(ROW_WITHDRAWN, ACTIVE)` fix, DESIGN-FORMAT's Increment identity sentence, the `GLOSSARY-MAP.md:12` translation line. Code: a `Note(reason, fix)` cell type in `reconcile_engine.py` beside `Refusal`, whose line is `None` unless `row.withdrawn_in == revision`; `reconcile` collects notes in row-ID order and passes them through its `parent is None` early return (`:156`); `check_partial_items` starts from `list(result.notes)` (`:173`; today it would drop them). Tests: the completeness test accepts `Note` and asserts every `Note` cell is in the withdrawn half; reconcile with `withdrawn_in == revision` (one note, no failure) and `< revision` (no note); notes merged with a partial-item note, reconcile's first; report goldens for a success with a note (exit 0) and a dry run with a note; T6's second half inverted (re-run after the target goes DONE: exit 0, the note, no withdraw call), added if no test covers it; Juval's acceptance case (billing r1, I1 and I2 DONE; r2 withdraws I2 and adds I4 `Depends on: I1` → exit 0, queues I4, one `note · I2`; a re-run of r2: nothing to write plus the note; a cosmetic r3: no note). Docs: the exit-3 coverage table's `TransitionRefusedError` row; DESIGN-FORMAT's sentence (no new check); `GLOSSARY-MAP.md:12`; plugin 0.3.4 | S13 | ~45–55K | done | Done S13 (plugin 0.3.4, wayfinder 0.2.1; 145 tests, none skipped; both `claude plugin validate` pass, and wayfinder's). Eric first (`/ask-eric` steps by hand, blind; `~/Code/board-knowledge/sessions/2026-10-28-eric-withdrawn-delivered-strings.md`); Rich picked Eric's strings with the ACTIVE fix corrected (DB-D16). Built: `Note(reason, fix)` beside `Refusal`, `Note.line(row, origin, item, revision)` is None unless `row.withdrawn_in == revision`; `reconcile` collects notes in row-ID order through both returns; `check_partial_items` starts from `list(result.notes)`. A third trap the advisor's list missed: the Manager's `partial-items` read-failure return rebuilt the result without notes; it passes them now. `NEVER_UNDOES_DELIVERED` holds the rule phrase, used by both cells. Tests: completeness (`Note` only in the withdrawn half), every cell's notes, withdrawing vs later revision, the note beside a `--parent` failure with no parent (the early return), merged with a partial-item note (reconcile's first), the phrase word for word in both cells, DESIGN-FORMAT and `GLOSSARY-MAP.md`; dry-run golden with the note (exit 0), the note kept on a failed `partial-items` read (exit 1); through the real CLI on the fake: T6's second half inverted (exit 3, then exit 0, 0 withdrawals, the note, I2 still Done) and Juval's acceptance case (exit 0 queues I4 with the note; re-run: nothing to write plus the note; cosmetic r3: no note). Docs: DESIGN-FORMAT's sentence (no new check), `GLOSSARY-MAP.md:12`, the exit-3 table's `TransitionRefusedError` row, SKILL.md's `note ·` relay line. The DB3 row's pointer was already there (S12). Original: handoff `handoffs/S13-third-outcome-build.md`. squadra: nothing. Wayfinder's Publish: nothing |
+| DB15 | squadra SQ5g (PR #67, after DB14) requires `[fleet] name` in `squadra.toml`; every `squadra board` call exits 2 without it. The fixture's `squadra.toml` (`tests/conftest.py`) gains the line; squadra before SQ5g ignores it. No plugin code (design-to-board never reads `squadra.toml`, DB-D5; its exit-2 fix already says "fix squadra's configuration"), so plugin stays 0.3.4 | S15 | ~5K | done | Found S15 checking for loose ends: on squadra `main` (`4a80ed5`) 31 of 145 tests failed (squadra's `[fleet] name is required`, exit 2); the sandbox's `origins` exited 2 on `main` and 0 on installed `e89d938`. With the line: 145 pass on both. The sandbox's own toml is Rich's (queue, Added S15) |
 | DB-R | Record Rich's rulings on squadra ledger notes N7 and N8 as DB-D10, reopening DB-D1 and DB-D4, and carry the knock-ons into DB3, DB4, the build-order note, Rich's queue and the handoffs. Recording only: no advisors, no code | S2c | ~30K | done | Sources: squadra PR #48 (`docs/board-writes/LEDGER.md` N7, N8, N11–N15; `verb-contract.md`; ADR-0005), board-knowledge `sessions/2026-10-09-juval-increment-verb-settlement.md` and `2026-10-09-eric-increment-verb-partial-item.md`. Before S3, which builds against it |
 
 Build order and gates: S2 (DB-W, DB2) and S3 (DB3) need nothing from
@@ -463,6 +480,7 @@ translator behaviour, not a DESIGN-FORMAT check; squadra's
 | DB-D14 | When the partial-item check runs (DB11's DB-D6 reading, overruled). DB-D6's rule suppresses a check only when its own inputs have failed; the partial-item check's inputs are a valid document, a parent (from `check_parent`) and the queue choice, so it is collected with the other board checks whenever a parent holds, not gated on a Plan. The queue choice stays in the Engine: the reconcile hands it over as a draft (`ReconcileResult.draft`) even when other checks fail, and the Manager asks `partial-items` with it; the Manager never derives "absent live rows" itself (a second reading of the `(ROW_LIVE, ABSENT) → QUEUE` cell, which would drift). Not asked when `check_parent` gives no parent (invalid document, no first-run `--parent`, first-run `--parent` out of scope, `--parent` conflicting or more than one parent): there the fix changes the parent, which changes the verdict. `plan` keeps its meaning: present only with no failures. The build is DB12 (S10) | ruled 2026-10-28 (Rich, S9b) | Juval, `~/Code/board-knowledge/sessions/2026-10-28-juval-partial-item-check-timing.md` (Choice; "Decision", "Where the gate does belong", "Shape"). Why: gating on the Plan made two independent repairs sequential (the partial-item fix is a board-state fix in squadra, independent of any document or invocation fix), so the first report wasn't the full list of what stands before a write; bounded at one extra run, not DB6's loop. Cost: one read-only call on runs that fail anyway; the N31 two-reads window is unchanged. Rejected: the Manager rebuilding "every absent live row" (DB11's reason, kept); redefining `plan` as "present whenever a parent holds" |
 | DB-D15 | T1 stays open (S11's "Decide whether T1 wraps up"). DB-D2's deferred third outcome is ruled before T1 closes, not left past it (DB13); wrap-up is decided again after that ruling and any build it needs | ruled 2026-10-28 (Rich, S11) | Asked after the docs PR and before the sandbox look; the sandbox run r3 (0.3.3) then found no defect. Wrapping up still means: T1 `done` in the port ledger's T1 row; `README.md:202` drops "(not yet built)" (`GLOSSARY-MAP.md:10` already says "reads"); the queue item closed; branch and worktree retired by Rich by hand. squadra's "drop `origins`' stderr line" (its N31, a "later, consider" note, no row) does not gate T1: since DB11 design-to-board reads `partial-items`, and `_run` reads stderr only on a non-zero exit |
 | DB-D16 | DB-D2's third outcome. The cell `(withdrawn row, item DONE)` stops being a Refusal: nothing is written, and a `note ·` line is reported on runs whose document revision is the one that withdrew the row (`row.withdrawn_in == revision`), none on later revisions; exit 0. It is a `Note` cell of the translation table (DB-D9: no flag), on the existing note channel (DB11), in dry runs and beside failures too. The `(withdrawn, ACTIVE)` fix says the item then stays delivered and its row writes nothing. DESIGN-FORMAT's Increment identity gains one sentence: withdrawing a row never undoes delivered work. `GLOSSARY-MAP.md:12`'s translation line changes; the exit-3 table's `TransitionRefusedError` row converges; T6's second half inverts. Unchanged: wayfinder's Publish (WD19), check 14 and the cascade, the frozen foundation `Kind`, `_check_predecessors`, squadra. Wording of the four strings: Eric, in the build (DB14) | ruled 2026-10-28 (Rich, S12) | Juval, `~/Code/board-knowledge/sessions/2026-10-28-juval-withdrawn-delivered-cell.md`, adopted in full. The Refusal was a defect: wayfinder's Revise step 3 and Increment identity make withdraw-plus-new-row the only way to change a published row, so the cell is routine (Eric's 2026-10-09 blocking Q2: yes, in practice); the ACTIVE fix led into it; and DB-D6's all-or-nothing meant it blocked the replacement row's queue and every other write of the map, on every later revision. Juval corrects his 2026-10-09 class (document defect): the author can't fix it. Passes his transcription test (empty write set; squadra owns DONE's terminality, wayfinder owns withdraw-plus-new-row; no arbitration). Exit 0 because a note asks the caller for nothing different (DB-D6 codes name caller actions). Per withdrawing revision, not per run (noise grows without bound; partial-item notes would be buried) and not once (needs state, which DB-D4 forbids). Known gap: an item finishing after its withdrawing revision has run gets no note; the ACTIVE fix text covers it. Rejected: splitting `ROW_WITHDRAWN` by revision (five cells doubled for one report). Strings (Rich, S13): Eric's, `~/Code/board-knowledge/sessions/2026-10-28-eric-withdrawn-delivered-strings.md`: one rule, "withdrawing a row never undoes delivered work", word for word in both cells, DESIGN-FORMAT and `GLOSSARY-MAP.md:12`, held in `NEVER_UNDOES_DELIVERED` with a test that both docs carry it; the note's reason says `withdrawn in r<revision>` (the document sense). Eric's blocking question answered from squadra's glossary (Relinquish, ADR-0004): no verb stops one ACTIVE item, and withdrawing it by hand on the board stops it (the fleet relinquishes, nothing is requeued), so the ACTIVE fix's first clause is "withdraw it by hand on the board and the fleet relinquishes it", not Eric's "stop it in squadra and it can be withdrawn" |
+| DB-D17 | T1 wraps up (DB-D15's second asking). Rich first said keep open, then asked for loose ends; S15 found squadra SQ5g's required `[fleet] name`, and Rich chose: fix it now (DB15), then wrap up in the same PR | ruled 2026-10-28 (Rich, S15) | Done S15: T1 `done` in the port ledger's T1 row; `README.md:202` drops "(not yet built)"; S1–S3's stale queue boxes ticked. Not loose ends of T1: r4's B2 with no live vertical (wayfinder's check 2), squadra's N31 and SQ7, Project 1's content-less items |
 
 ### Exit-3 coverage (DB-D12, DB10)
 
@@ -514,3 +532,4 @@ seen by the re-run's read or checks, before any write. An empty cell is a gap.
 | S13 follow-up | 2026-10-28 | bookkeeping | Rich merged PR #28 (`7de5d55`); branch fast-forwarded to it. Reinstalled: marketplace updated, design-to-board 0.3.3 → 0.3.4, wayfinder 0.1.0 → 0.2.1 (user); the cache copies have the change. Rich asked for a sandbox run before deciding T1's wrap-up: handoff `S14-sandbox-db-d16.md` (map `done4`, two issues closed as completed by hand, r2 withdraws a delivered row and adds its replacement); the wrap-up handoff is renamed `S15-t1-wrap-up.md` (handoffs are gitignored, local to this worktree) | `handoffs/S14-sandbox-db-d16.md` |
 | S14 | 2026-10-28 | sandbox run of DB-D16 (Rich's queue) | Fetched; `origin/main` had PR #29's merge (`9f123fd`), fast-forwarded. Installed design-to-board 0.3.4, wayfinder 0.2.1; board before: #1, #2, #8, tick `claimable=[]`. Sandbox r4 (`acceptance/sandbox-r4-run.md`), map `done4`: r1 `--parent 1` queued #13–#15; #13 and #14 closed as completed by hand (`origins`: done); r2 (I2 and, by the cascade, I3 `r1, withdrawn r2`; new I4 `Depends on: I1`), no `--parent`: exit 0, `withdrew done4:I3 · item 15`, `queued done4:I4 · item 16 · predecessors: 13`, one `note · I2 · done4:I2 (item 14) is delivered and its row is withdrawn in r2; …`; re-run: nothing to write plus the note; cosmetic r3: nothing to write, no note; tick `claimable=[16] states={13: 'done', 14: 'done', 16: 'claimable'}`. No defect. Observation: r2 leaves B2 with no live vertical (wayfinder's check 2, not the translator's). Board left with #13–#16 (Rich's call) | `handoffs/S15-t1-wrap-up.md` (state line updated) |
 | S14 follow-up | 2026-10-28 | bookkeeping | Rich chose delete for r4's sandbox issues: #13–#16 deleted with `gh issue delete`. After: issues #1, #2, #8; `origins` only `SQ5c-live:claim` (#8, withdrawn); tick `claimable=[] states={}`. Project 1 keeps content-less items from the deleted issues (as after S11). Next: S15 (T1 wrap-up), started in this worktree | `handoffs/S15-t1-wrap-up.md` |
+| S15 | 2026-10-28 | DB15 (done); T1 wrap-up (DB-D17) | Fetched; `origin/main` (`9f123fd`) not moved. Rich chose keep open, then asked for loose ends. Swept the queue, rows, sandbox and squadra: S1–S3 left ten boxes unticked whose work was done or moved (ticked); squadra `main` had moved past the installed `e89d938` to SQ5g/SQ5g2/SQ7, and SQ5g's required `[fleet] name` broke 31 tests and the sandbox's reads (exit 2). Rich: fix now, then wrap up. DB15 built (one fixture line); 145 pass on installed and on `main`; `claude plugin validate` passes. T1 `done` in the port ledger; `README.md:202` fixed. T1 wraps up: no further handoff | none |

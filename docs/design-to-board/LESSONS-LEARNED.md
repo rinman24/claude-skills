@@ -379,3 +379,14 @@ is typed by Rich (Q3), and the headless-check recipe (S14, S15).
   the cascade withdraws it. Apply: when a live run's expected counts differ
   from the unit test of the same case, find the input that differs first, so
   a mismatch in the output can only mean a defect.
+
+## S15 · 2026-10-28
+
+- **Before wrapping up a client, run its tests against the dependency's
+  current `main`.** Every gate DB-D15 named was clear, and the tests passed
+  on the installed squadra; squadra had since merged SQ5g, whose required
+  `[fleet] name` failed 31 tests and every sandbox read. Nothing in this
+  ledger pointed there, because squadra moves on its own branch. Apply: when
+  asked for loose ends or about to close an effort, install the dependency's
+  `main` in a private tool dir, run the suite with it first on PATH, and
+  probe one read on the live target.

@@ -199,7 +199,7 @@ own). It:
   changes more than 2 services;
 - writes only the map and the design document itself (`domain-modeling` and
   `prototype` write their own files). It never builds and never
-  touches squadra's board; `design-to-board` (not yet built) transcribes a
+  touches squadra's board; `design-to-board` transcribes a
   cleared design document.
 
 Needs the `grilling`, `domain-modeling` and `prototype` plugins; `board-juval` is an
