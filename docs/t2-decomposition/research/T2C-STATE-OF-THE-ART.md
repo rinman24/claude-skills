@@ -1,0 +1,360 @@
+# T2c state of the art: boundary enforcement and conformance at GitHub scale
+
+Session T2c-R2, 2026-10-28. Addendum to [T2C-TOOL-RESEARCH.md](T2C-TOOL-RESEARCH.md)
+(T2c-R). Research only; Rich rules the tool and the home. Three research
+subagents: practice at large organisations, adoption and distribution, and
+prior art for the tool's shape. No spike: the three left no tie between tools.
+Nothing in gswa-backend was read or run.
+
+Names follow Eric's 2026-10-28 Choice: **conformance check** (findings:
+surplus, shortfall) and **import-direction check**. The package has no name
+yet; this report writes it as `<tool>`. The layer map keeps its working name.
+
+## 1. The state-of-the-art pattern
+
+At large organisations the pattern is the same across languages:
+
+- **A declaration file sits next to each module**, holding its allowed
+  dependencies, its layer, its visibility to callers and its owner. Examples
+  are Shopify's packwerk `package.yml` and Gusto's packwerk-extensions
+  (`layer:`, `visible_to`); Stripe's Sorbet `__package.rb` (`import`,
+  `export`, `layer`, a `strict_dependencies` ratchet); and Bazel or Buck
+  `deps` and `visibility` at Google, Meta/Instagram, Dropbox (Atlas) and Uber.
+- **A fast, deterministic static checker** reads the declarations and fails a
+  required CI check on any new violation.
+- **Existing violations sit in a committed baseline that may only shrink.**
+  Examples are packwerk's `package_todo.yml` with `enforce_dependencies:
+  strict`, ArchUnit's freeze store and dependency-cruiser's `--baseline-mode
+  shrink-only`.
+- **Machines generate the boilerplate and people own the intent.** Gazelle
+  generates `deps`, Sorbet's `gen-packages` fixes exports, and GitHub and
+  Gusto generate CODEOWNERS. Allowed edges, layers and visibility stay
+  hand-declared and reviewed.
+- **Ownership comes from the same declarations,** so a boundary change goes to
+  the right reviewer.
+
+Agent-authored PRs (2025–2026) keep the checks and move them earlier.
+Thoughtworks calls deterministic boundary checks "sensors" that run in the
+agent's own hook or pre-commit on every change. LLM architecture review is
+slower and runs after merge; the Radar keeps "architecture drift reduction
+with LLMs" at Assess. OpenAI's harness-engineering write-up describes a fixed
+layer order enforced by structural tests and generated linters. That source
+is secondhand: openai.com refused the fetch, so it comes from InfoQ.
+
+Two lessons cut against naive adoption. Shopify's packwerk retrospective
+found that todo files grew with every feature. It also found that a
+hand-drawn dependency graph can itself be the error: "ask yourself if the
+violation is an error at the developer level, or at the dependency graph
+level". Shopify also dropped privacy checks because they turned packwerk into
+"an API design tool".
+
+**Checking code against a design model, not just a rules file, is rare.**
+ArchUnit's `adhereToPlantUmlDiagram` derives allowed edges from a component
+diagram, but it reports surpluses only. Context Mapper reports surpluses only,
+by design. Tach `--exact` and pks `check-unnecessary-dependencies` find unused
+declared edges, and only for edges. GitHub's schema-domain watcher compares a
+declared YAML model with runtime queries. No large organisation has published
+a both-directions report against a design document. The research prior art
+is reflexion models (Murphy, Notkin and Sullivan, FSE '95). An
+engineer-supplied map from source to model, here the layer map, yields three
+outcomes:
+
+| Reflexion model | Conformance check |
+|---|---|
+| Convergence: found and expected | conforms (no term yet) |
+| Divergence: found, not expected | surplus |
+| Absence: expected, not found | shortfall |
+
+Reflexion defines these over edges only. Extending them to service modules
+and public operations is ours; no precedent was found.
+
+### How it maps onto DB-D18
+
+| DB-D18 role | State-of-the-art counterpart |
+|---|---|
+| wayfinder decides | The hand-owned intent: Services, Layer and `Calls` in the design document. Repo paths stay out of the document; they belong to the layer map |
+| design-to-board verifies the plan | No counterpart at the large organisations, which check code only. It stays as T2b scoped it |
+| Target CI verifies the build | Two separate jobs, as with Gazelle. The import-direction check runs `lint-imports` on code plus the committed generated config. The config drift check runs `<tool> config --check` and is the only job that reads the document. A failure therefore says which broke, the boundaries or the config's tie to the design |
+| squadra stays naive | The runner runs the same command in its `## Gates`, which makes it the agent-loop sensor, without parsing Services or `Calls` (N39) |
+| Sandbox acceptance (Juval) | The conformance check is a reflexion model run once per delivered map. A surplus can be a design defect (Shopify's lesson), so it goes to wayfinder as Eric's term table already says |
+
+That split answers the tension T2c-R flagged with Eric's unruled term table,
+which says the import-direction check "reads code only, never the design
+document". Under the Gazelle framing it holds: Bazel reads BUILD files, and
+Gazelle is a separate step that writes a committed artifact. See question 7.
+
+## 2. Recommendation
+
+| Half | Tool | Confirms or changes T2c-R |
+|---|---|---|
+| Import-direction check | **import-linter 2.15**, config generated by `<tool> config` from the design documents plus the layer map, committed to the target repo | **Confirms, with stronger evidence and two additions** |
+| Conformance check | **grimp 3.18 + griffe(lib) 2.4.x** inside `<tool>`, reporting per surface | **Confirms; adds the reflexion framing and an output format** |
+
+Why import-linter still wins:
+- **Adoption.** It has 2,101 dependent repos against Tach's 252, and about
+  3,950 config files in code search against Tach's about 330. Its origin
+  user, Kraken, runs it on about 27.6K modules.
+- **Users who resemble us.** Adopters include openedx, kedro, dify, Microsoft
+  promptflow, Google langextract and NVIDIA physicsnemo.
+- **The right primitives.** Its contracts map onto the state of the art:
+  `layers` gives ordered layers, `forbidden`/`independence` give the
+  allow-list and `protected` gives visibility. Section 1 separates visibility
+  from dependencies, and `protected` covers "Engines visible only to
+  Managers" without mixing the two.
+
+The two additions to the CI half:
+1. **Generation and checking are separate jobs** (section 1, Gazelle). T2c-R
+   had `config --check` and `lint-imports` as one step.
+2. **A baseline that may only shrink.** import-linter's `ignore_imports` is
+   per contract and has no shrink-only mode. The state of the art is a
+   committed baseline that may only shrink. The generator can provide one: it
+   reads a committed baseline file into `ignore_imports`, and `--check` fails
+   if the file grows. Whether a target repo needs a baseline at all, and how
+   strict it is, is CI strictness, so it goes to T2c-J (question 4). A
+   greenfield sandbox repo may never need one.
+
+For the conformance check, nothing on the market changed T2c-R's finding: no
+tool reports surplus and shortfall on all three surfaces. Prior art adds:
+- **The model.** Reflexion's three outcomes per surface. Reporting
+  convergences too makes the report auditable, so it's clear what was
+  checked, not only what failed.
+- **Output.** JSON is primary (surface × outcome, with the design element,
+  code location and layer-map entry), and Markdown is rendered from it for the
+  PR or acceptance record. A shortfall has no code location, so it fits
+  SARIF poorly. Keep SARIF out of scope.
+
+Tach stays runner-up and loses ground:
+- Its adoption is an order of magnitude smaller.
+- `tach sync` runs code→config, the opposite of our design→config.
+- Its SARIF PR (#280) was closed as deprioritised, and its structured-output
+  issue (#678) is still open.
+
+Two newcomers were checked and rejected:
+- **deply 1.3.0** now has SARIF output and a fingerprinted baseline, but it is
+  still deny-only regex layers, with 25K downloads a month and no adopters
+  found.
+- **ArchUnitPython** has the same objection as in T2c-R: its rules are code.
+
+PR output: import-linter has no structured output (issue #291 is open; one
+user parses the text into SARIF and pins 2.15 because the format isn't
+versioned). SARIF upload needs paid GitHub Code Security on private repos
+and paid Advanced Security on Azure DevOps. The cheap path, if annotations
+are wanted, is for `<tool>` to print native annotations:
+`::error file=…,line=…::` on GitHub and `##vso[task.logissue …]` on Azure.
+Plain `lint-imports` text is enough to start (question 8).
+
+## 3. Home and distribution
+
+**Recommendation: its own repo, like squadra**, with semver tags.
+claude-skills was the alternative.
+
+Reasons:
+- **CI pins a git tag.** Target repos pin `<tool>` by tag, through `uvx --from
+  git+…@vX.Y.Z`, `uses: owner/repo@vX.Y.Z` and Azure `ref: refs/tags/…`.
+  claude-skills has no tags and versions each plugin in its own manifest. A
+  package there would need repo-wide tags such as `<tool>-v0.1.0`, and every
+  skills release would share a tag namespace with a CI dependency. It is
+  workable but awkward: `uses: owner/claude-skills/packages/<tool>@tag` and
+  `#subdirectory=` both work.
+- **A separate volatility**, as T2c-R said. It changes with repo layout and
+  Python tooling, not with DESIGN-FORMAT or the board.
+- **Precedent.** squadra is its own repo for the same reason.
+- **A skills marketplace isn't a CI dependency.** A skills change should never
+  move a target repo's CI pin.
+
+**Contents of the repo:**
+- a uv project with the `<tool>` console script;
+- a pinned dependency on `import-linter==2.15`, so one pin moves the
+  generator and the checker together;
+- a composite `action.yml` at the root;
+- `ci/azure/<tool>.yml`, a step template.
+
+**How a target repo pins and runs it.** The primitive is a single pinned
+`uvx`. The Action and the Azure template are thin wrappers around it:
+
+```yaml
+# GitHub Actions (target repo), using the composite action
+- uses: actions/checkout@v4
+- uses: rinman24/<tool>@v0.1.0      # runs `<tool> config --check` and `lint-imports`
+```
+
+```yaml
+# action.yml (tool repo): github.action_path is the tool checked out at the caller's tag
+runs:
+  using: composite
+  steps:
+    - uses: astral-sh/setup-uv@v6
+    - shell: bash
+      run: |
+        uvx --from "${{ github.action_path }}" <tool> config --check
+        uvx --from "${{ github.action_path }}" lint-imports
+```
+
+```yaml
+# Azure Pipelines (target repo); with a public tool repo no service connection is needed
+steps:
+- script: |
+    curl -LsSf https://astral.sh/uv/0.9.0/install.sh | sh
+    export PATH="$HOME/.local/bin:$PATH"
+    uvx --from git+https://github.com/rinman24/<tool>@v0.1.0 <tool> config --check
+    uvx --from git+https://github.com/rinman24/<tool>@v0.1.0 lint-imports
+  displayName: Import-direction check
+```
+
+Notes on the snippets:
+- On Azure, gate PRs with a build-validation branch policy. Azure's "required
+  template" check covers deployment-stage resources only, not PRs.
+- A shared Azure template (`resources.repositories` with `ref:
+  refs/tags/vX.Y.Z` and `template: ci/azure/<tool>.yml@<alias>`) is the
+  next step up. It needs a GitHub service connection.
+- Renovate's `azure-pipelines` manager can bump the tag, but it is beta and
+  off by default.
+- Two parts are untested sketches: the snippets' handling of `lint-imports`
+  as a dependency's executable under `uvx --from`, and the Azure checkout
+  paths. Prove both in the build session on the sandbox, not on gswa.
+- The two commands run as two separately named steps or jobs (section 2).
+  Whether either is required is T2c-J's call.
+
+**Keeping config in step across repos.** Templating tools (copier, cruft)
+don't help here because the config is derived. The answer is the generator
+plus `--check`, the same mechanism as the drift job. Renovate or Dependabot
+bumps the tag.
+
+The first consumer is the sandbox (`rinman24/squadra-sandbox`), not gswa.
+
+## 4. Comparison, with adoption
+
+Health columns are T2c-R's, abbreviated. Adoption figures are from
+2026-10-28:
+- **Stars:** GitHub API.
+- **Dependents:** GitHub's dependents page, repos / packages. It includes
+  lockfile transitives.
+- **Downloads:** pypistats `recent`, last month. CI-inflated, so read them as
+  relative.
+- **Configs:** approximate GitHub code-search totals.
+
+| Tool | Latest release | Maintenance | Stars | Dependents | Downloads / month | Configs found | Notable adopters | Structured output | Verdict |
+|---|---|---|---|---|---|---|---|---|---|
+| import-linter | 2.15, 2026-09-04 | 32 commits / 6 mo; 74 open issues | 1,241 | 2,101 / 442 | 21.2M | ~2,520 `[tool.importlinter]`, ~1,314 `.importlinter`, ~119 `setup.cfg`; ~2,022 workflows call `lint-imports` | Kraken (origin; ~27.6K modules), openedx-platform, kedro, dify, microsoft/promptflow, google/langextract, NVIDIA/physicsnemo, truenas, checkov, wandb/weave, DataDog/system-tests | Text only (#291 open) | **CI pick, confirmed** |
+| grimp | 3.18, 2026-10-26 | 41 commits; Rust core | 135 | 1,615 / 40 | 22.0M | n/a (library) | Nearly all through import-linter | Python API | **Conformance check: edges, confirmed** |
+| griffe / griffelib | 2.4.1, 2026-10-22 | 10 releases in 2026 | 701 | 18,766 / 483 | griffe 22.3M; griffelib 77.6M | ~38 workflows run `griffe check` (API surface) | mkdocstrings, pydantic-ai, openai-agents; `griffe check` at AWS deadline-cloud, strands-agents, Quantco, OpenFreeEnergy | Python API; `dump` JSON | **Conformance check: operations, confirmed** |
+| Tach | 0.35.3, 2026-10-06 | Revived 2025-11 by one maintainer | 2,855 | 252 / 34 | 4.57M | ~317 `tach.toml`, ~17 `[tool.tach]` | PostHog, scipy, PennyLane, docling, chia-blockchain, gt4py | JSON for violations; SARIF PR #280 closed unmerged | Runner-up, weaker |
+| deply | 1.3.0, 2026-10-23 | 66 commits | 173 | not shown | 25K | none found | none found | JSON, SARIF; baseline | No (deny-only regex layers) |
+| pytestarch | 5.1.0, 2026-10-24 | 40 commits | 176 | 0 (detection gap likely) | 245K | not searched | none found | Via pytest | No (rules are code) |
+
+Prior art outside Python, for the shape rather than the pick:
+
+| Tool | Declares | Generated? | Baseline | Both directions? | Output |
+|---|---|---|---|---|---|
+| packwerk / pks (Ruby) | `package.yml` deps, layer, visibility | Hand-owned | `package_todo.yml`, strict mode blocks growth | pks finds unneeded deps | Pluggable text; no SARIF |
+| Sorbet packages (Stripe) | `__package.rb` import/export/layer | `gen-packages` fixes exports | Ratchet levels `layered` → `dag` | No | Compiler errors |
+| Bazel + Gazelle | BUILD `deps`, `visibility` | deps generated; visibility hand-owned (`# keep`) | n/a | No | `gazelle -mode=diff` in CI |
+| ArchUnit (Java) | Rules, or a PlantUML diagram | Rules derived from a diagram | Freeze store | Surpluses only | JUnit |
+| dependency-cruiser (JS) | Rules | `--init` starter | Known-violations, `shrink-only` | No | JSON, azure-devops; no SARIF |
+| Nx | Tags + `depConstraints` | Graph inferred; policy hand-owned | n/a | No | ESLint |
+| Reflexion models (research) | High-level model + map | n/a | n/a | **Yes: convergence, divergence, absence** | Model graph |
+
+## 5. Open questions for Rich
+
+1. **CI tool.** Rule import-linter 2.15 for the import-direction check, its
+   config generated by `<tool>` and committed? Recommended: yes. Unchanged
+   from T2c-R, with stronger evidence.
+2. **Conformance check.** Rule a custom check in `<tool>` on grimp and
+   griffe, with reflexion's three outcomes per surface, JSON as primary
+   output and Markdown rendered from it? Recommended: yes.
+3. **Home.** Rule its own repo (recommended) or a package in claude-skills?
+   If its own repo, public like squadra (no Azure service connection or
+   GitHub access settings needed) or private?
+4. **Baseline.** Does `<tool>` own a shrink-only baseline that it feeds into
+   `ignore_imports`, or is plain `ignore_imports` enough? Should a new repo
+   start strict, with no baseline at all? → **T2c-J** (`/ask-juval`), as CI
+   strictness.
+5. **Two jobs and where they run.** Are the config drift check and the
+   import-direction check required checks, advisory, or required only on
+   agent PRs? Should squadra's runner run them in `## Gates` as the agent's
+   sensor? → **T2c-J**.
+6. **Protecting the rule sources.** Large organisations route boundary
+   changes to an owner. Should the layer map, generated config and baseline
+   sit under CODEOWNERS, with no agent (Copilot or squadra) as a ruleset
+   bypass actor? → **T2c-J**.
+7. **Does the import-direction check "read the design document"?** Under
+   the Gazelle framing it doesn't: `lint-imports` reads code plus a committed
+   config, and a separate config drift check is the only step that reads the
+   document. Does Eric accept that, and does the drift check need its own
+   term? → **Eric follow-up** (`/ask-eric`).
+8. **Terms.**
+   - Reflexion's "convergence" (declared and built) has no term in the
+     conformance check yet.
+   - The tool's name and the layer map's name are still pending.
+   → **Eric follow-up**.
+9. **Annotations.** Start with plain `lint-imports` text and add native
+   GitHub/Azure annotations from `<tool>` later? SARIF needs paid add-ons on
+   private repos. Recommended: yes. Rich can rule this without a session.
+
+## Sources
+
+Practice at scale:
+- GitHub, SERVICEOWNERS (2023-12-19): https://github.blog/engineering/architecture-optimization/how-we-organize-and-get-things-done-with-serviceowners/
+- GitHub schema domains, Sha Ma, QCon Plus (2021-04-09): https://www.infoq.com/presentations/github-rails-monolith-microservices
+- Shopify packwerk (2020-09-23): https://shopify.engineering/blogs/engineering/enforcing-modularity-rails-apps-packwerk
+- packwerk usage docs: https://github.com/Shopify/packwerk/blob/main/USAGE.md
+- Packwerk retrospective (2024-01-26): https://railsatscale.com/2024-01-26-a-packwerk-retrospective/
+- packwerk-extensions: https://github.com/rubyatscale/packwerk-extensions
+- code_ownership: https://github.com/rubyatscale/code_ownership
+- danger-packwerk: https://github.com/rubyatscale/danger-packwerk
+- pks: https://github.com/alexevanczuk/packs
+- Hagemann (2025-11-11): https://rubyrailsmodularity.com/t/two-ways-of-using-packwerk-blog-post/1077
+- *Software Engineering at Google*, ch. 18: https://abseil.io/resources/swe-book/html/ch18.html
+- Bazel visibility: https://bazel.build/concepts/visibility
+- rules_python strict deps (issue #296): https://github.com/bazelbuild/rules_python/issues/296
+- Buck2 audit_visibility: https://buck2.build/docs/rfcs/audit_visibility
+- Meta Fixit 2 (2023-08-07): https://engineering.fb.com/2023/08/07/developer-tools/fixit-2-linter-meta/
+- Dropbox Atlas (2021-03-04): https://dropbox.tech/infrastructure/atlas--our-journey-from-a-python-monolith-to-a-managed-platform
+- Stripe Sorbet packages, QCon (2024-11-19): https://sorbet.run/talks/QCon2024/
+- Uber Go monorepo (2020-05): https://www.uber.com/en/blog/go-monorepo-bazel/
+- Uber DOMA (2020-07-23): https://www.uber.com/en/blog/microservice-architecture/
+- Böckeler, harness engineering (2026-04-02): https://martinfowler.com/articles/harness-engineering.html
+- Thoughtworks Radar vol. 34 (2026-04-15): https://www.thoughtworks.com/en-au/radar/techniques/architecture-drift-reduction-with-llms
+- OpenAI harness engineering, via InfoQ (2026-02-21): https://www.infoq.com/news/2026/02/openai-harness-engineering-codex
+- Copilot as a ruleset bypass actor (2025-11-13): https://github.blog/changelog/2025-11-13-configure-copilot-coding-agent-as-a-bypass-actor-for-rulesets
+- Spring Modulith: https://docs.spring.io/spring-modulith/reference/documentation.html
+- Pants visibility (2023-04-25): https://v2.pantsbuild.org/blog/2023/04/25/visibility-feature-in-pants-2-16
+
+Adoption and distribution:
+- Kraken monolith: https://blog.europython.eu/kraken-technologies-how-we-organize-our-very-large-pythonmonolith/
+- Kraken linting (2024-01-05): https://engineering.kraken.tech/news/2024/01/05/linting-and-formatting.html
+- Sharing actions from private repos: https://docs.github.com/en/actions/sharing-automations/sharing-actions-and-workflows-from-your-private-repository
+- Required workflows moved to rulesets: https://github.blog/changelog/2023-08-02-github-actions-required-workflows-will-move-to-repository-rules/
+- uv tools: https://docs.astral.sh/uv/guides/tools/
+- Azure Pipelines templates: https://learn.microsoft.com/en-us/azure/devops/pipelines/process/templates
+- Renovate azure-pipelines manager: https://docs.renovatebot.com/modules/manager/azure-pipelines/
+- Azure DevOps third-party SARIF: https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning-third-party
+- SARIF SAST Scans Tab: https://marketplace.visualstudio.com/items?itemName=sariftools.scans
+- tach-pre-commit: https://github.com/gauge-sh/tach-pre-commit
+
+Shape of the tool:
+- Gazelle design: https://github.com/bazel-contrib/bazel-gazelle (Design.md, read from a pinned mirror)
+- rules_python Gazelle directives: https://github.com/bazel-contrib/rules_python/blob/main/gazelle/docs/directives.md
+- Pants dependency inference: https://www.pantsbuild.org/blog/2022/10/27/why-dependency-inference
+- Pants validating dependencies: https://www.pantsbuild.org/stable/docs/using-pants/validating-dependencies
+- Tach commands: https://docs.gauge.sh/usage/commands
+- Tach SARIF PR #280: https://github.com/tach-org/tach/pull/280
+- Tach structured output, issue #678: https://github.com/gauge-sh/tach/issues/678
+- ArchUnit user guide: https://www.archunit.org/userguide/html/000_Index.html
+- Context Mapper ArchUnit extension: https://contextmapper.org/docs/architecture-validation-with-archunit/
+- Structurizr component finder: https://docs.structurizr.com/java/component/introduction
+- dependency-cruiser CLI: https://github.com/sverweij/dependency-cruiser/blob/main/doc/cli.md
+- Nx module boundaries: https://nx.dev/docs/features/enforce-module-boundaries
+- deply: https://pypi.org/project/deply/
+- import-linter structured output, issue #291: https://github.com/seddonym/import-linter/issues/291
+- Reflexion models, FSE '95: https://www.cs.ubc.ca/~murphy/papers/rm/fse95.html
+- RMTool definitions: https://www.cs.ubc.ca/~murphy/software/rmtool/rms.html
+- GitHub SARIF upload: https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/integrate-with-existing-tools/upload-sarif-file
+
+Not verified from a primary source:
+- That GitHub uses packwerk.
+- Instagram's strict-modules content.
+- OpenAI's post, read through InfoQ only.
+- Whether required workflows in rulesets need GitHub Enterprise in 2026.
+- Tach's `exact = true` key; only the `--exact` flag was checked.
+- import-linter's `unmatched_ignore_imports_alerting` behaviour.
