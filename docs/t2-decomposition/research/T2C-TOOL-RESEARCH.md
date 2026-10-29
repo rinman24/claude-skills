@@ -1,4 +1,4 @@
-# T2c tool research: reconciliation diff and CI import check
+# T2c tool research: conformance check and import-direction check
 
 Session T2c-R, 2026-10-28. Research only; Rich rules the tool and the owner.
 Inputs: port ledger row T2, design-to-board DB-D18–DB-D21, Juval's
@@ -10,13 +10,23 @@ diff, layer map, reconciler) are provisional.
 
 Spike artifacts (configs, scripts, raw output) are in [`t2c-spike/`](t2c-spike/).
 
+## Rulings after this report (Rich, 2026-10-28)
+
+| Question (section 6) | Ruling |
+|---|---|
+| 1, 2 · Tool and home | Not ruled. A second research pass with subagents looks at state-of-the-art practice at GitHub scale: `docs/wayfinder-port/handoffs/T2c-R2-state-of-the-art.md` |
+| 3 · Service to code mapping | **A layer map in the target repo** (Juval, 2026-10-09) |
+| 4 · Classification (gswa) | **No changes to gswa-backend**; it was an example only. The spike's gswa findings are illustrations, not work items |
+| 5 · CI strictness; 7 · sandbox sequencing | One `/ask-juval` session: `docs/wayfinder-port/handoffs/T2c-J-juval-ci-strictness-sandbox.md` |
+| 8 · Names | Folded into Eric's vocabulary work. Eric's 2026-10-28 session landed after this report. Rich's Choice there renamed the diff to **conformance check**, with surplus and shortfall as its findings; this report now uses those names. "reconciler" is a rejected form (it collides with Reconcile) and stays a placeholder until Eric names the tool and the layer map. Eric's term table, which is still unruled, proposes that the import-direction check "reads code only, never the design document". That bears on question 5. Once Eric answers, settle the terms with the domain-modeling skill |
+
 ## 1. Recommendation
 
 | Half | Recommended tool | Why |
 |---|---|---|
 | CI import-direction check | **import-linter 2.15**, its config generated from the design documents plus a target-owned layer map | The most expressive tool that is configured rather than coded: `layers` (with `|` independent and `:` open siblings), `protected`, `forbidden`, `independence`, wildcards, and `ignore_imports` for the queued Manager→Manager edge. It catches indirect chains. BSD-2, released since 2019, maintained by grimp's author, and its graph is Rust-backed. Caught every real violation in the gswa spike |
-| Reconciliation diff: modules and edges | **grimp 3.18** (the graph under import-linter) through a ~20-line script | Gives module-level edges with file and line, as data. Builds gswa (173 modules) in 7 ms. Because it is the same graph the CI gate uses, the diff and the gate cannot disagree about what an edge is |
-| Reconciliation diff: contract operations | **griffelib 2.4.x** (griffe) through a ~30-line extractor that writes our own JSON schema | Static, so gswa isn't imported and the `Settings()` side effect is avoided. Resolves each parameter and return type to its full dotted path. Recovered every operation and type pair on gswa's contracts |
+| Conformance check: modules and edges | **grimp 3.18** (the graph under import-linter) through a ~20-line script | Gives module-level edges with file and line, as data. Builds gswa (173 modules) in 7 ms. Because it is the same graph the CI gate uses, the diff and the gate cannot disagree about what an edge is |
+| Conformance check: contract operations | **griffelib 2.4.x** (griffe) through a ~30-line extractor that writes our own JSON schema | Static, so gswa isn't imported and the `Settings()` side effect is avoided. Resolves each parameter and return type to its full dotted path. Recovered every operation and type pair on gswa's contracts |
 
 **Does one tool cover both halves?** No off-the-shelf tool does. Nothing on
 the market diffs contract operations against a document, and only Tach
@@ -219,7 +229,7 @@ it, which is Juval's test. The acceptance session renders it as a
 
 | Half | Recommended owner | Reasons | Rejected |
 |---|---|---|---|
-| Reconciliation diff | **A standalone uv-installable package, the reconciler**, with one Manager, Engines for composition rules and the diff, and Access for the design document, source tree (grimp, griffe) and layer map. The sandbox acceptance session runs it once per map | Keeps DB-D18 intact: design-to-board verifies the plan, never the build. Keeps squadra naive (N39). It is its own volatility (repo layout, language tooling), changing on a different axis from design-to-board (DESIGN-FORMAT, board) | design-to-board would need a new `BuiltRepoAccess` reading code, which breaks "never the build". squadra would parse Services, Layer and `Calls`, which breaks N39. wayfinder writes only the map and the document |
+| Conformance check | **A standalone uv-installable package, the reconciler**, with one Manager, Engines for composition rules and the diff, and Access for the design document, source tree (grimp, griffe) and layer map. The sandbox acceptance session runs it once per map | Keeps DB-D18 intact: design-to-board verifies the plan, never the build. Keeps squadra naive (N39). It is its own volatility (repo layout, language tooling), changing on a different axis from design-to-board (DESIGN-FORMAT, board) | design-to-board would need a new `BuiltRepoAccess` reading code, which breaks "never the build". squadra would parse Services, Layer and `Calls`, which breaks N39. wayfinder writes only the map and the document |
 | CI import check | **Target-repo CI** runs `lint-imports` against config the reconciler generates, and the repo owns the layer map. In gswa: a step after `ruff check` in `azure-pipelines.yml` (gswa has no GitHub Actions or pre-commit), or a `tests/meta/` test. squadra runners hit it through the runner skill's `## Gates`, which keeps them naive | DB-D18 assigns build verification to target CI, and Juval (10-09) put enforcement there. Running it per PR suits many small agent PRs: import-linter's cached graph runs in under a second | design-to-board runs once per document, not per PR. A wayfinder-emitted config would push repo paths into the document |
 
 One package for both is the point: one graph, one rule source, Juval's "same
