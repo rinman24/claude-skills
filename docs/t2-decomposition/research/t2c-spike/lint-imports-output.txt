@@ -1,0 +1,49 @@
+Contracts
+---------
+Analyzed 173 files, 324 dependencies.
+-------------------------------------
+Closed layers: Client > Manager > Engine > ResourceAccess > Utility BROKEN
+Clients call Managers only BROKEN (42 ignored imports)
+No Engine -> Engine KEPT
+No ResourceAccess -> ResourceAccess KEPT
+Subsystem managers and engines are independent across subsystems BROKEN
+Contracts: 2 kept, 3 broken.
+----------------
+Broken contracts
+----------------
+Closed layers: Client > Manager > Engine > ResourceAccess > Utility
+-------------------------------------------------------------------
+gswa.config is not allowed to import gswa.access.external:
+- gswa.config.static_config -> gswa.access.external.email.params (l.9)
+gswa.access.user_invite is not allowed to import gswa.access.user:
+- gswa.access.user_invite.contracts -> gswa.access.user.contracts (l.7)
+- gswa.access.user_invite.user_invite_access -> gswa.access.user.contracts 
+(l.31)
+gswa.access.role_scope is not allowed to import gswa.access.role:
+- gswa.access.role_scope.contracts -> gswa.access.role.contracts (l.6)
+- gswa.access.role_scope.role_scope_access -> gswa.access.role.contracts (l.21)
+gswa.access.role_scope is not allowed to import gswa.access.scope:
+- gswa.access.role_scope.contracts -> gswa.access.scope.contracts (l.7)
+- gswa.access.role_scope.role_scope_access -> gswa.access.scope.contracts (l.22)
+Clients call Managers only
+--------------------------
+gswa.workers is not allowed to import 
+gswa.access.external.email.email_access_async:
+-   gswa.workers.outbox_runner -> gswa.access.external.email.email_access_async 
+(l.37)
+gswa.workers is not allowed to import gswa.access.outbox.outbox_access:
+-   gswa.workers.outbox_dispatcher -> gswa.access.outbox.outbox_access (l.30)
+Subsystem managers and engines are independent across subsystems
+----------------------------------------------------------------
+gswa.accounts is not allowed to import gswa.authn:
+- gswa.accounts.manager.account_manager -> 
+gswa.authn.engines.password_policy_engine (l.22)
+- gswa.accounts.manager.flows.accept_invite_flow -> 
+gswa.authn.engines.password_policy_engine (l.26)
+- gswa.accounts.manager.errors -> gswa.authn.domain.password_policy (l.3)
+- gswa.accounts.manager.flows.accept_invite_flow -> 
+gswa.authn.domain.password_policy (l.21)
+- gswa.accounts.manager.account_manager -> 
+gswa.authn.ports.password_breach_checker (l.23)
+- gswa.accounts.manager.flows.accept_invite_flow -> 
+gswa.authn.ports.password_breach_checker (l.27)
