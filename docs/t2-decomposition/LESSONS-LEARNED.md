@@ -33,3 +33,20 @@ design-to-board (`docs/design-to-board/LESSONS-LEARNED.md`) still apply.
 - **Re-check open questions against what merged meanwhile.** T2c-J's rulings
   landed while T2c-R2's PR was open and answered two of its questions. After
   merging main, re-read any "still open, for X" line.
+
+## 2026-10-28 · T2c-1
+
+- **Probe a plan's limits without changing anything.** On a private repo,
+  `GET branches/main/protection` returns 404 "Branch not protected" when the
+  plan allows protection, and 403 "Upgrade to GitHub Pro" when it doesn't. A
+  ruleset POSTed with `enforcement: disabled`, then deleted, confirms it.
+- **An approval rule needs an author who isn't the approver.** Code-owner
+  review with no bypass deadlocks every PR the owner authors. Here that
+  includes every Claude session, because sessions open PRs through Rich's gh
+  login. List who actually authors the protected files before choosing the
+  rule.
+- **lint-imports wraps long contract names** at the terminal width, so a
+  match on `"<name> BROKEN"` misses. Keep contract names short and set
+  `COLUMNS=200` when a test parses the report.
+- **Prove a fixture test bites.** Weaken one contract, see the matching
+  fixture fail, then restore it. Do this once before trusting a green run.
