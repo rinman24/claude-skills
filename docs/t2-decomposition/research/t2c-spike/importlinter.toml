@@ -1,0 +1,50 @@
+[tool.importlinter]
+root_package = "gswa"
+include_external_packages = false
+
+# R1 Layers. Clients > Managers > Engines > ResourceAccess > Utilities.
+# Unlisted modules (subsystem contracts/domain/ports, access.models,
+# access.relational) are unconstrained by this contract.
+[[tool.importlinter.contracts]]
+id = "layers"
+name = "Closed layers: Client > Manager > Engine > ResourceAccess > Utility"
+type = "layers"
+layers = [
+  "gswa.api | gswa.workers",
+  "gswa.accounts.manager | gswa.authn.manager | gswa.authz.manager",
+  "gswa.accounts.engines | gswa.authn.engines | gswa.authz.engines",
+  "gswa.access.user | gswa.access.user_invite | gswa.access.user_scope | gswa.access.role | gswa.access.role_scope | gswa.access.scope | gswa.access.outbox | gswa.access.external",
+  "gswa.infrastructure : gswa.config : gswa.shared : gswa.utility",
+]
+exhaustive = false
+
+# R2 Clients call Managers only (composition root excepted).
+[[tool.importlinter.contracts]]
+id = "clients-managers-only"
+name = "Clients call Managers only"
+type = "forbidden"
+source_modules = ["gswa.api", "gswa.workers"]
+forbidden_modules = ["gswa.*.engines", "gswa.access.user.user_access", "gswa.access.user_invite.user_invite_access", "gswa.access.user_scope.user_scope_access", "gswa.access.role.role_access", "gswa.access.role_scope.role_scope_access", "gswa.access.scope.scope_access", "gswa.access.outbox.outbox_access", "gswa.access.external.email.email_access_async"]
+ignore_imports = ["gswa.api.dependencies.** -> gswa.**"]
+
+# R3 Engine implementations never call each other, within or across subsystems.
+[[tool.importlinter.contracts]]
+id = "no-engine-engine"
+name = "No Engine -> Engine"
+type = "independence"
+modules = ["gswa.*.engines.*"]
+
+# R4 ResourceAccess implementations never call each other (contracts may be shared).
+[[tool.importlinter.contracts]]
+id = "no-ra-ra"
+name = "No ResourceAccess -> ResourceAccess"
+type = "independence"
+modules = ["gswa.access.user.user_access", "gswa.access.user_invite.user_invite_access", "gswa.access.user_scope.user_scope_access", "gswa.access.role.role_access", "gswa.access.role_scope.role_scope_access", "gswa.access.scope.scope_access", "gswa.access.outbox.outbox_access", "gswa.access.external.email.email_access_async"]
+
+# R5 Closed subsystems: no Manager -> Manager unless queued (none declared for gswa),
+# and no Manager reaching another subsystem's Engine.
+[[tool.importlinter.contracts]]
+id = "closed-subsystems"
+name = "Subsystem managers and engines are independent across subsystems"
+type = "independence"
+modules = ["gswa.accounts", "gswa.authn", "gswa.authz"]

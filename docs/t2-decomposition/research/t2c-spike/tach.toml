@@ -1,0 +1,91 @@
+# Generated-shape: one [[modules]] per Services row; depends_on = its Calls cell.
+source_roots = ["."]
+exact = true
+root_module = "ignore"
+layers = ["client", "manager", "engine", "access", "utility"]
+layers_explicit_depends_on = true
+
+[[modules]]
+path = "gswa.api"
+layer = "client"
+depends_on = ["gswa.accounts.manager", "gswa.authn.manager", "gswa.authz.manager"]
+[[modules]]
+path = "gswa.workers"
+layer = "client"
+depends_on = ["gswa.accounts.manager"]
+
+[[modules]]
+path = "gswa.accounts.manager"
+layer = "manager"
+depends_on = ["gswa.accounts.engines", "gswa.access.user", "gswa.access.user_invite", "gswa.access.outbox"]
+[[modules]]
+path = "gswa.authn.manager"
+layer = "manager"
+depends_on = ["gswa.authn.engines", "gswa.access.user", "gswa.access.user_scope"]
+[[modules]]
+path = "gswa.authz.manager"
+layer = "manager"
+depends_on = ["gswa.authz.engines", "gswa.access.scope", "gswa.access.role_scope", "gswa.access.role"]
+
+[[modules]]
+path = "gswa.accounts.engines"
+layer = "engine"
+depends_on = ["gswa.access.user"]
+[[modules]]
+path = "gswa.authn.engines"
+layer = "engine"
+depends_on = []
+[[modules]]
+path = "gswa.authz.engines"
+layer = "engine"
+depends_on = []
+
+[[modules]]
+path = "gswa.access.user"
+layer = "access"
+depends_on = []
+[[modules]]
+path = "gswa.access.user_invite"
+layer = "access"
+depends_on = []
+[[modules]]
+path = "gswa.access.user_scope"
+layer = "access"
+depends_on = []
+[[modules]]
+path = "gswa.access.role"
+layer = "access"
+depends_on = []
+[[modules]]
+path = "gswa.access.scope"
+layer = "access"
+depends_on = []
+[[modules]]
+path = "gswa.access.role_scope"
+layer = "access"
+depends_on = []
+[[modules]]
+path = "gswa.access.outbox"
+layer = "access"
+depends_on = []
+[[modules]]
+path = "gswa.access.external"
+layer = "access"
+depends_on = []
+
+[[modules]]
+path = "gswa.utility"
+layer = "utility"
+utility = true
+[[modules]]
+path = "gswa.shared"
+layer = "utility"
+utility = true
+[[modules]]
+path = "gswa.config"
+layer = "utility"
+utility = true
+[[modules]]
+path = "gswa.infrastructure"
+layer = "utility"
+utility = true
