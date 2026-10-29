@@ -33,3 +33,24 @@ design-to-board (`docs/design-to-board/LESSONS-LEARNED.md`) still apply.
 - **Re-check open questions against what merged meanwhile.** T2c-J's rulings
   landed while T2c-R2's PR was open and answered two of its questions. After
   merging main, re-read any "still open, for X" line.
+
+## 2026-10-29 · T2-E
+
+- **`/ask-eric` can only be run by Rich** (`disable-model-invocation`). Have
+  the question ready for him to paste, then run it in the same session so the
+  answer stays in context for settling. The skill quotes context to the
+  advisor, so give him absolute paths: his agent can't resolve paths relative
+  to the repo.
+- **An advisor's Avoid column isn't always a list of rejected forms.** Eric's
+  table mixed rejected synonyms with nearby words not to confuse with the
+  term, marked by parentheticals ("layer (that's the architecture)",
+  "prototype (a ticket Kind)"). Copying them all into `_Avoid_` and Rejected
+  would have made Lookup report false drift. Before drafting a settled row,
+  ask of each form: would a drift report correcting this word be right?
+- **Run Lookup across existing rows before drafting new ones.** "Vertical
+  slice" was already rejected under Subsystem. A second row rejecting it for
+  Proving path would have given Lookup two answers. Each `_Avoid_` form also
+  needs a settled row (GLOSSARY-FORMAT), which took Eric's nine rows to 21.
+- **"Adopt as written" doesn't skip domain-modeling's review.** The advisor's
+  review of the actual glossary text still sharpens it. Show Rich the exact
+  text of every line, structural lines included, and write only after his yes.

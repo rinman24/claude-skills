@@ -35,3 +35,15 @@ _Avoid_: slice, vertical slice
 **Increment**:
 squadra's unit of delivery, as wayfinder charts it in a map and lists it in the design document. Attributes as squadra defines them: _Vertical_, _Foundation_.
 _Avoid_: infrastructure increment
+
+**Pulse**:
+One step of the build order: the increments that each introduce or change one service, with no `Depends on` between them, closed by a pulse milestone.
+_Avoid_: phase, wave, sprint
+
+**Pulse milestone**:
+The increment that closes a pulse with integration and regression across that pulse; it touches no service.
+_Avoid_: gate, checkpoint, milestone
+
+**Proving path**:
+The increments, ordered by their dependencies, that carry one behaviour through a subsystem whose decomposition hasn't been exercised, built ahead of the pulses.
+_Avoid_: spike, pilot
