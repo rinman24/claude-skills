@@ -81,5 +81,5 @@ doesn't run check 2, and the case doesn't depend on it.
 
 ## Left on the board
 
-#13–#16 (map `done4`; #16 queued and claimable). Rich decides whether to keep or delete them (DB9's pattern;
-`gh issue delete <n> -R rinman24/squadra-sandbox --yes`).
+#13–#16 (map `done4`; #16 queued and claimable). Rich chose delete (S14 follow-up):
+all four deleted with `gh issue delete`; the board is back to #1, #2, #8, tick `claimable=[] states={}`.
