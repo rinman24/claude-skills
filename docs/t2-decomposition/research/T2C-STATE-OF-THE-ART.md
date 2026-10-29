@@ -18,8 +18,10 @@ yet; this report writes it as `<tool>`. The layer map keeps its working name.
 | 2 · Conformance check | **Build it** in `<tool>` on grimp and griffe, with three outcomes per surface (conforms, surplus, shortfall), JSON as the record and Markdown rendered from it |
 | 3 · Home | **Its own public repo** with semver tags, like squadra. Target repos pin a tag. The repo's name waits on Eric |
 | 9 · Output | **Plain `lint-imports` text first**; native GitHub and Azure annotations later |
-| 4–6 | Still open, for T2c-J (`/ask-juval`) |
-| 7–8 | Still open, for the Eric follow-up (`/ask-eric`) |
+| 4 · Baseline | **Answered by T2c-J**, design-to-board DB-D22. No baseline is generated from the code graph. Each exemption names its reason in the layer map, and the composition root is the one standing exemption. This supersedes section 2's shrink-only baseline |
+| 5 · Required or advisory | **Answered by T2c-J**, DB-D22 and DB-D23. The drift check runs on every PR. In the sandbox, composition rules block from r5. The edge gate and the conformance check stay advisory until a run has zero check defects, then both block |
+| 6 · Protecting rule sources | **Still open.** T2c-J didn't take up CODEOWNERS or agent bypass actors |
+| 7–8 | Still open, for the Eric follow-up (`/ask-eric`). For question 7, Eric has two framings to weigh: Juval (DB-D22) restates "reads code only" as a difference of cadence and findings, and this report's section 1 offers the two-job split |
 
 ## 1. The state-of-the-art pattern
 
