@@ -209,10 +209,11 @@ Added S2b (2026-10-09):
       DB-D10 (withdraw by Origin, partial items) with DB-D1–DB-D9. Early in S3, rule Juval's unruled
       recommendation (DB-D9): the reconcile in a third Engine, the
       translation table as literal data with a completeness test.
-- [ ] Optional: commit or keep the two uncommitted session files in
+- [x] Optional: commit or keep the two uncommitted session files in
       `~/Code/board-knowledge/sessions/` (`2026-10-09-eric-transcribe-vs-reconcile.md`,
       `2026-10-09-juval-transcribe-or-reconcile.md`); `## Choice` is filled
       in from your rulings, so check it reads as you meant.
+      Done: both in board-knowledge `34dc8d0` (checked S16 bookkeeping).
 - [x] Optional: the map's older line "Wayfinder → squadra fleet" still says
       "`design-to-board` (not yet built)"; a later glossary pass can drop it.
 
@@ -369,7 +370,7 @@ Added S13 (2026-10-28):
       `claude plugin update` for both: design-to-board 0.3.3 → 0.3.4, wayfinder 0.1.0 → 0.2.1 (user; wayfinder had
       never been updated past 0.1.0, so DB-W's 0.2.0 lands too). The installed copies carry `NEVER_UNDOES_DELIVERED`
       and DESIGN-FORMAT's sentence. Restart Claude Code to load them.
-- [ ] S14: a sandbox run of DB-D16 on `rinman24/squadra-sandbox` before wrap-up (Rich asked, S13 follow-up). A map's
+- [x] S14: a sandbox run of DB-D16 on `rinman24/squadra-sandbox` before wrap-up (Rich asked, S13 follow-up). A map's
       r1 queued, I1 and I2 closed as completed by hand, r2 withdraws I2 (cascade: I3) and adds I4: expect exit 0,
       1 withdrawal, 1 queue, one `note · I2`; re-run: the note again; cosmetic r3: no note. Start a session with
       `handoffs/S14-sandbox-db-d16.md`.
@@ -383,11 +384,12 @@ Added S14 (2026-10-28):
 Added S15 (2026-10-28):
 - [x] Review and merge S15's PR (DB15's fixture line; T1 `done`; `README.md:202`).
       Done: merged (PR #30, `4d6f68f`); checked S16.
-- [ ] Before the next design-to-board run on the sandbox, with squadra SQ5g or later: add `[fleet] name` to
+- [x] Before the next design-to-board run on the sandbox, with squadra SQ5g or later: add `[fleet] name` to
       `~/Code/squadra-sandbox/squadra.toml` (S15 checked `name = "sandbox"` on a scratch copy: `origins` and
       `scope --parent 1` read with squadra `main` `4a80ed5`; the SSH `origin` passes SQ5g's repository check), commit it
       on the sandbox's `main`, then `uv tool install --force git+https://github.com/rinman24/squadra@<main sha>` and
       `squadra init --check --provider github` there. Without it every run fails (exit 1, nothing written) on squadra's `[fleet] name is required`, with the fix "fix squadra's configuration in the target repo".
+      Moved to T2 (S16 bookkeeping): the port ledger's T2 row; the sandbox's toml still has no `[fleet]` table.
 - [ ] After the PR merges: retire branch `feat/design-to-board` and worktree `.claude/worktrees/design-to-board` by hand.
 - [x] Optional: commit the untracked consult files in `~/Code/board-knowledge/sessions/` (six, 2026-10-28; S12's and
       S13's design-to-board consults among them).
@@ -398,8 +400,9 @@ Added S16 (2026-10-28, rulings after T1):
       squadra's side is its N39.
       Done S16 follow-up (2026-10-28): Rich chose T2, three units (T2a wayfinder, T2b design-to-board, T2c diff and
       CI check); T2 row in `docs/wayfinder-port/LEDGER.md`.
-- [ ] `/ask-eric` on contract and Engine vocabulary (DB-D19): business verbs, not CRUD; gswa's `CreateUserSpec` and
+- [x] `/ask-eric` on contract and Engine vocabulary (DB-D19): business verbs, not CRUD; gswa's `CreateUserSpec` and
       `user_query_engine` as test cases.
+      Moved to T2 (S16 bookkeeping): T2a opens with it (the port ledger's T2 row).
 - [x] Commit the three DB-D18–DB-D21 consult files in `~/Code/board-knowledge/sessions/` (with the six above).
       Done S16 follow-up: board-knowledge PR #5 (all eight 2026-10-28 sessions), merged.
 
@@ -552,3 +555,4 @@ seen by the re-run's read or checks, before any write. An empty cell is a gap.
 | S14 follow-up | 2026-10-28 | bookkeeping | Rich chose delete for r4's sandbox issues: #13–#16 deleted with `gh issue delete`. After: issues #1, #2, #8; `origins` only `SQ5c-live:claim` (#8, withdrawn); tick `claimable=[] states={}`. Project 1 keeps content-less items from the deleted issues (as after S11). Next: S15 (T1 wrap-up), started in this worktree | `handoffs/S15-t1-wrap-up.md` |
 | S15 | 2026-10-28 | DB15 (done); T1 wrap-up (DB-D17) | Fetched; `origin/main` (`9f123fd`) not moved. Rich chose keep open, then asked for loose ends. Swept the queue, rows, sandbox and squadra: S1–S3 left ten boxes unticked whose work was done or moved (ticked); squadra `main` had moved past the installed `e89d938` to SQ5g/SQ5g2/SQ7, and SQ5g's required `[fleet] name` broke 31 tests and the sandbox's reads (exit 2). Rich: fix now, then wrap up. DB15 built (one fixture line); 145 pass on installed and on `main`; `claude plugin validate` passes. T1 `done` in the port ledger; `README.md:202` fixed. T1 wraps up: no further handoff | none |
 | S16 | 2026-10-28 | rulings after T1 (DB-D18–DB-D21) | Branch fast-forwarded to `origin/main` (`4d6f68f`, PR #30). Three `/ask-juval` consults outside the T1 units (board-knowledge session files named in each row) on where Löwy's decomposition is enforced, Engine→ResourceAccess, and layers vs dependencies with agents as builders. Rich ruled DB-D18–DB-D21 in the sessions' Choice. squadra's side recorded as its N39 (`feat/board-writes`). No code; the build is unscheduled (Rich's queue) | none |
+| S16 bookkeeping | 2026-10-28 | bookkeeping | Rich confirmed T1 is a wrap; new work lives in T2. Closed this ledger's queue: ticked S2b's board-knowledge files (committed in `34dc8d0`) and S14's sandbox run (done S14); moved the sandbox `[fleet] name` item and DB-D19's `/ask-eric` to the port ledger's T2 row. Open here: only retiring the branch and worktree (Rich, by hand). This ledger is now history | none |
