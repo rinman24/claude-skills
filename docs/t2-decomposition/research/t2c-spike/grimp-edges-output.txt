@@ -1,0 +1,15 @@
+build_s 0.005 modules 173
+AccountManager -> AccountsEngines 3 gswa.accounts.manager.account_manager->gswa.accounts.engines.invite_token_engine:17
+AccountManager -> AuthnEngines 2 gswa.accounts.manager.account_manager->gswa.authn.engines.password_policy_engine:22
+AccountManager -> UserAccess 7 gswa.accounts.manager.account_manager->gswa.access.user.user_access:7
+AccountManager -> UserInviteAccess 5 gswa.accounts.manager.account_manager->gswa.access.user_invite.user_invite_access:8
+AccountManager -> OutboxAccess 3 gswa.accounts.manager.account_manager->gswa.access.outbox.outbox_access:5
+AuthnManager -> AuthnEngines 1 gswa.authn.manager.authentication_manager->gswa.authn.engines.authentication_engine:15
+AuthnManager -> UserAccess 2 gswa.authn.manager.authentication_manager->gswa.access.user.contracts:7
+AuthnManager -> UserScopeAccess 2 gswa.authn.manager.authentication_manager->gswa.access.user_scope.contracts:9
+AuthzManager -> ScopeAccess 2 gswa.authz.manager.authorization_manager->gswa.access.scope.contracts:7
+AuthzManager -> RoleScopeAccess 2 gswa.authz.manager.authorization_manager->gswa.access.role_scope.contracts:5
+AccountsEngines -> UserAccess 3 gswa.accounts.engines.user_query_engine->gswa.access.user.contracts:8
+UserInviteAccess -> UserAccess 2 gswa.access.user_invite.contracts->gswa.access.user.contracts:7
+RoleScopeAccess -> RoleAccess 2 gswa.access.role_scope.contracts->gswa.access.role.contracts:6
+RoleScopeAccess -> ScopeAccess 2 gswa.access.role_scope.contracts->gswa.access.scope.contracts:7

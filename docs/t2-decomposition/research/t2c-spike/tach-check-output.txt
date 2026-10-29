@@ -1,0 +1,49 @@
+Internal Dependencies
+[FAIL] gswa/access/role_scope/contracts.py:6: Cannot use 'gswa.access.role.contracts.RoleRow'. Module 'gswa.access.role_scope' cannot depend on 'gswa.access.role'.
+[FAIL] gswa/access/role_scope/contracts.py:7: Cannot use 'gswa.access.scope.contracts.ScopeRow'. Module 'gswa.access.role_scope' cannot depend on 'gswa.access.scope'.
+[FAIL] gswa/access/role_scope/role_scope_access.py:21: Cannot use 'gswa.access.role.contracts.RoleRow'. Module 'gswa.access.role_scope' cannot depend on 'gswa.access.role'.
+[FAIL] gswa/access/role_scope/role_scope_access.py:22: Cannot use 'gswa.access.scope.contracts.ScopeRow'. Module 'gswa.access.role_scope' cannot depend on 'gswa.access.scope'.
+[FAIL] gswa/access/user_invite/contracts.py:7: Cannot use 'gswa.access.user.contracts.UserRow'. Module 'gswa.access.user_invite' cannot depend on 'gswa.access.user'.
+[FAIL] gswa/access/user_invite/user_invite_access.py:31: Cannot use 'gswa.access.user.contracts.UserRow'. Module 'gswa.access.user_invite' cannot depend on 'gswa.access.user'.
+[FAIL] gswa/accounts/manager/account_manager.py:22: Cannot use 'gswa.authn.engines.password_policy_engine.PasswordPolicyEngine'. Module 'gswa.accounts.manager' cannot depend on 'gswa.authn.engines'.
+[FAIL] gswa/accounts/manager/flows/accept_invite_flow.py:26: Cannot use 'gswa.authn.engines.password_policy_engine.PasswordPolicyEngine'. Module 'gswa.accounts.manager' cannot depend on 'gswa.authn.engines'.
+[FAIL] gswa/api/dependencies/accounts.py:5: Cannot use 'gswa.access.external.email.base.EmailAccessAsync'. Module 'gswa.api' cannot depend on 'gswa.access.external'.
+[FAIL] gswa/api/dependencies/accounts.py:6: Cannot use 'gswa.access.external.email.email_access_async.ExternalEmailAccessAsync'. Module 'gswa.api' cannot depend on 'gswa.access.external'.
+[FAIL] gswa/api/dependencies/accounts.py:7: Cannot use 'gswa.access.external.email.params.EmailProvider'. Module 'gswa.api' cannot depend on 'gswa.access.external'.
+[FAIL] gswa/api/dependencies/accounts.py:8: Cannot use 'gswa.access.external.email.providers.console_sender.ConsoleEmailSender'. Module 'gswa.api' cannot depend on 'gswa.access.external'.
+[FAIL] gswa/api/dependencies/accounts.py:10: Cannot use 'gswa.access.external.email.providers.smtp_sender_aiosmtplib.AsyncSmtpEmailSender'. Module 'gswa.api' cannot depend on 'gswa.access.external'.
+[FAIL] gswa/api/dependencies/accounts.py:11: Cannot use 'gswa.access.external.email.providers.smtp_sender_aiosmtplib.SmtpSettings'. Module 'gswa.api' cannot depend on 'gswa.access.external'.
+[FAIL] gswa/api/dependencies/accounts.py:13: Cannot use 'gswa.access.outbox.outbox_access.OutboxAccess'. Module 'gswa.api' cannot depend on 'gswa.access.outbox'.
+[FAIL] gswa/api/dependencies/accounts.py:15: Cannot use 'gswa.access.user.user_access.UserAccess'. Module 'gswa.api' cannot depend on 'gswa.access.user'.
+[FAIL] gswa/api/dependencies/accounts.py:16: Cannot use 'gswa.access.user_invite.user_invite_access.UserInviteAccess'. Module 'gswa.api' cannot depend on 'gswa.access.user_invite'.
+[FAIL] gswa/api/dependencies/accounts.py:17: Cannot use 'gswa.accounts.engines.invite_token_engine.InviteTokenEngine'. Module 'gswa.api' cannot depend on 'gswa.accounts.engines'.
+[FAIL] gswa/api/dependencies/accounts.py:25: Cannot use 'gswa.authn.engines.password_policy_engine.PasswordPolicyEngine'. Module 'gswa.api' cannot depend on 'gswa.authn.engines'.
+[FAIL] gswa/api/dependencies/authn.py:7: Cannot use 'gswa.authn.engines.password_policy_engine.PasswordPolicyEngine'. Module 'gswa.api' cannot depend on 'gswa.authn.engines'.
+[FAIL] gswa/api/dependencies/types.py:8: Cannot use 'gswa.access.external.email.email_access_async.EmailAccessAsync'. Module 'gswa.api' cannot depend on 'gswa.access.external'.
+[FAIL] gswa/api/dependencies/types.py:10: Cannot use 'gswa.accounts.engines.invite_token_engine.InviteTokenEngine'. Module 'gswa.api' cannot depend on 'gswa.accounts.engines'.
+[FAIL] gswa/config/static_config.py:9: Cannot use 'gswa.access.external.email.params.EmailProvider'. Layer 'utility' ('gswa.config') is lower than layer 'access' ('gswa.access.external').
+[FAIL] gswa/workers/outbox_dispatcher.py:22: Cannot use 'gswa.access.external.email.base.EmailAccessAsync'. Module 'gswa.workers' cannot depend on 'gswa.access.external'.
+[FAIL] gswa/workers/outbox_dispatcher.py:23: Cannot use 'gswa.access.external.email.contracts.SendInviteEmailSpec'. Module 'gswa.workers' cannot depend on 'gswa.access.external'.
+[FAIL] gswa/workers/outbox_dispatcher.py:25: Cannot use 'gswa.access.outbox.contracts.FetchAndLockBatchSpec'. Module 'gswa.workers' cannot depend on 'gswa.access.outbox'.
+[FAIL] gswa/workers/outbox_dispatcher.py:26: Cannot use 'gswa.access.outbox.contracts.MarkFailedSpec'. Module 'gswa.workers' cannot depend on 'gswa.access.outbox'.
+[FAIL] gswa/workers/outbox_dispatcher.py:27: Cannot use 'gswa.access.outbox.contracts.MarkProcessedSpec'. Module 'gswa.workers' cannot depend on 'gswa.access.outbox'.
+[FAIL] gswa/workers/outbox_dispatcher.py:28: Cannot use 'gswa.access.outbox.contracts.OutboxMessageRow'. Module 'gswa.workers' cannot depend on 'gswa.access.outbox'.
+[FAIL] gswa/workers/outbox_dispatcher.py:30: Cannot use 'gswa.access.outbox.outbox_access.OutboxAccess'. Module 'gswa.workers' cannot depend on 'gswa.access.outbox'.
+[FAIL] gswa/workers/outbox_runner.py:36: Cannot use 'gswa.access.external.email.base.EmailAccessAsync'. Module 'gswa.workers' cannot depend on 'gswa.access.external'.
+[FAIL] gswa/workers/outbox_runner.py:37: Cannot use 'gswa.access.external.email.email_access_async.ExternalEmailAccessAsync'. Module 'gswa.workers' cannot depend on 'gswa.access.external'.
+[FAIL] gswa/workers/outbox_runner.py:38: Cannot use 'gswa.access.external.email.params.EmailProvider'. Module 'gswa.workers' cannot depend on 'gswa.access.external'.
+[FAIL] gswa/workers/outbox_runner.py:39: Cannot use 'gswa.access.external.email.providers.console_sender.ConsoleEmailSender'. Module 'gswa.workers' cannot depend on 'gswa.access.external'.
+[FAIL] gswa/workers/outbox_runner.py:41: Cannot use 'gswa.access.external.email.providers.smtp_sender_aiosmtplib.AsyncSmtpEmailSender'. Module 'gswa.workers' cannot depend on 'gswa.access.external'.
+[FAIL] gswa/workers/outbox_runner.py:42: Cannot use 'gswa.access.external.email.providers.smtp_sender_aiosmtplib.SmtpSettings'. Module 'gswa.workers' cannot depend on 'gswa.access.external'.
+
+If you intended to add a new dependency, run 'tach sync' to update your module configuration.
+Otherwise, remove any disallowed imports and consider refactoring.
+Unused Dependencies
+❌ 'gswa.api' does not depend on: ['gswa.authn.manager', 'gswa.authz.manager']
+❌ 'gswa.workers' does not depend on: ['gswa.accounts.manager']
+❌ 'gswa.authz.manager' does not depend on: ['gswa.authz.engines', 
+'gswa.access.role']
+
+Remove the unused dependencies from tach.toml, or consider running 'tach sync' 
+to update module configuration and remove all unused dependencies.
+
